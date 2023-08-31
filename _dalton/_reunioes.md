@@ -57,3 +57,41 @@ ThreeJs: OpenGL-ES -> WebGL (Canvas)
 VISEDU-CG 5.0: Unity
 TCC <https://github.com/gcgfurb/tcc_PetersonBoniButtenberg>  
 [tcc_PetersonBoniButtenberg](../tcc_PetersonBoniButtenberg/ "tcc_PetersonBoniButtenberg")  
+
+## 2023-08-30 - 22:00
+
+Descrever seção 2 "Cenário Atual"
+E a seção 3 "Trabalhos Correlatos"
+
+Olhar os últimos 3 anos deste evento:  
+<https://cbie.sbc.org.br/2023/>  
+<https://ceie.sbc.org.br/evento/cbie2022/>  
+
+\[Dalton] Passar os projetos e monografia dos TCCs anteriores  
+Ano/Semestre: 2012-I  
+Acadêmico(a): Luciana Pereira de Araújo  
+Título: Adubogl : Aplicação Didática usando a Biblioteca Open GL  
+
+Ano/Semestre: 2012-I  
+Acadêmico(a): Elizandro José Schramm  
+Título: Adubogl ES 2.0 - Aplicação Didática usando a Biblioteca OpenGL EE 2.0 no Ios  
+
+Ano/Semestre: 2014-I  
+Acadêmico(a): Samuel Anderson Nunes  
+Título: VISEDU-CG 3.0: APLICAÇÃO DIDÁTICA PARA VISUALIZAR MATERIAL EDUCACIONAL - MÓDULO DE COMPUTAÇÃO GRÁFICA  
+<https://www.furb.br/dsc/arquivos/tccs/monografias/2014_1_samuel-anderson-nunes_monografia.pdf>  
+
+Ano/Semestre: 2014-I  
+Acadêmico(a): James Perkison Montibeler  
+Título: VISEDU-CG: APLICAÇÃO DIDÁTICA PARA VISUALIZAR MATERIAL EDUCACIONAL, MÓDULO DE COMPUTAÇÃO GRÁFICA  
+<https://www.furb.br/dsc/arquivos/tccs/monografias/2014_1_james-perkison-montibeler_monografia.pdf>  
+
+Ano/Semestre: 2015-I  
+Acadêmico(a): William Fernandes Koehler  
+Título: VISEDU-CG 4.0: visualizador de material educacional  
+<https://www.furb.br/dsc/arquivos/tccs/monografias/2015_1_william-fernandes-koehler_monografia.pdf>  
+
+Ano/Semestre: 2020/I  
+Acadêmico(a): Peterson Boni Buttenberg  
+Título: VISEDU-CG 5.0: visualizador de material educacional  
+<https://www.furb.br/dsc/arquivos/tccs/monografias/2020_1_peterson-boni-buttenberg_monografia.pdf>  
