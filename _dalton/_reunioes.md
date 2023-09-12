@@ -7,7 +7,7 @@ Título:
 ## 2023-07-24 - 11:57
 
 Respondo o e-mail.  
-[2023-07-24_EMail](../2023-07-24_EMail.pdf)  
+[2023-07-24_EMail](./2023-07-24_EMail.pdf)  
 
 ## 2023-07-26 - 08:24
 
@@ -95,3 +95,17 @@ Ano/Semestre: 2020/I
 Acadêmico(a): Peterson Boni Buttenberg  
 Título: VISEDU-CG 5.0: visualizador de material educacional  
 <https://www.furb.br/dsc/arquivos/tccs/monografias/2020_1_peterson-boni-buttenberg_monografia.pdf>  
+
+## 2023-08-29
+
+[2023-08-29_EMail](./2023-08-29_EMail.pdf)  
+Dúvidas sobre os correlatos.  
+
+## 2023-09-06 - 21:16
+
+[2023-09-04_EMail](./2023-09-04_EMail.pdf)  
+Escolha entre os correlatos pesquisados.  
+
+<https://sol.sbc.org.br/index.php/sbie/article/view/22515/22339>  
+<https://sol.sbc.org.br/index.php/sbie/article/view/22432/22256>  
+<https://sol.sbc.org.br/index.php/sbie/article/view/22434/22258>  
