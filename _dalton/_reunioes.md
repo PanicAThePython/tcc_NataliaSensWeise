@@ -109,3 +109,8 @@ Escolha entre os correlatos pesquisados.
 <https://sol.sbc.org.br/index.php/sbie/article/view/22515/22339>  
 <https://sol.sbc.org.br/index.php/sbie/article/view/22432/22256>  
 <https://sol.sbc.org.br/index.php/sbie/article/view/22434/22258>  
+
+## 2023-09-20 - 17:30
+
+Revisão do pré-projeto.  
+[2023-09-20_PreProjeto.docx](2023-09-20_PreProjeto.docx "2023-09-20_PreProjeto.docx")  
