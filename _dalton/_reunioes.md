@@ -114,3 +114,7 @@ Escolha entre os correlatos pesquisados.
 
 Revisão do pré-projeto.  
 [2023-09-20_PreProjeto.docx](2023-09-20_PreProjeto.docx "2023-09-20_PreProjeto.docx")  
+
+## 2023-10-11 - 10:26
+
+Entregue: [2023-10-05_PreProjeto.docx](2023-10-05_PreProjeto.docx "2023-10-05_PreProjeto.docx")  
