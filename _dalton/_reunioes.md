@@ -118,3 +118,24 @@ Revisão do pré-projeto.
 ## 2023-10-11 - 10:26
 
 Entregue: [2023-10-05_PreProjeto.docx](2023-10-05_PreProjeto.docx "2023-10-05_PreProjeto.docx")  
+
+## 2023-11-08 - 17:46
+
+12 minutos
+
+Introdução:
+  - citar ou não o trabalho anterior na Introdução ... sim, ou não.
+Colomas a fonte só a fonte
+
+Objetivo, está muito para requisitos ..
+  Como se chegar nos requisitos.
+Disponibilizar interfaces para que os alunos interagir por algum conteúdo de CG
+
+Fonte no Final tudo em maiúsculo, agora fica Maiúsculo e minúsculo.
+
+Proposta __
+Entrevista com prof. Dalton ... dificuldade dos alunos sobre CG.
+
+Melhorar a comparação dos trabalhos correlatos com ... Relevância social e tecnológica.
+
+Mais autores para cada assuntos. Uns 3 autores para cada tema.
