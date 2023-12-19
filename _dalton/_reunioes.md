@@ -139,3 +139,7 @@ Entrevista com prof. Dalton ... dificuldade dos alunos sobre CG.
 Melhorar a comparação dos trabalhos correlatos com ... Relevância social e tecnológica.
 
 Mais autores para cada assuntos. Uns 3 autores para cada tema.
+
+## 2023-12-19 - 10:55
+[2023-12-18_AvaliacaoTCC1_email.pdf](2023-12-18_AvaliacaoTCC1_email.pdf)  
+[2023-12-18_AvaliacaoTCC1.pdf](2023-12-18_AvaliacaoTCC1.pdf)  
