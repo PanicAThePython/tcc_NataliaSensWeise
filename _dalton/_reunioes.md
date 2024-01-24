@@ -143,3 +143,7 @@ Mais autores para cada assuntos. Uns 3 autores para cada tema.
 ## 2023-12-19 - 10:55
 [2023-12-18_AvaliacaoTCC1_email.pdf](2023-12-18_AvaliacaoTCC1_email.pdf)  
 [2023-12-18_AvaliacaoTCC1.pdf](2023-12-18_AvaliacaoTCC1.pdf)  
+
+## 2024-01-24 - 11:05
+
+[2024-01-24_EMail.pdf](2024-01-24_EMail.pdf)  
