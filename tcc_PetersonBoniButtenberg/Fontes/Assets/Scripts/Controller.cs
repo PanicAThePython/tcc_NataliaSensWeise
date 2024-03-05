@@ -1066,7 +1066,7 @@ public class Controller : MonoBehaviour {
     
     private GameObject GetTransformacoesSlotVazio(GameObject parent)
     {        
-        for (int i = 0; i < parent.transform.GetChildCount(); i++)
+        for (int i = 0; i < parent.transform.childCount; i++)
         {
             if (parent.transform.GetChild(i).name.Contains("TransformacoesSlot_")){
                 return parent.transform.GetChild(i).gameObject;
