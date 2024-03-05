@@ -172,4 +172,4 @@ ATENÇÃO: usar a versão do Unity 2022.3.13f1
 Ter uma forma de "navegar" e ir mostrando que se deve ser feito para o Tutorial e Exercícios.  
 Para "validar" se fez verto os exercícios poderia ser ter uma cena sala e comparar com a que fez.  
 
-- ver o que o bolsita do LDTT (João) fez.  
+- ver o que o bolsista do LDTT (João) fez.  
