@@ -141,9 +141,35 @@ Melhorar a comparação dos trabalhos correlatos com ... Relevância social e te
 Mais autores para cada assuntos. Uns 3 autores para cada tema.
 
 ## 2023-12-19 - 10:55
+
 [2023-12-18_AvaliacaoTCC1_email.pdf](2023-12-18_AvaliacaoTCC1_email.pdf)  
 [2023-12-18_AvaliacaoTCC1.pdf](2023-12-18_AvaliacaoTCC1.pdf)  
 
 ## 2024-01-24 - 11:05
 
 [2024-01-24_EMail.pdf](2024-01-24_EMail.pdf)  
+
+## 2024-03-05 - 17:14
+
+Natália fez: [text](2024-03-05_exercicio.drawio)  
+
+ATENÇÃO: usar a versão do Unity 2022.3.13f1  
+
+### Módulos
+
+- modo claro ou modo escuro  
+
+- check-list das funcionalidades entre a versão ThreeJS e Unity  
+  - sempre testar na versão Web do Unity  
+  - ThreeJS: <https://gcgfurb.github.io/yoda/>  
+
+- tutorial para auxiliar o entendimento da ferramenta  
+
+- exercícios usando o ambiente desenvolvido podem auxiliar o entendimento dos assuntos abordados em aula  
+  - exemplo de exercício: <https://github.com/gcgfurb/yoda/tree/main/visedu-cg/exercicios>  
+    - <https://github.com/gcgfurb/yoda/blob/main/visedu-cg/exercicios/CG-04_exer_enunciado.pdf>  
+  
+Ter uma forma de "navegar" e ir mostrando que se deve ser feito para o Tutorial e Exercícios.  
+Para "validar" se fez verto os exercícios poderia ser ter uma cena sala e comparar com a que fez.  
+
+- ver o que o bolsita do LDTT (João) fez.  
