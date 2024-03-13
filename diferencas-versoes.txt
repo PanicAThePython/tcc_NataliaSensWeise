@@ -1,0 +1,20 @@
+coisas para arrumar:
+
+* melhorar props do renderer tbm (FEITO!!!!!)
+* mais props da câmera
+
+* deixar colocar o bloco de iluminação na raiz da cena
+* bug qnd apaga os valores de x,y,z das acoes vermelhas (ele processa o valor digitado, mas n mostra na caixinha o valor)
+
+* clicar no bloco pra selecionar e clicar na lixeira? 
+* o color picker da iluminação é mt melhor na versão antiga, seria limitação da unity? SIM, NÃO ROLA MELHORAR SEM ADERIR A UM ASSET
+* na versão antiga tem como importar foto pra usar de textura, ver se é possível (DEIXAR POR ÚLTIMO)
+
+VERIFICAR COM PROF:
+
+* aba de "arquivo" não funciona, devemos manter?
+* qnd eu desativo um objeto e clico nele, na versão antiga tem retorno visual na câmera e na do peterson não, deveria ter?
+	pq tbm n faz mt sentido ter retorno visual se eu desativei o objeto
+* qnd muda o tipo de iluminação, reseta todas as configs q fiz (cor, coords, ...) -> ele guarda um estado pra cada tipo de luz, ent ele começa com o padrão dos valores pra tds
+* n tem luz hemisphere
+* aba "ajuda" n tem nd pra ajudar k, como vai ser nossa "ajuda"?

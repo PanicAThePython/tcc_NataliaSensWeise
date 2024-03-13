@@ -6,22 +6,27 @@ using UnityEngine.UI;
 
 public class PropGraficos : MonoBehaviour {
 
-    public TMP_Dropdown mainDropdown;
-    public Toggle toggleField;
+    public TMP_Dropdown mainDropdown; // botão q escolhe entre 3d e 2d
+    public Toggle toggleFieldGrade; // dá check no botão de visibilidade da grade/eixo
+    public Toggle toggleFieldEixos; // dá check no botão de visibilidade da grade/eixo
     public Camera cam;
     public GameObject camObjeto;
     public Camera camVis;
     public GameObject camVisPai;
 
     private GameObject gizmoPivot;
+    [SerializeField] private GameObject eixos;
 
     void Start()
     {
         if (mainDropdown != null)
             mainDropdown.onValueChanged.AddListener(delegate { AdicionaValorPropriedade(); });
 
-        if (toggleField != null)
-            toggleField.onValueChanged.AddListener(delegate { AdicionaValorPropriedadeToggle(); });
+        if (toggleFieldGrade != null)
+            toggleFieldGrade.onValueChanged.AddListener(delegate { AdicionaValorPropriedadeToggle("grade"); });
+
+        if (toggleFieldEixos != null)
+            toggleFieldEixos.onValueChanged.AddListener(delegate { AdicionaValorPropriedadeToggle("eixos"); });
     }
 
     private void AdicionaValorPropriedade()
@@ -64,21 +69,44 @@ public class PropGraficos : MonoBehaviour {
         }
     }
 
-    private void AdicionaValorPropriedadeToggle()
+    private void AdicionaValorPropriedadeToggle(string type)
     {
-        if (!toggleField.GetComponent<Toggle>().isOn)
-            EnableGizmo(false);
-        else
-            EnableGizmo(true);
+        if (type == "grade")
+        {
+            if (!toggleFieldGrade.GetComponent<Toggle>().isOn)
+                EnableGizmo(false, type);
+            else
+                EnableGizmo(true, type);
+        }
+        else if (type == "eixos")
+        {
+            if (!toggleFieldEixos.GetComponent<Toggle>().isOn)
+                EnableGizmo(false, type);
+            else
+                EnableGizmo(true, type);
+        }
+        
     }
 
 
-    private void EnableGizmo(bool status)
+    private void EnableGizmo(bool status, string type)
     {
-        gizmoPivot = GameObject.Find("GizmoPivot");
+        if (type == "grade")
+        {
+            gizmoPivot = GameObject.Find("GizmoPivot");
 
-        for (int i = 0; i < gizmoPivot.transform.GetChild(0).childCount; i++)
-            gizmoPivot.transform.GetChild(0).GetChild(i).GetComponent<MeshRenderer>().enabled = status;
+            for (int i = 0; i < gizmoPivot.transform.GetChild(0).childCount; i++)
+                gizmoPivot.transform.GetChild(0).GetChild(i).GetComponent<MeshRenderer>().enabled = status;
+        }
+        else if (type == "eixos")
+        {
+            //eixos = GameObject.Find("Eixos");
+            print(status);
+
+            eixos.SetActive(status);
+            // não consigo reativar pq justamente ele n acha mais o eixos
+
+        }
     }  
 
     

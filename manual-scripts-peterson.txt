@@ -1,0 +1,51 @@
+BotaoAjuda -> pega o botão da cena e faz referência
+BotaoArquivo -> parece ser uma continuação do ajuda, mas n entendi direito, deveria ser o de abrir a aba arquivo...
+BotaoFabPecas -> pega o botão da cena e faz referência e permite que as peças sejam usadas
+BotaoPropPadrao -> seria toda a parte de selecionar a aba de peças e mostrar valores padrão pré-definidos nas props
+BotaoPropPecas -> pega o botão da cena e faz referência
+BotaoTutorial -> aqui é onde se pula ou começa o tutorial
+CameraObjectScript -> muda o alvo da câmera
+CameraScript -> atribui valores pro alvo (tem uma verific e chama a func de cima com os valores)
+CameraVisualizado -> câmera que mostra o resultado da cena construída pelo usuário
+CamVisualizador -> parece ter a ver com o visualizador, algo sobre mover a camera...
+Controller -> um monte de if checando qual fase do tutorial está, mostra as coisas das peças (acredito que pra deixar por a iluminação na raiz, eu deva mexer nesse code), é aqui q arrasta e posiciona e exclui peças, ou seja, aqui q tem as ações da janela renderer!!
+CorSelecionada -> tem nd a ver com cor, e sim setar tipo de luz e textura
+CuboObject -> cria um cubo
+DropPeca -> trata a colisão da peça com o renderer
+FabricaPecasScript -> lista as peças da cena (eu acho)
+Global -> aparentemente trata a lista dos objetos em cena
+listaPecas -> é uma classe interna com nd dentro
+MenuCor -> é aqui q muda a cor do objeto
+MoveAmbiente -> permite que usuário possa movimentar os eixos e grade da seção Ambiente, ESC volta pra posição inicial
+MoveAmbienteGrafico -> gerencia o movimento da seção Ambiente
+MovePecaCamera -> seria a peça da câmera na cena do renderer? sim
+MovePecaObjt -> peça Objeto Gráfico da fábrica de peças
+mover -> parece muito com a de moveambientegrafico, mas tem func de rotacionar tbm
+OnMouseUp -> classe interna, vazia
+PropCameraPadrao -> defini valores padrão e atualiza props qnd editadas
+PropCamerascript -> gerencia funções do code anterior e atualiza painel de visualização de props
+PropCuboPadrao -> código extremamente confuso, n parece ser só sobre as props padrão do cubo..., parece verificar se outro cubo foi clicado, pq verifica de qual objtgfc q ele é filho
+PropCuboScript -> complementa o anterior, confuso
+PropEscalarScript -> gerencia presença de escala
+PropGraficos -> gerencia 2d/3d -> mexer nesse e nos paineis pra arrumar as flags do renderer
+PropIlumicacaoPadrao -> define valores padrão à luz e ajusta valores
+PropIluminacaoScript -> gerencia as funcs de cima
+PropObjetoGraficoScript -> gerencia Objeto Gráfico e atualiza cubo (o único tipo q está funcionando, tem q ter uma func pra spline e polígono)
+PropriedadePeca -> provavelmente é herdada por alguma outra, só existem definições
+PropriedadePecaPadrao -> usada de base pra alguma classe, possui código repetido de outras classes
+PropRotacionarScript -> gerencia presença de rotação
+PropTipoLuz -> gerencia os tipos de luz
+PropTransladarScript -> gerencia presença de translação
+RenderController -> redimensiona base de renderer e objeto gráfico (eles vão crescendo conforme outras peças são adicionadas)
+RendererClick -> abre as props do renderer (???)
+RenderScript -> gerencia scroll e movimento dentro da tela de montar a cena
+SelecionaCor -> é o color picker... ele é mais limitado q a versão em js pq precisa ter as cores definidas em materials
+SelecionaTextura -> escolhe texturas pros objetos
+teste -> n sei se serve pra algo ou se era só ele treinando...
+TexturaSelecionada -> dá preferência à textura ao invés da cor
+TransformacaoGeometrica -> gerencia a matriz
+Tutorial -> gerencia tutorial
+Util_VisEdu -> n entendi mt o pq desse code... parece algo q foi criado pra resolver gambiarra
+ValidateInput -> tem nd
+VisaoCamera -> pega a visão antiga da câmera (?????????????????)
+VisualizadorGrafScript -> é só o controle de uma flag
