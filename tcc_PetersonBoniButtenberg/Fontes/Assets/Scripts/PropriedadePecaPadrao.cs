@@ -65,6 +65,8 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
     {        
         gameObject.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = prPeca.Nome;
 
+        print("testando campos");
+
         if (Global.propriedadePecas.ContainsKey(prPeca.Nome))
         {     
             gameObject.transform.GetChild(3).GetComponent<Toggle>().isOn = prPeca.Ativo;
@@ -94,9 +96,26 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
         }        
     }
 
+    /*
+
+    public void testandoRotacionar(string x1, string y1, string z1)
+    {
+        prPeca.Pos.X = float.Parse(validaVazio(x1), CultureInfo.InvariantCulture.NumberFormat);
+        prPeca.Pos.Y = float.Parse(validaVazio(y1), CultureInfo.InvariantCulture.NumberFormat);
+        prPeca.Pos.Z = float.Parse(validaVazio(z1), CultureInfo.InvariantCulture.NumberFormat);
+
+        if (prPeca.Ativo)
+        {
+            x = prPeca.Pos.X;
+            y = prPeca.Pos.Y;
+            z = prPeca.Pos.Z;
+        }
+    }*/
     protected void updatePosition()
     {
-        
+        //qnd clica em apagar, o valor some da visualização, mas continua na peça
+        //dá pra por qqr valor q o cubo vai responder, mas n terá retorno visual
+
         if (Global.propriedadePecas.ContainsKey(prPeca.Nome))
         {
             if (tipoTransformacao == typeTransformacao.Escalar)
@@ -105,12 +124,18 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
                 TamY = gameObject.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>();
                 TamZ = gameObject.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>();
 
+
                 prPeca.Tam.X = float.Parse(validaVazio(TamX.text), CultureInfo.InvariantCulture.NumberFormat);
                 prPeca.Tam.Y = float.Parse(validaVazio(TamY.text), CultureInfo.InvariantCulture.NumberFormat);
                 prPeca.Tam.Z = float.Parse(validaVazio(TamZ.text), CultureInfo.InvariantCulture.NumberFormat);
 
+                
+
+                print(TamX.text);
+
                 x = y = z = 1;
 
+                
                 if (prPeca.Ativo)
                 {
                     x = prPeca.Tam.X;
@@ -127,6 +152,17 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
                 prPeca.Pos.X = float.Parse(validaVazio(PosX.text), CultureInfo.InvariantCulture.NumberFormat);
                 prPeca.Pos.Y = float.Parse(validaVazio(PosY.text), CultureInfo.InvariantCulture.NumberFormat);
                 prPeca.Pos.Z = float.Parse(validaVazio(PosZ.text), CultureInfo.InvariantCulture.NumberFormat);
+
+                /*
+                if (tipoTransformacao == typeTransformacao.Rotacionar)
+                {
+                    labelX.text = prPeca.Tam.X.ToString();
+                    labelY.text = prPeca.Tam.Y.ToString();
+                    labelZ.text = prPeca.Tam.Z.ToString();
+                }
+                 */  
+
+                print(PosX.text);
 
                 x = y = z = 0;
 

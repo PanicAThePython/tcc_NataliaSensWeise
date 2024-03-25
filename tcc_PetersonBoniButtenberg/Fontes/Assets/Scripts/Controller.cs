@@ -741,9 +741,11 @@ public class Controller : MonoBehaviour {
         else
         {
             bool podeDestruir = screenPoint.y > cam.pixelRect.height / 2;
+            print(podeDestruir);
 
             if (podeDestruir && !Global.listaEncaixes.ContainsKey(gameObject.name))
             {
+                // aqui destroi a iluminação na raiz do render
                 transform.position = startPos;
                 Destroy(cloneFab);
                 screenPoint = cam.WorldToScreenPoint(scanPos);
@@ -1098,21 +1100,30 @@ public class Controller : MonoBehaviour {
 
     private bool podeEncaixar()
     {
-        const float VALOR_APROXIMADO = 2;
+        const float VALOR_APROXIMADO = 9;
 
         float pecaY = transform.position.y;        
 
         foreach (KeyValuePair<string, float> slot in Global.listaPosicaoSlot)  // Slot / posição no eixo y
         {
+            print("oioi");
             //Verifica se o encaixe existe na lista 
             if (slot.Key.Contains(Global.GetSlot(gameObject.name)))
             {
                 //Verifica se a peça está próxima do encaixe e se o Slot ainda não está na lista de encaixes.
-                if(slot.Value + VALOR_APROXIMADO > pecaY && slot.Value - VALOR_APROXIMADO < pecaY 
+                if (slot.Value + VALOR_APROXIMADO > pecaY && slot.Value - VALOR_APROXIMADO < pecaY 
                     && !Global.listaEncaixes.ContainsValue(slot.Key))
                 {
+                    print("aqui");
+                    print(!Global.listaEncaixes.ContainsKey(gameObject.transform.name));
                     if (!Global.listaEncaixes.ContainsKey(gameObject.transform.name))
                     {
+                        print("entrei");
+                        print(slot.Key);
+                        print(GameObject.Find(slot.Key));
+                        // tem q criar o IluminacaoSlot lá na cena, mas qnd tentei criar deu mt errado, dentro do GO_Render
+                        // tem q criar uma outra peça só pra iluminar a cena, com outro conector e outro nome pra n bugar o code
+                        // será q vale a pena?
                         if (GameObject.Find(slot.Key) != null)
                             Global.listaEncaixes.Add(gameObject.transform.name, slot.Key);
                     }                        
@@ -1266,9 +1277,9 @@ public class Controller : MonoBehaviour {
         cloneFab.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);        
     }  
     
-    private void processaExclusao()
+    public void processaExclusao()
     {     
-        string slotOrigem = Global.listaEncaixes[gameObject.name];        
+        string slotOrigem = Global.listaEncaixes[gameObject.name];
 
         bool podeReposicionar = false;
 
@@ -1629,7 +1640,7 @@ public class Controller : MonoBehaviour {
                 for (int i = 0; i < listaGO_Pecas.Count; i++)
                    listaGO_Pecas[i].transform.parent = fabricaPecas.transform;
                 Destroy(GO_Pecas);
-                
+
                 Destroy(GameObject.Find(Global.listaEncaixes[gameObject.name]));
                 Destroy(GameObject.Find(gameObject.name));
                 Global.listaSequenciaSlots.Remove(Global.listaEncaixes[gameObject.name]);
@@ -1655,10 +1666,12 @@ public class Controller : MonoBehaviour {
 
         if (key.Contains(Consts.Iluminacao))
         {
-            Global.propriedadeIluminacao.Remove(key);      
+            Global.propriedadeIluminacao.Remove(key);
 
             if (key.Length > "Iluminacao".Length)
+            {
                 Destroy(GameObject.Find("LightObjects" + key));
+            }
             else
             {
                 if (Global.propriedadePecas.ContainsKey(key))
@@ -1692,6 +1705,7 @@ public class Controller : MonoBehaviour {
         string numObj = string.Empty;
         string valueOut = string.Empty;
         int val;
+        print("estamos destruindo");
 
         switch (tipoSlotInt)
         {          

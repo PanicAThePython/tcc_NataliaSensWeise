@@ -1,20 +1,71 @@
-coisas para arrumar:
+FAZENDO PAINEL DE ARQUIVO:
+-> fiz ele ficar visível, mas tá difícil de dimensional o botão pra um tamanho proporcional
+-> consegui fazer os botões ficarem no tamanho
+-> o botão de exportar é o mais simples, pq é só salvar oq foi feito... mas o de importar tem q abrir aqla janela de pesquisar arquivo, e tem q mostrar apenas os .json
+-> tutorial bem enxuto, muito bom
+-> preciso saber como q seria a estrutura da cena em json... olhar o projeto em threejs
+-> ajeitei o json
+NÃO SEI SE ROLA A PARTE DE ARQUIVO NEM A DE TEXTURA: https://discussions.unity.com/t/write-a-editor-to-select-file-from-disk-and-import-to-unity/85143/2
+
+IDEALIZANDO TROCA DE TEMA:
+- um botão que troca entre claro e escuro
+	- dentro dele terá um script e ele receberá todos os textos e todos os objts q tiverem fundo q terá cor mudada
+	- pro fundo, será trocado o material de referência, pro texto será a prop color
+	- serão duas listas públicas: uma pra texto e outra pra objeto
+		- qnd clicado, percorrerá um loop pra texto e um pra objt pra trocar a cor
+		- nesse click, verificará a variável de controle... se vier true, é pra ligar o modo noturno, se vier false, modo claro
+		- seria mais interessante os outros codes acessarem a var, pra daí n ficar mt objt e texto no msm code
+	- eu qr esganar quem criou o text mesh pro
+		- PQ?! ah pq acharam q seria uma ótima ideia por tags html pra definir a cor do texto (q ideia é essa mds?!!)
+	- achei um jeito de mudar por code sem tag html, mas n reflete na tela a mudança de valor...
+	- to trocando tds os tmp pra text dnv... (n sei pq no projeto tem os dois tipos sendo usados...)
+	- falta trocar tema de props do poligono e spline, fazer eles serem arrastáveis, etc
+	- talvez trocar a cor dos blocos tbm
+
+COISAS PRA ARRUMAR:
 
 * melhorar props do renderer tbm (FEITO!!!!!)
-* mais props da câmera
+* mais props da câmera - tá meia boca, ler meu livro pra ver se faltou converter algum valor (ACHO Q TÁ FEITO)
+	-> parece q isso já tinha começado a ser programado, mas faltou poder mudar os valores passados
+	-> atualmente, o look at é sempre pra 0,0,0 e near e far são posições fixas tbm
+	-> acho q fiz funcionar, mas tá meio esquisito... pelo oq li na doc tá certo do jeito q programei, mas parece q falta algo... talvez alguma conversão de valores
+* clicar no bloco pra selecionar e clicar na lixeira? o valor do objt clicado é guardado, mas n sei se rola deletar assim (o código desse menino é uma bagunça) (N DEU)
+	-> eu achei a func q exclui, tá no code Global, mas qnd eu arrasto ele pra lixeira pra tacar a func, n mostra as funcs, q nem te falei em reunião
+	-> tem q por o code na cena, n só arrastar ele pro botão!!!
+		-> agr consegui por a func, mas n tá printando oq mandei ;-;
+	-> OS BOTÕES NÃO SÃO BOTÕES!! ele colocou collider em tudo...
+	-> consegui o botão funcionar estando invisível, mas n consigo pegar qual objeto foi clicado, pq qnd eu aperto o botão, o objeto clicado vira ele próprio
+	-> não sei se rola deletar clicando, pq eu n tenho como guardar temporariamente o último item clicado antes da lixeira... até poderia criar uma lista, onde td vez q clico adiciona o nome do slot, mas se eu ficar clicando eternamente na lixeira, uma hora ia dar index out of bounds, além de q acho q teria um problema pra identificar os itens q podem repetir, n sei ao certo
+	-> realmente, é mais fácil deletar pelo collider, pq ele só vai pegar o objeto q bateu nele e destruir
+	-> tentei pesquisar, só achei exemplos do tipo "clico na tecla D e deleta o objt selecionado" - oq tbm é bem fácil
+	-> tentei fazer a lista q citei antes, ele ignorou a func (acho q o parâmetro tá meio q obrigatório)
+	-> fiz aqlo de dar um valor caso venha vazio e msm assim n entrou na func
+	-> pensando seriamente se n é frescurisse por pra clicar na lixeira...
 
+* na versão antiga tem como importar foto pra usar de textura, ver se é possível (DEIXAR POR ÚLTIMO) (N DEU)
+* ele não permite gerar herança entre objetos gráficos... (FAZER, SE DER TEMPO!)
+
+---------------- EXTENÇÃO FUTURA, LIMITAÇÃO ATUAL ----------------
 * deixar colocar o bloco de iluminação na raiz da cena
-* bug qnd apaga os valores de x,y,z das acoes vermelhas (ele processa o valor digitado, mas n mostra na caixinha o valor)
+	- primeiro que pra isso acontecer, vamos ter q criar um slot diferente pra ser pra luz apenas na base e um novo encaixe de peça (com base no estilo de programação usado)
+	- segundo que colocar ela na base ou não, não traz mudanças relevantes para cena. comparando com a versão anterior, inclusive, essa versão tá com a iluminação até melhor, ent n acho necessário por a luz na raiz
+* bug qnd apaga os valores de x,y,z das acoes vermelhas (ele processa o valor digitado, mas n mostra na caixinha o valor) -> isso é pq o peterson n sabe usar direito os componentes UI... tem q revisar mlr
+ 	-> bug acontece na caixa de texto q o peterson usa pra x y z de qqr peça, talvez trocar ela e por ela de ref nos codes pra poder pegar o valor
+		-> não rolou
+	-> não sei dizer se é um bug resultante da versão da unity (vi gnt reclamando de bugs na hr de apagar, mas n deu pra entender se é o msm q eu to tendo)
+	-> talvez refazer os campos de entrada e fazer o usuário clicar em "ok" pra daí sim atualizar os valores
+		-> tentei a ideia de cima, não rolou pq a função teve q ser criar no code PropriedadePecaPadrao, e n aparece nd qnd peço pra listar as funções...
+		-> tentei por outros scripts dentro do botão, nunca aparecem as funções... tudo precisa ser static pra funcionar?
+		-> coloquei td q precisava pra static e msm assim n foi, tbm arrumei pra public e n foi, n sei mais oq fazer, pensando em dx e seguir em frente...
+		-> tentei remover o "abstract" da classe, tbm n surtiu efeito (mas isso dps de apagar os static e public q eu tinha colocado)
 
-* clicar no bloco pra selecionar e clicar na lixeira? 
-* o color picker da iluminação é mt melhor na versão antiga, seria limitação da unity? SIM, NÃO ROLA MELHORAR SEM ADERIR A UM ASSET
-* na versão antiga tem como importar foto pra usar de textura, ver se é possível (DEIXAR POR ÚLTIMO)
-
+* o color picker da iluminação é mt melhor na versão antiga, seria limitação da unity? SIM, NÃO ROLA MELHORAR SEM ADERIR A UM ASSET, OQ PODE GERAR PROBLEMAS DENTRO DO PROJETO NESSE MOMENTO - EXTENÇÃO FUTURA!!	
+------------------------------------------------------------------
 VERIFICAR COM PROF:
 
-* aba de "arquivo" não funciona, devemos manter?
+* aba de "arquivo" não funciona, devemos manter? -> ldtt joao, arquivo json
 * qnd eu desativo um objeto e clico nele, na versão antiga tem retorno visual na câmera e na do peterson não, deveria ter?
-	pq tbm n faz mt sentido ter retorno visual se eu desativei o objeto
-* qnd muda o tipo de iluminação, reseta todas as configs q fiz (cor, coords, ...) -> ele guarda um estado pra cada tipo de luz, ent ele começa com o padrão dos valores pra tds
-* n tem luz hemisphere
-* aba "ajuda" n tem nd pra ajudar k, como vai ser nossa "ajuda"?
+	pq tbm n faz mt sentido ter retorno visual se eu desativei o objeto -> deixar como tá
+* qnd muda o tipo de iluminação, reseta todas as configs q fiz (cor, coords, ...) -> ele guarda um estado pra cada tipo de luz, ent ele começa com o padrão dos valores pra tds -> deixar como tá
+* n tem luz hemisphere -> deixar como tá
+* aba "ajuda" n tem nd pra ajudar k, como vai ser nossa "ajuda"? -> remover ajuda, fazer tutorial decente

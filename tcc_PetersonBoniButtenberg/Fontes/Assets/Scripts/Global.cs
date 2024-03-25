@@ -54,10 +54,13 @@ public class Global : MonoBehaviour {
             listaObjetos.Add(go);
     }
 
+    // se não passar o objt q é pra deletar, remove o último adicionado se a lista n estiver vazia
     public static void removeObject(GameObject go)
-    {   
+    {
+        print("eita");
         if (go != null && listaObjetos.Contains(go))
             listaObjetos.Remove(go);
+        else if (go == null && listaObjetos.Count > 0) listaObjetos.RemoveAt(-1);
     }
 
     public static bool containsByName(string goName)

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class PropCameraPadrao : MonoBehaviour {
 
-    protected enum InputSelected { InputPosX, InputPosY, InputPosZ, InputLookAtX, InputLookAtY, InputLookAtZ, InputFOV, InputEmpty };
+    public enum InputSelected { InputPosX, InputPosY, InputPosZ, InputLookAtX, InputLookAtY, InputLookAtZ, InputFOV, InputEmpty, InputFar, InputNear };
 
     private TMP_InputField PosX;
     private TMP_InputField PosY;
@@ -15,13 +15,15 @@ public class PropCameraPadrao : MonoBehaviour {
     private TMP_InputField LookAtY;
     private TMP_InputField LookAtZ;
     private TMP_InputField FOV;
+    private TMP_InputField Far;
+    private TMP_InputField Near;
 
     private const float POS_X_INICIAL = -100;
     private const float POS_Y_INICIAL = 300;
     private const float POS_Z_INICIAL = 300;
     private const float FOV_INICIAL = 45;
 
-    protected InputSelected inputSelected;
+    public InputSelected inputSelected;
     protected string inputValue;
     protected bool podeAtualizarCamera;
 
@@ -45,21 +47,25 @@ public class PropCameraPadrao : MonoBehaviour {
         PosY = gameObject.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>();
         PosZ = gameObject.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>();
 
-        //LookAtX = gameObject.transform.GetChild(2).GetChild(0).GetChild(1).GetComponent<TMP_InputField>();
-        //LookAtY = gameObject.transform.GetChild(2).GetChild(1).GetChild(1).GetComponent<TMP_InputField>();
-        //LookAtZ = gameObject.transform.GetChild(2).GetChild(2).GetChild(1).GetComponent<TMP_InputField>();
+        LookAtX = gameObject.transform.GetChild(2).GetChild(0).GetChild(1).GetComponent<TMP_InputField>();
+        LookAtY = gameObject.transform.GetChild(2).GetChild(1).GetChild(1).GetComponent<TMP_InputField>();
+        LookAtZ = gameObject.transform.GetChild(2).GetChild(2).GetChild(1).GetComponent<TMP_InputField>();
 
         FOV = gameObject.transform.GetChild(3).GetChild(1).GetComponent<TMP_InputField>();
+        Near = gameObject.transform.GetChild(4).GetChild(1).GetComponent<TMP_InputField>();
+        Far = gameObject.transform.GetChild(5).GetChild(1).GetComponent<TMP_InputField>();
 
         PosX.text = "100";
         PosY.text = "300";
         PosZ.text = "300";
 
-        //LookAtX.text = "0";
-        //LookAtY.text = "0";
-        //LookAtZ.text = "0";
+        LookAtX.text = "0";
+        LookAtY.text = "0";
+        LookAtZ.text = "0";
 
         FOV.text = "45";
+        Near.text = "100";
+        Far.text = "600";
 
         Global.propCameraGlobal.PropInicial = new PropriedadeCameraInicial();
         GameObject goCameraObj = GameObject.Find("CameraObjetoMain");
@@ -68,17 +74,25 @@ public class PropCameraPadrao : MonoBehaviour {
         Global.propCameraGlobal.PosY = POS_Y_INICIAL;
         Global.propCameraGlobal.PosZ = POS_Z_INICIAL;
         Global.propCameraGlobal.FOV = new Vector2(FOV_INICIAL, FOV_INICIAL) ;
+        Global.propCameraGlobal.LookAtX = 0;
+        Global.propCameraGlobal.LookAtY = 0;
+        Global.propCameraGlobal.LookAtZ = 0;
+        Global.propCameraGlobal.Near = 100;
+        Global.propCameraGlobal.Far = 600;
 
         Global.propCameraGlobal.PropInicial.PosX = goCameraObj.transform.position.x;
         Global.propCameraGlobal.PropInicial.PosY = goCameraObj.transform.position.y;
         Global.propCameraGlobal.PropInicial.PosZ = goCameraObj.transform.position.z;
 
-        //Global.propCameraGlobal.PropInicial.LookAtX = goCameraObj.transform.GetChild(0).transform.rotation.x;
-        //Global.propCameraGlobal.PropInicial.LookAtY = goCameraObj.transform.GetChild(0).transform.rotation.y;
-        //Global.propCameraGlobal.PropInicial.LookAtZ = goCameraObj.transform.GetChild(0).transform.rotation.z;
+        Global.propCameraGlobal.PropInicial.LookAtX = goCameraObj.transform.GetChild(0).transform.rotation.x;
+        Global.propCameraGlobal.PropInicial.LookAtY = goCameraObj.transform.GetChild(0).transform.rotation.y;
+        Global.propCameraGlobal.PropInicial.LookAtZ = goCameraObj.transform.GetChild(0).transform.rotation.z;
 
         Global.propCameraGlobal.PropInicial.FOV = new Vector2(goCameraObj.transform.localScale.x / FOV_INICIAL, goCameraObj.transform.localScale.y / FOV_INICIAL);
-        
+        Global.propCameraGlobal.PropInicial.Near = 100;
+        Global.propCameraGlobal.PropInicial.Far = 600;
+
+
         goCameraObj = GameObject.Find("CameraObjetoMain");
         goCameraObj.transform.position =
             new Vector3(Global.propCameraGlobal.PropInicial.PosX + Global.propCameraGlobal.PosX,
@@ -89,7 +103,10 @@ public class PropCameraPadrao : MonoBehaviour {
         goCameraPos.transform.localPosition =
             new Vector3(-Global.propCameraGlobal.PosX * 14,
                         Global.propCameraGlobal.PosY * 13.333333f,
-                        -Global.propCameraGlobal.PosZ * 16);       
+                        -Global.propCameraGlobal.PosZ * 16);
+
+        GameObject.Find("CameraVisInferior").GetComponent<Camera>().nearClipPlane = Global.propCameraGlobal.PropInicial.Near;
+        GameObject.Find("CameraVisInferior").GetComponent<Camera>().farClipPlane = Global.propCameraGlobal.PropInicial.Far;
     }
 
     protected void updatePosition(Camera cam)
@@ -106,13 +123,22 @@ public class PropCameraPadrao : MonoBehaviour {
             Global.propCameraGlobal.PosZ = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
             podeAtualizarCamera = true;
         }
+        if (inputSelected == InputSelected.InputLookAtX)
+        {
+            Global.propCameraGlobal.LookAtX = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
+            print(Global.propCameraGlobal.LookAtX);
+        }
+        else if (inputSelected == InputSelected.InputLookAtY)
+        {
+            Global.propCameraGlobal.LookAtY = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
+            print(Global.propCameraGlobal.LookAtY);
 
-        //if (inputSelected == InputSelected.InputLookAtX)
-        //    Global.propCameraGlobal.LookAtX = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
-        //else if (inputSelected == InputSelected.InputLookAtY)
-        //    Global.propCameraGlobal.LookAtY = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
-        //else if (inputSelected == InputSelected.InputLookAtZ)
-        //    Global.propCameraGlobal.LookAtZ = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
+        }
+        else if (inputSelected == InputSelected.InputLookAtZ)
+        {
+            Global.propCameraGlobal.LookAtZ = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
+            print(Global.propCameraGlobal.LookAtZ);
+        }
 
         if (inputSelected == InputSelected.InputFOV)
         {
@@ -120,7 +146,20 @@ public class PropCameraPadrao : MonoBehaviour {
 
             //Altera FoV (Field of View)
             GameObject.Find("CameraVisInferior").GetComponent<Camera>().fieldOfView = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
-        }            
+        }
+        if (inputSelected == InputSelected.InputFar)
+        {
+            Global.propCameraGlobal.Far = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
+            print(Global.propCameraGlobal.Far);
+            GameObject.Find("CameraVisInferior").GetComponent<Camera>().farClipPlane = Global.propCameraGlobal.Far;
+        }
+        if (inputSelected == InputSelected.InputNear)
+        {
+            Global.propCameraGlobal.Near = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
+            print(Global.propCameraGlobal.Near);
+
+            GameObject.Find("CameraVisInferior").GetComponent<Camera>().nearClipPlane = Global.propCameraGlobal.Near;
+        }
 
         //Atualiza posição da camera
         GameObject goCameraObj = GameObject.Find("CameraObjetoMain");
@@ -136,13 +175,17 @@ public class PropCameraPadrao : MonoBehaviour {
                         -Global.propCameraGlobal.PosZ * 16);
 
         //Atualiza Look At - *********** Não está funcionando ***********
-        //if (inputSelected == InputSelected.InputLookAtX)
-        //{
-        //    goCameraObj.transform.LookAt(GameObject.Find("CuboAmb").transform, new Vector3(10000, 0, 0));
-        //        //Quaternion.Euler(Global.propCameraGlobal.PropInicial.LookAtX + Global.propCameraGlobal.LookAtX,
-        //        //                 Global.propCameraGlobal.PropInicial.LookAtY + Global.propCameraGlobal.LookAtY,
-        //        //                 Global.propCameraGlobal.PropInicial.LookAtZ + Global.propCameraGlobal.LookAtZ);
-        //}
+        if (inputSelected == InputSelected.InputLookAtX || inputSelected == InputSelected.InputLookAtY || inputSelected == InputSelected.InputLookAtZ )
+        {
+            //funciona +/-
+
+            //goCameraObj.transform.LookAt(GameObject.Find("CuboAmb").transform, new Vector3(10000, 0, 0));
+            //  Quaternion.Euler(Global.propCameraGlobal.PropInicial.LookAtX + Global.propCameraGlobal.LookAtX,
+            //                 Global.propCameraGlobal.PropInicial.LookAtY + Global.propCameraGlobal.LookAtY,
+            //               Global.propCameraGlobal.PropInicial.LookAtZ + Global.propCameraGlobal.LookAtZ);
+
+            goCameraObj.transform.GetChild(0).transform.LookAt(new Vector3( Global.propCameraGlobal.LookAtX, Global.propCameraGlobal.LookAtY, Global.propCameraGlobal.LookAtZ));
+        }
             
 
         //Atualiza FOV da camera (Scale)
@@ -171,7 +214,7 @@ public class PropCameraPadrao : MonoBehaviour {
         return transform * 1000;
     }
 
-    protected InputSelected GetInputSelected(string inputName)
+    public InputSelected GetInputSelected(string inputName)
     {
         if (inputName.Contains("PosicaoX"))
             return InputSelected.InputPosX;
@@ -187,6 +230,10 @@ public class PropCameraPadrao : MonoBehaviour {
             return InputSelected.InputLookAtZ;
         else if (inputName.Contains("FOV"))
             return InputSelected.InputFOV;
+        else if (inputName.Contains("Near"))
+            return InputSelected.InputNear;
+        else if (inputName.Contains("Far"))
+            return InputSelected.InputFar;
 
         return InputSelected.InputEmpty;
     }
