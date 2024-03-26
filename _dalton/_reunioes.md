@@ -173,3 +173,13 @@ Ter uma forma de "navegar" e ir mostrando que se deve ser feito para o Tutorial 
 Para "validar" se fez verto os exercícios poderia ser ter uma cena sala e comparar com a que fez.  
 
 - ver o que o bolsista do LDTT (João) fez.  
+
+## 2024-03-26 - 18:16
+
+Fez algumas das funcionalidades e algumas bem provável serão extensões.  
+Ao testar mostrando no Editor Unit deu erro na edição dos campos. Possível erro da troca de componentes de caixas de textos após aplicar tema escuro.  
+Disse que viu o material sobre Jason enviado pelo João e disse que é simples. Parou porque não achou uma forma de exportar o arquivo e ler por restrições do Navegador Web.  
+
+Vai olhar os textos do Help atual versão Web e separar o que pode aproveitar para o tutorial novo.  
+
+Vai pesquisar aplicativos etc. sobre tutoriais.  
