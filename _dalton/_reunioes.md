@@ -4,6 +4,8 @@ marginnote3app://note/42D9803A-2167-4DE5-A01A-7D65C4876D9E
 Título: 
 [BCC_TermoCompromisso](../BCC_TermoCompromisso.pdf)  
 
+[Aplicativo Wb](https://dalton-reis.github.io/CG_2024_1/)  
+
 ## 2023-07-24 - 11:57
 
 Respondo o e-mail.  
