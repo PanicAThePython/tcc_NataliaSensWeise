@@ -41,6 +41,8 @@ COISAS PRA ARRUMAR:
 	-> tentei fazer a lista q citei antes, ele ignorou a func (acho q o parâmetro tá meio q obrigatório)
 	-> fiz aqlo de dar um valor caso venha vazio e msm assim n entrou na func
 	-> pensando seriamente se n é frescurisse por pra clicar na lixeira...
+	-> eu tinha trocado os texts mesh pro pra text e parou de funcionar os campos... estou vendo oq posso fazer, já q o text mesh pro n está mudando de cor
+	-> fiz camera e objtgraf voltar a tmp... achei um tutorial pra mudar a cor, mas parece n surtir efeito
 
 * na versão antiga tem como importar foto pra usar de textura, ver se é possível (DEIXAR POR ÚLTIMO) (N DEU)
 * ele não permite gerar herança entre objetos gráficos... (FAZER, SE DER TEMPO!)

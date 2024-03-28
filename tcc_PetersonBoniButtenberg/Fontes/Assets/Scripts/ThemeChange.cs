@@ -11,7 +11,7 @@ public class ThemeChange : MonoBehaviour
 
     public TMP_Text textoModo;
 
-    //public TMP_Text[] textosTMP;
+    public TMP_Text[] textosTMP;
     public Text[] textos;
     public GameObject[] objetos;
 
@@ -30,6 +30,8 @@ public class ThemeChange : MonoBehaviour
         else
         {
             textoModo.text = "Noturno";
+            //textosTMP[0].text = "TESTE";
+            //textosTMP[0].color = Color.red;
             changingText();
             changingBackground();
             control = false;
@@ -54,6 +56,8 @@ public class ThemeChange : MonoBehaviour
         }
     }
 
+   
+
     private void changingText()
     {
         if (control)
@@ -62,14 +66,14 @@ public class ThemeChange : MonoBehaviour
             {
                 textos[i].color = Color.white;
             }
-            /*
+            
             for (int i = 0; i < textosTMP.Length; i++)
             {
                 print(textosTMP[i].color);
-                textosTMP[i].GetComponent<TextMeshProUGUI>().color = Color.white;
+                textosTMP[i].color = Color.white;
                 //textosTMP[i].UpdateVertexData(TMP_VertexDataUpdateFlags.All);
             }
-            */
+            
         }
         else
         {
@@ -77,14 +81,15 @@ public class ThemeChange : MonoBehaviour
             {
                 textos[i].color = Color.HSVToRGB(32, 32, 32);
             }
-            /*
+            
             for (int i = 0; i < textosTMP.Length; i++)
             {
                 print(textosTMP[i].color);
-                textosTMP[i].GetComponent<TextMeshProUGUI>().color = Color.HSVToRGB(32,32,32);
+                textosTMP[i].color = Color.HSVToRGB(32,32,32);
                 //textosTMP[i].UpdateVertexData(TMP_VertexDataUpdateFlags.All);
             }
-            */
+            
         }
     }
+    
 }
