@@ -107,6 +107,9 @@ public class PropCameraPadrao : MonoBehaviour {
 
         GameObject.Find("CameraVisInferior").GetComponent<Camera>().nearClipPlane = Global.propCameraGlobal.PropInicial.Near;
         GameObject.Find("CameraVisInferior").GetComponent<Camera>().farClipPlane = Global.propCameraGlobal.PropInicial.Far;
+        //print(new Vector3(Global.propCameraGlobal.LookAtX, Global.propCameraGlobal.LookAtY, Global.propCameraGlobal.LookAtZ));
+        //goCameraObj.transform.GetChild(0).transform.LookAt(GameObject.Find("CuboAmb").transform, new Vector3(0,0,0));
+
     }
 
     protected void updatePosition(Camera cam)
@@ -156,9 +159,11 @@ public class PropCameraPadrao : MonoBehaviour {
         if (inputSelected == InputSelected.InputNear)
         {
             Global.propCameraGlobal.Near = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
-            print(Global.propCameraGlobal.Near);
 
             GameObject.Find("CameraVisInferior").GetComponent<Camera>().nearClipPlane = Global.propCameraGlobal.Near;
+            //GameObject.Find("CameraObjetoMain").transform.GetChild(0).GetComponent<Camera>().nearClipPlane = Global.propCameraGlobal.Near;
+            print(GameObject.Find("CameraVisInferior").GetComponent<Camera>().nearClipPlane);
+
         }
 
         //Atualiza posição da camera
@@ -177,14 +182,14 @@ public class PropCameraPadrao : MonoBehaviour {
         //Atualiza Look At - *********** Não está funcionando ***********
         if (inputSelected == InputSelected.InputLookAtX || inputSelected == InputSelected.InputLookAtY || inputSelected == InputSelected.InputLookAtZ )
         {
-            //funciona +/-
+            //ACHO Q CONSEGUII
 
             //goCameraObj.transform.LookAt(GameObject.Find("CuboAmb").transform, new Vector3(10000, 0, 0));
             //  Quaternion.Euler(Global.propCameraGlobal.PropInicial.LookAtX + Global.propCameraGlobal.LookAtX,
             //                 Global.propCameraGlobal.PropInicial.LookAtY + Global.propCameraGlobal.LookAtY,
             //               Global.propCameraGlobal.PropInicial.LookAtZ + Global.propCameraGlobal.LookAtZ);
-
-            goCameraObj.transform.GetChild(0).transform.LookAt(new Vector3( Global.propCameraGlobal.LookAtX, Global.propCameraGlobal.LookAtY, Global.propCameraGlobal.LookAtZ));
+            print(new Vector3(Global.propCameraGlobal.LookAtX, Global.propCameraGlobal.LookAtY, Global.propCameraGlobal.LookAtZ));
+            goCameraObj.transform.GetChild(0).transform.LookAt(GameObject.Find("CuboAmb").transform, new Vector3( Global.propCameraGlobal.LookAtX, Global.propCameraGlobal.LookAtY, Global.propCameraGlobal.LookAtZ));
         }
             
 
@@ -193,6 +198,7 @@ public class PropCameraPadrao : MonoBehaviour {
             new Vector3(Global.propCameraGlobal.PropInicial.FOV.x * Global.propCameraGlobal.FOV.x,
                         Global.propCameraGlobal.PropInicial.FOV.y * Global.propCameraGlobal.FOV.y,
                         goCameraObj.transform.localScale.z);
+
     } 
 
     protected bool jaClicouEmAlgumObjeto()

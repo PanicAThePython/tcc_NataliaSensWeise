@@ -23,7 +23,7 @@ public class ThemeChange : MonoBehaviour
         if (!control)
         {
             textoModo.text = "Claro";
-            changingText();
+            //changingText();
             changingBackground();
             control = true;
         }
@@ -32,7 +32,7 @@ public class ThemeChange : MonoBehaviour
             textoModo.text = "Noturno";
             //textosTMP[0].text = "TESTE";
             //textosTMP[0].color = Color.red;
-            changingText();
+            //changingText();
             changingBackground();
             control = false;
         }
@@ -70,7 +70,7 @@ public class ThemeChange : MonoBehaviour
             for (int i = 0; i < textosTMP.Length; i++)
             {
                 print(textosTMP[i].color);
-                textosTMP[i].color = Color.white;
+                textosTMP[i].color = new Color32((byte)255,(byte)255,(byte)255,(byte)255);
                 //textosTMP[i].UpdateVertexData(TMP_VertexDataUpdateFlags.All);
             }
             
@@ -85,7 +85,7 @@ public class ThemeChange : MonoBehaviour
             for (int i = 0; i < textosTMP.Length; i++)
             {
                 print(textosTMP[i].color);
-                textosTMP[i].color = Color.HSVToRGB(32,32,32);
+                textosTMP[i].color = new Color32((byte)32,(byte)32,(byte)32,(byte)255);
                 //textosTMP[i].UpdateVertexData(TMP_VertexDataUpdateFlags.All);
             }
             
