@@ -1,0 +1,64 @@
+IDEALIZANDO TROCA DE TEMA: RESULTADO -> fundo escuro, mas ainda sendo possível ler o texto preto
+- um botão que troca entre claro e escuro
+	- dentro dele terá um script e ele receberá todos os textos e todos os objts q tiverem fundo q terá cor mudada
+	- pro fundo, será trocado o material de referência, pro texto será a prop color
+	- serão duas listas públicas: uma pra texto e outra pra objeto
+		- qnd clicado, percorrerá um loop pra texto e um pra objt pra trocar a cor
+		- nesse click, verificará a variável de controle... se vier true, é pra ligar o modo noturno, se vier false, modo claro
+		- seria mais interessante os outros codes acessarem a var, pra daí n ficar mt objt e texto no msm code
+	- eu qr esganar quem criou o text mesh pro
+		- PQ?! ah pq acharam q seria uma ótima ideia por tags html pra definir a cor do texto (q ideia é essa mds?!!)
+	- achei um jeito de mudar por code sem tag html, mas n reflete na tela a mudança de valor...
+	- to trocando tds os tmp pra text dnv... (n sei pq no projeto tem os dois tipos sendo usados...)
+	- falta trocar tema de props do poligono e spline, fazer eles serem arrastáveis, etc
+	- talvez trocar a cor dos blocos tbm
+	- trocar o tmp quebrou os inputfields... talvez pq o input continuou sendo do tipo tmp, talvez seja pq o tmp é um asset importado e por isso n troca de cor direito
+	- criar um color gradient -> n funcionou
+	- o tmp n troca de cor nem se eu abrir o inspect e colocar a cor q qr
+
+FAZENDO PAINEL DE ARQUIVO:
+-> fiz ele ficar visível, mas tá difícil de dimensional o botão pra um tamanho proporcional
+-> consegui fazer os botões ficarem no tamanho
+-> o botão de exportar é o mais simples, pq é só salvar oq foi feito... mas o de importar tem q abrir aqla janela de pesquisar arquivo, e tem q mostrar apenas os .json
+	-> colocar caixa de texto para colar código e aí abertar em importar
+-> tutorial bem enxuto, muito bom
+-> preciso saber como q seria a estrutura da cena em json... olhar o projeto em threejs
+-> ajeitei o json
+
+TUTORIAL:
+- mostrar como cada aba funciona (arquivo, fábrica, props, ajuda)
+- mostrar o render, o ambiente e o visualizador
+- regras para tutorial: https://tryevidence.com/blog/how-to-design-a-perfect-game-tutorial/
+- exemplo tutorial: https://www.youtube.com/watch?v=a1RFxtuTVsk
+- fazer tutorial breve e, dentro de cada peça qnd clicada, mostrar as props e um botão q explicará mlr aql componente
+- pensei em criar um menu mlr na abertura, aí o usuário pode escolher entre "tutorial", "montar minha cena" ou "exercícios"
+	- e aí em "exercícios" ele abre um outro menu com três opções de exercício
+		- a cena de exercícios vai ser a principal só q com a flag de exercícios ativada, e com um botão de "verificar resposta", q daí vai retornar num painel quanto a pessoa acertou
+	- dps q o tutorial acabar, ele redireciona pro "montar minha cena"
+		- dentro do "montar minha cena", dentro da seção q agr está como "ajuda", terá como eu abri novamente o 		menu e ir pros exercícios
+
+ATUALIZAR TEXT-MESH-PRO: JANELA WINDOW -> atualizei e nd mudou
+	- coloquei o modo noturno numa cor q dá pra ler o texto preto
+MOTAR TUTORIAL CONFORME REGRAS
+CAMErA LOOK AT SEMPRE APONTANDO PRA Z E NEAR E FAR N FUNCIONAM NA CAMERA DE AMBIENTE
+	-> descobri q tem um desenho q tem q atualizar, tenho q ver como acessar ele
+	-> ainda n entendi pq o lookat todo tá apontando pra z
+	-> como q o desenho atualiza no lookat, mas no near e far n?
+	-> acho q tenho q mexer no moveambiente -> n!
+	CameraGraf -> mostra o ambiente gráfico
+	PosCameraObjt -> tem os desenhos de traço da câmera
+	se o fov seria o scale, oq seria o far e near?
+achei o desenho da câmera... mover o near e far desenhados só? pq na parte de baixo parece q funciona...
+calculo pra near e far:
+	https://jsfiddle.net/cZb66/3/
+	https://www.youtube.com/watch?v=wFdvPuia5VM
+	https://forum.unity.com/threads/how-do-i-get-the-world-coordinates-of-corners-of-far-clip-panel-of-camera-in-a-script.1360735/
+	https://cursos.alura.com.br/forum/topico-duvida-nao-entendi-o-calculo-335678
+	acho q esse: https://forum.unity.com/threads/how-to-get-the-actual-width-and-height-of-the-near-clipping-plane.72384/
+
+	-> o problema do near e do far é q eles n estão dando retorno na parte de ambiente gráfico, apenas no visualizador
+	-> o look at tá meio doido no ambiente gráfico
+	-> pra ter retorno no ambiente gráfico, vai ter q mexer mt no CameraObjAmb
+		-> parece ser algo mt trabalhoso pro pouco tempo q temos no momento, seria mlr dx de lado e voltar caso dê tempo
+		-> por alguma razão, o look at parece se atualizar sozinho qnd mudo o ponto, mas o msm n acontece com far e near
+		-> como o resultado desse esforço n vai retornar mts pontos, vou voltar nele qnd sobrar tempo, pq agr tenho q focar em algo q valha mais pra banca

@@ -22,6 +22,8 @@ public class PropCameraPadrao : MonoBehaviour {
     private const float POS_Y_INICIAL = 300;
     private const float POS_Z_INICIAL = 300;
     private const float FOV_INICIAL = 45;
+    private const float NEAR_INICIAL = 100;
+    private const float FAR_INICIAL = 600;
 
     public InputSelected inputSelected;
     protected string inputValue;
@@ -77,8 +79,8 @@ public class PropCameraPadrao : MonoBehaviour {
         Global.propCameraGlobal.LookAtX = 0;
         Global.propCameraGlobal.LookAtY = 0;
         Global.propCameraGlobal.LookAtZ = 0;
-        Global.propCameraGlobal.Near = 100;
-        Global.propCameraGlobal.Far = 600;
+        Global.propCameraGlobal.Near = NEAR_INICIAL;
+        Global.propCameraGlobal.Far = FAR_INICIAL;
 
         Global.propCameraGlobal.PropInicial.PosX = goCameraObj.transform.position.x;
         Global.propCameraGlobal.PropInicial.PosY = goCameraObj.transform.position.y;
@@ -163,7 +165,6 @@ public class PropCameraPadrao : MonoBehaviour {
             GameObject.Find("CameraVisInferior").GetComponent<Camera>().nearClipPlane = Global.propCameraGlobal.Near;
             //GameObject.Find("CameraObjetoMain").transform.GetChild(0).GetComponent<Camera>().nearClipPlane = Global.propCameraGlobal.Near;
             print(GameObject.Find("CameraVisInferior").GetComponent<Camera>().nearClipPlane);
-
         }
 
         //Atualiza posição da camera
@@ -198,7 +199,6 @@ public class PropCameraPadrao : MonoBehaviour {
             new Vector3(Global.propCameraGlobal.PropInicial.FOV.x * Global.propCameraGlobal.FOV.x,
                         Global.propCameraGlobal.PropInicial.FOV.y * Global.propCameraGlobal.FOV.y,
                         goCameraObj.transform.localScale.z);
-
     } 
 
     protected bool jaClicouEmAlgumObjeto()
