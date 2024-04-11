@@ -2473,7 +2473,6 @@ GameObject:
   m_Component:
   - component: {fileID: 49686802}
   - component: {fileID: 49686804}
-  - component: {fileID: 49686803}
   m_Layer: 5
   m_Name: ToggleRenderer
   m_TagString: Untagged
@@ -2501,20 +2500,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.098, y: 0.23900118}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &49686803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 49686801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7599e2e44af003e439e91bfc6806656b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainInputField: {fileID: 0}
-  toggleField: {fileID: 49686804}
 --- !u!114 &49686804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -54722,7 +54707,6 @@ GameObject:
   m_Component:
   - component: {fileID: 865536262}
   - component: {fileID: 865536264}
-  - component: {fileID: 865536263}
   m_Layer: 5
   m_Name: ToggleRendEixos
   m_TagString: Untagged
@@ -54750,20 +54734,6 @@ RectTransform:
   m_AnchoredPosition: {x: -0.098, y: 0.13}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &865536263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 865536261}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7599e2e44af003e439e91bfc6806656b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mainInputField: {fileID: 0}
-  toggleField: {fileID: 865536264}
 --- !u!114 &865536264
 MonoBehaviour:
   m_ObjectHideFlags: 0
