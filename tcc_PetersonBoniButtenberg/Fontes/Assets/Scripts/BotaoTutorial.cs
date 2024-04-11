@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BotaoTutorial : MonoBehaviour {
+public class BotaoTutorial : MonoBehaviour
+{
 
     public Button botao;
+    public TutorialNovo tn;
 
     public void Start()
     {
@@ -20,9 +22,13 @@ public class BotaoTutorial : MonoBehaviour {
         {
             new Tutorial().PulouTutorial();
             Tutorial.passoTutorial = Tutorial.Passo.PulouTutorial;
-        }            
+        }
         else
-            Tutorial.AnswerMsg = 1;
+            new Tutorial().PulouTutorial();
+            Tutorial.passoTutorial = Tutorial.Passo.PulouTutorial;
+            tn.comecar = true;
+            tn.abrirTutorial();
+        //Tutorial.AnswerMsg = 1;
 
         Tutorial.MessageBoxVisEdu(gameObject.transform.parent.name, false);
     }

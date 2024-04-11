@@ -5,6 +5,11 @@ TagManager:
   serializedVersion: 2
   tags:
   - BtnArq
+  - Camera
+  - Iluminacao
+  - Objeto
+  - Escala
+  - Cubo
   layers:
   - Default
   - TransparentFX
