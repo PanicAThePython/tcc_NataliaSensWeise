@@ -11,8 +11,10 @@ public class TutorialNovo : MonoBehaviour
     [SerializeField] private ChecarColisao colisao;
     public GameObject painelTutorial;
     public GameObject[] passosTutorial;
-    public GameObject xEscalar;
     public TMP_InputField escalarTexto;
+    public GameObject escala;
+    public Toggle grade;
+    public GameObject render;
 
     private void Update()
     {
@@ -23,12 +25,6 @@ public class TutorialNovo : MonoBehaviour
         yield return new WaitForSeconds(3.0f);
         tela.SetActive(false);
     }
-    /*
-    public IEnumerator delay()
-    {
-        yield return new WaitForSeconds(5.0f);
-    }
-    */
 
     public void ativarTela()
     {
@@ -37,7 +33,6 @@ public class TutorialNovo : MonoBehaviour
     }
     private void tutorialManager()
     {
-        //StartCoroutine(delay());
         passosTutorial[passo].SetActive(false);
         passo++;
         passosTutorial[passo].SetActive(true);
@@ -45,53 +40,19 @@ public class TutorialNovo : MonoBehaviour
 
     public void abrirTutorial()
     {
-
         switch (passo)
         {
-            case 0:
-                if (colisao.encaixada && colisao.peca == "Camera")
-                {
-                    tutorialManager();
-                }
+            case 0 when render.activeSelf && !grade.isOn:
+            case 1 when colisao.encaixada && colisao.peca == "Camera":
+            case 2 when colisao.encaixada && colisao.peca == "Objeto":
+            case 3 when colisao.encaixada && colisao.peca == "Iluminacao":
+            case 4 when colisao.encaixada && colisao.peca == "Cubo":
+            case 5 when colisao.encaixada && colisao.peca == "Escala":
+            case 6 when escala.activeSelf && escalarTexto.text == "3":
+            case 7 when Global.listaEncaixes.Count == 0:
+                tutorialManager();
                 break;
-            case 1:
-                if (colisao.encaixada && colisao.peca == "Objeto")
-                {
-                    tutorialManager();
-                }
-                break; 
-            case 2:
-                if (colisao.encaixada && colisao.peca == "Iluminacao")
-                {
-                    tutorialManager();
-                }
-                break;
-            case 3:
-                if (colisao.encaixada && colisao.peca == "Cubo")
-                {
-                    tutorialManager();
-                }
-                break;
-            case 4:
-                if (colisao.encaixada && colisao.peca == "Escala")
-                {
-                    tutorialManager();
-                }
-                break;
-            case 5:
-                if (xEscalar.activeSelf && escalarTexto.text == "3")
-                {
-                    tutorialManager();
-                }
-
-                break;
-            case 6:
-                if (Global.listaEncaixes.Count == 0)
-                {
-                    tutorialManager();
-                }
-                break;
-            case 7:
+            case 8:
                 StartCoroutine(apagarTela(passosTutorial[passo]));
                 StartCoroutine(apagarTela(painelTutorial));
                 passo = 0;

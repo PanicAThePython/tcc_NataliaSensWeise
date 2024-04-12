@@ -4,4 +4,19 @@ Terminei o tutorial! Queria tentar fazer o lance de mudar as props ainda, pro us
 Quero tbm por um "?" em cada painel de prop, pra explicar um pouco mais sobre a peça.
 estou tentando fazer o lance de pegar as props pra checar se o user mudou elas... ainda n achei uma forma
 consegui testar as props, n fiz a ideia de trocar a cor do cubo pq n consegui pegar a cor
-33h
+não consegui fazer aql menuzinho dentro da aba de props... ele fica parcialmente visível, aí tava pensando se n seria mlr por na aba ajuda uma frase explicando sobre cada componente, tipo:
+	- render: componente obrigatório fixo responsável pela renderização. nele, se pode escolher detalhes sobre a visualização da cena, como se é em 2d ou 3d.
+	- câmera: componente obrigatório responsável pela visualização da cena
+	- iluminação: componente obrigatório para que a câmera veja os componentes em cena
+	- objeto gráfico: componente obrigatório base para inserir objetos em cena
+	- cubo: componente em formato de cubo
+	- transladar: componente responsável pela posição do objeto
+	- rotacionar: componente responsável pela rotação do objeto
+	- escalar: componente responsável pelo tamanho do objeto
+	- você pode movimentar o ambiente gráfico com o botão esquerdo do mouse
+
+dei uma limpada no meu código de tutorial
+tenho q fazer mais uma telinha de passo de tutorial
+fiz um novo passo, mas acho q a letra das telas tá mt pequena...
+arrumei as telas
+38h
