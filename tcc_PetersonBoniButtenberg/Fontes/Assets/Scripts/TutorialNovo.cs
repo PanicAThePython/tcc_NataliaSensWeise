@@ -7,60 +7,86 @@ using TMPro;
 public class TutorialNovo : MonoBehaviour
 {
 
-    public bool comecar = false;
-    public int passo = 1;
-    public ChecarColisao colisao;
+    [SerializeField] private int passo = 0;
+    [SerializeField] private ChecarColisao colisao;
     public GameObject painelTutorial;
-    public TMP_Text titulo;
-    public TMP_Text info;
+    public GameObject[] passosTutorial;
 
     private void Update()
     {
         abrirTutorial();
     }
-    public IEnumerator apagarTela()
+    public IEnumerator apagarTela(GameObject tela)
     {
         yield return new WaitForSeconds(3.0f);
-        painelTutorial.SetActive(false);
+        tela.SetActive(false);
     }
+    /*
+    public IEnumerator delay()
+    {
+        yield return new WaitForSeconds(5.0f);
+    }
+    */
 
     public void ativarTela()
     {
         painelTutorial.SetActive(true);
+        passosTutorial[passo].SetActive(true);
     }
+    private void tutorialManager()
+    {
+        //StartCoroutine(delay());
+        passosTutorial[passo].SetActive(false);
+        passo++;
+        passosTutorial[passo].SetActive(true);
+    }
+
     public void abrirTutorial()
     {
-        if (passo == 1 && colisao.encaixada && colisao.peca == "Camera")
-        {
-            passo = 2;
-            titulo.text = "Passo 2";
-            info.text = "Arraste a peça 'Objeto Gráfico' até o encaixe de seta no Renderer.";
-        }
-        else if (passo == 2 && colisao.encaixada && colisao.peca == "Objeto")
-        {
-            passo = 3;
-            titulo.text = "Passo 3";
-            info.text = "Arraste a peça 'Iluminação' até o encaixe de seta no Objeto Gráfico.";
-        }
-        else if (passo == 3 && colisao.encaixada && colisao.peca == "Iluminacao")
-        {
-            passo = 4;
-            titulo.text = "Passo 4";
-            info.text = "Arraste a peça 'Cubo' até o encaixe de quadrado no Objeto Gráfico.";
 
-        }
-        else if (passo == 4 && colisao.encaixada && colisao.peca == "Cubo")
+        switch (passo)
         {
-            passo = 5;
-            titulo.text = "Passo 5";
-            info.text = "Arraste a peça 'Escalar' até o encaixe de losango no Objeto Gráfico.";
-        }
-        else if (passo == 5 && colisao.encaixada && colisao.peca == "Escala")
-        {
-            passo = 6;
-            titulo.text = "Passo 6";
-            info.text = "Clique no 'Escalar' posicionado e mude o valor de x para 3.";
-            print(gameObject);
+            case 0:
+                if (colisao.encaixada && colisao.peca == "Camera")
+                {
+                    tutorialManager();
+                }
+                break;
+            case 1:
+                if (colisao.encaixada && colisao.peca == "Objeto")
+                {
+                    tutorialManager();
+                }
+                break; 
+            case 2:
+                if (colisao.encaixada && colisao.peca == "Iluminacao")
+                {
+                    tutorialManager();
+                }
+                break;
+            case 3:
+                if (colisao.encaixada && colisao.peca == "Cubo")
+                {
+                    tutorialManager();
+                }
+                break;
+            case 4:
+                if (colisao.encaixada && colisao.peca == "Escala")
+                {
+                    tutorialManager();
+                }
+                break;
+            case 5:
+                if (Global.listaEncaixes.Count == 0)
+                {
+                    tutorialManager();
+                }
+                break;
+            case 6:
+                StartCoroutine(apagarTela(passosTutorial[passo]));
+                StartCoroutine(apagarTela(painelTutorial));
+                passo = 0;
+                break;
         }
     }
 }

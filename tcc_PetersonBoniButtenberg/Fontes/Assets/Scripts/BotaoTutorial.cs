@@ -26,7 +26,6 @@ public class BotaoTutorial : MonoBehaviour
         else
             new Tutorial().PulouTutorial();
             Tutorial.passoTutorial = Tutorial.Passo.PulouTutorial;
-            tn.comecar = true;
             tn.abrirTutorial();
         //Tutorial.AnswerMsg = 1;
 
