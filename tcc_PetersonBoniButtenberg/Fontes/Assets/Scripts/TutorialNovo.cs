@@ -11,6 +11,8 @@ public class TutorialNovo : MonoBehaviour
     [SerializeField] private ChecarColisao colisao;
     public GameObject painelTutorial;
     public GameObject[] passosTutorial;
+    public GameObject xEscalar;
+    public TMP_InputField escalarTexto;
 
     private void Update()
     {
@@ -77,12 +79,19 @@ public class TutorialNovo : MonoBehaviour
                 }
                 break;
             case 5:
+                if (xEscalar.activeSelf && escalarTexto.text == "3")
+                {
+                    tutorialManager();
+                }
+
+                break;
+            case 6:
                 if (Global.listaEncaixes.Count == 0)
                 {
                     tutorialManager();
                 }
                 break;
-            case 6:
+            case 7:
                 StartCoroutine(apagarTela(passosTutorial[passo]));
                 StartCoroutine(apagarTela(painelTutorial));
                 passo = 0;

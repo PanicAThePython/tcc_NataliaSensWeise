@@ -8,15 +8,15 @@ using System;
 
 public abstract class PropriedadePecaPadrao : MonoBehaviour {
 
-    protected enum typeTransformacao { Transladar, Rotacionar, Escalar};
+    public enum typeTransformacao { Transladar, Rotacionar, Escalar};
 
-    protected TMP_InputField PosX, TamX;
-    protected TMP_InputField PosY, TamY;
-    protected TMP_InputField PosZ, TamZ;
+    public TMP_InputField PosX, TamX;
+    public TMP_InputField PosY, TamY;
+    public TMP_InputField PosZ, TamZ;
     protected float x, y, z;
     protected bool ativo = true;
-    protected PropriedadePeca prPeca = new PropriedadePeca();
-    protected typeTransformacao tipoTransformacao;
+    public PropriedadePeca prPeca = new PropriedadePeca();
+    public typeTransformacao tipoTransformacao;
     protected string nomePeca;
     private bool dadosIniciais = false;
 

@@ -2,5 +2,6 @@ Na semana do dia 02/04, comecei a passar mal e descobri que estava com dengue, o
 Montei as telinhas, mas achei um erro qnd desativa a grade do renderer. Arrumei o erro do renderer.
 Terminei o tutorial! Queria tentar fazer o lance de mudar as props ainda, pro user aprender outras coisas além de encaixar.
 Quero tbm por um "?" em cada painel de prop, pra explicar um pouco mais sobre a peça.
-
-30h
+estou tentando fazer o lance de pegar as props pra checar se o user mudou elas... ainda n achei uma forma
+consegui testar as props, n fiz a ideia de trocar a cor do cubo pq n consegui pegar a cor
+33h

@@ -25,4 +25,9 @@ public class PropEscalarScript : PropriedadePecaPadrao
             toggleChanged();
         }            
     }
+
+    public string getTamX()
+    {
+        return TamX.text;
+    }
 }
