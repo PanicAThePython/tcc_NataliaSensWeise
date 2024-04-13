@@ -19,4 +19,9 @@ dei uma limpada no meu código de tutorial
 tenho q fazer mais uma telinha de passo de tutorial
 fiz um novo passo, mas acho q a letra das telas tá mt pequena...
 arrumei as telas
-38h
+fiz um "mais infos" na aba ajuda, pq o tutorial n pode ficar maior q já tá, vai ficar chato da
+melhorei a aba de arquivo, mas o input n tá quebrando linha... eu ativo o wrap e qnd começa a execução, desativa sozinho
+40h
+
+
+
