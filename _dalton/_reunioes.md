@@ -188,3 +188,8 @@ Disse que viu o material sobre Jason enviado pelo João e disse que é simples. 
 Vai olhar os textos do Help atual versão Web e separar o que pode aproveitar para o tutorial novo.  
 
 Vai pesquisar aplicativos etc. sobre tutoriais.  
+
+## 2024-04-16 - 17:32
+
+Fez um tutorial apresentando as principais peças.  
+Começou a fazer o JSON.  
