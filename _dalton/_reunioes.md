@@ -7,7 +7,7 @@ Título:
 
 [BCC_TermoCompromisso](../BCC_TermoCompromisso.pdf)  
 
-[Aplicativo Wb](https://dalton-reis.github.io/CG_2024_1/)  
+[Aplicativo Web](https://dalton-reis.github.io/tcc_NataliaSensWeise/)  
 
 ## 2023-07-24 - 11:57
 
