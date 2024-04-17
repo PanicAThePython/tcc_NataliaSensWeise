@@ -1,30 +1,4 @@
-Na semana do dia 02/04, comecei a passar mal e descobri que estava com dengue, o que atrapalhou muito o caminhar do projeto. Troquei a cor do modo noturno pra dar de ler com o texto preto (já que não deu de trocar a cor do texto). No dia 09/04, voltei a me sentir melhor e passei o dia pesquisando como arrumar as propriedades Look At, Near e Far. O Look At parece estar menos errado agora. O Near e o Far sempre funcionaram na tela de visualizador, mas não na tela de ambiente gráfico. Como não é algo tão relevante para funcionamento e questão de nota final, deixei de lado essa parte pra focar em questões mais relevantes ao projeto. Na reunião desse mesmo dia, fiquei de montar o tutorial e deixar de lado as propriedades da câmera. Segui montando já o artigo e dando uma olhada no tutorial. Está sendo bem difícil a montagem do tutorial, pois ao remover o tutorial do Peterson, tudo parou de funcionar. Estou lendo o código para ver onde posso mexer para inserir o meu tutorial sem quebrar a aplicação toda. Achei uma forma de ignorar o tutorial do Peterson, estou agora criando o meu e ajustando o texto do artigo. Consegui montar o tutorial. Agora preciso fazer um retorno visual disso e adicionar mais fases (trocar cor do cubo, trocar valores de escala, ...). Montei um retorno visual, mas n ficou mt bonito, ent estou criando os paineis no paint3d a partir de modelos feitos pelo peterson.
-Montei as telinhas, mas achei um erro qnd desativa a grade do renderer. Arrumei o erro do renderer.
-Terminei o tutorial! Queria tentar fazer o lance de mudar as props ainda, pro user aprender outras coisas além de encaixar.
-Quero tbm por um "?" em cada painel de prop, pra explicar um pouco mais sobre a peça.
-estou tentando fazer o lance de pegar as props pra checar se o user mudou elas... ainda n achei uma forma
-consegui testar as props, n fiz a ideia de trocar a cor do cubo pq n consegui pegar a cor
-não consegui fazer aql menuzinho dentro da aba de props... ele fica parcialmente visível, aí tava pensando se n seria mlr por na aba ajuda uma frase explicando sobre cada componente, tipo:
-	- render: componente obrigatório fixo responsável pela renderização. nele, se pode escolher detalhes sobre a visualização da cena, como se é em 2d ou 3d.
-	- câmera: componente obrigatório responsável pela visualização da cena
-	- iluminação: componente obrigatório para que a câmera veja os componentes em cena
-	- objeto gráfico: componente obrigatório base para inserir objetos em cena
-	- cubo: componente em formato de cubo
-	- transladar: componente responsável pela posição do objeto
-	- rotacionar: componente responsável pela rotação do objeto
-	- escalar: componente responsável pelo tamanho do objeto
-	- você pode movimentar o ambiente gráfico com o botão esquerdo do mouse
+Na semana do dia 02/04, comecei a passar mal e descobri que estava com dengue, o que deixou o projeto parado por uma semana. Troquei a cor do modo noturno pra dar de ler com o texto preto (já que não deu de trocar a cor do texto). No dia 09/04 (dia de reunião com o prof), voltei a me sentir melhor e passei o dia pesquisando como arrumar as propriedades Look At, Near e Far. O Look At parece estar menos errado agora. O Near e o Far sempre funcionaram na tela de visualizador, mas não na tela de ambiente gráfico. Como eu estava perdendo muito tempo com algo muito pequeno, segui a orientação do prof e deixei de lado. Segui montando o artigo e dando uma olhada no tutorial. Estava sendo bem difícil a montagem do tutorial, pois ao remover o tutorial do Peterson, tudo parou de funcionar. Depois de algum tempo, consegui achar uma forma de ignorar o tutorial já existente e inserir o meu. Criei telas no Paint3D com as mensagens de cada etapa e uma dando parabéns. No meio da criação do tutorial, achei um erro no renderer que logo arrumei (tinha uma referência de código perdida ali). Quando terminei o tutorial, segui tentando inserir informações extras no painel de props de cada peça (explicando mais sobre aquele componente). Infelizmente, não foi pra frente, pois tem algo de errado com a ordem das camadas e parte do meu painel de informações é ignorado, e não descobri o porquê. Como solução, coloquei as informações extras na aba de "Ajuda", onde o erro não acontecia. Ao concluir, dei uma "limpada" no código de tutorial, deixei as telas mais bonitas e comecei a dar uma olhada na funcionalidade de importar/exportar arquivo com a cena. Tive a reunião com o prof no dia 16/04. Ele gostou muito do tutorial criado. Falou pra eu seguir com a funcionalidade que eu já estava olhando e disse pra pesquisar como deixar a tela maximizada assim que o projeto é executado (pra não dar problema de resolução com os painéis Unity utilizados no projeto). Atualmente, sigo fazendo essas coisas.
 
-dei uma limpada no meu código de tutorial
-tenho q fazer mais uma telinha de passo de tutorial
-fiz um novo passo, mas acho q a letra das telas tá mt pequena...
-arrumei as telas
-fiz um "mais infos" na aba ajuda, pq o tutorial n pode ficar maior q já tá, vai ficar chato da
-melhorei a aba de arquivo, mas o input n tá quebrando linha... eu ativo o wrap e qnd começa a execução, desativa sozinho
-comecei a analisar mlr o lance de importar/exportar cena
-52h
-
-RODAR LOCAL! N SÓ NO EDITOR
-
-como maximizar a tela do unity qnd executa no web
-
+Horas da quinzena: 52h
+PS: Não fui tão prejudicada nas horas com aquela uma semana parada, pois a dengue coincidiu com a minha demissão. Então, desde que me recuperei, sigo fazendo o TCC ao longo do dia.
