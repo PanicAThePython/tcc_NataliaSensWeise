@@ -412,7 +412,7 @@ public class Controller : MonoBehaviour {
                     prPeca.NomeCuboAmbiente = "CuboAmbiente" + getNumObjeto(Global.listaEncaixes[gameObject.name]);
                     prPeca.NomeCuboVis = "CuboVis" + getNumObjeto(Global.listaEncaixes[gameObject.name]);
                     
-                    Global.propriedadePecas.Add(gameObject.name, prPeca); 
+                    Global.propriedadePecas.Add(gameObject.name, prPeca);
                     
                     Global.lastPressedButton = abrePropriedade.gameObject;
                     Global.gameObjectName = gameObject.name;
@@ -1106,7 +1106,6 @@ public class Controller : MonoBehaviour {
 
         foreach (KeyValuePair<string, float> slot in Global.listaPosicaoSlot)  // Slot / posição no eixo y
         {
-            print("oioi");
             //Verifica se o encaixe existe na lista 
             if (slot.Key.Contains(Global.GetSlot(gameObject.name)))
             {
@@ -1114,13 +1113,12 @@ public class Controller : MonoBehaviour {
                 if (slot.Value + VALOR_APROXIMADO > pecaY && slot.Value - VALOR_APROXIMADO < pecaY 
                     && !Global.listaEncaixes.ContainsValue(slot.Key))
                 {
-                    print("aqui");
-                    print(!Global.listaEncaixes.ContainsKey(gameObject.transform.name));
+                    //print(!Global.listaEncaixes.ContainsKey(gameObject.transform.name));
                     if (!Global.listaEncaixes.ContainsKey(gameObject.transform.name))
                     {
-                        print("entrei");
-                        print(slot.Key);
-                        print(GameObject.Find(slot.Key));
+                       // print("entrei");
+                        //print(slot.Key);
+                        //print(GameObject.Find(slot.Key));
                         // tem q criar o IluminacaoSlot lá na cena, mas qnd tentei criar deu mt errado, dentro do GO_Render
                         // tem q criar uma outra peça só pra iluminar a cena, com outro conector e outro nome pra n bugar o code
                         // será q vale a pena?
@@ -1705,7 +1703,6 @@ public class Controller : MonoBehaviour {
         string numObj = string.Empty;
         string valueOut = string.Empty;
         int val;
-        print("estamos destruindo");
 
         switch (tipoSlotInt)
         {          

@@ -21,7 +21,10 @@ fiz um novo passo, mas acho q a letra das telas tá mt pequena...
 arrumei as telas
 fiz um "mais infos" na aba ajuda, pq o tutorial n pode ficar maior q já tá, vai ficar chato da
 melhorei a aba de arquivo, mas o input n tá quebrando linha... eu ativo o wrap e qnd começa a execução, desativa sozinho
-40h
+comecei a analisar mlr o lance de importar/exportar cena
+52h
 
+RODAR LOCAL! N SÓ NO EDITOR
 
+como maximizar a tela do unity qnd executa no web
 

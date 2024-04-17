@@ -52,12 +52,15 @@ public class Global : MonoBehaviour {
 
         if (go != null && !listaObjetos.Contains(go))
             listaObjetos.Add(go);
+
+        //aqui vou chamar a função q vou criar em Arquivo
+        //vou passar o nome da peça... se for Camera, é a primeira colocada no objeto... se for Objt, vai ter filhos
+        //n irei mudar a mãe de Iluminacao td hr, como acontece em cena, vai ficar na primeira posição e pronto
     }
 
     // se não passar o objt q é pra deletar, remove o último adicionado se a lista n estiver vazia
     public static void removeObject(GameObject go)
     {
-        print("eita");
         if (go != null && listaObjetos.Contains(go))
             listaObjetos.Remove(go);
         else if (go == null && listaObjetos.Count > 0) listaObjetos.RemoveAt(-1);

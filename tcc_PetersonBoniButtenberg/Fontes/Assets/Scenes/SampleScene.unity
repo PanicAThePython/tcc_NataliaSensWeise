@@ -30945,9 +30945,10 @@ GameObject:
   - component: {fileID: 475842928}
   - component: {fileID: 475842927}
   - component: {fileID: 475842930}
+  - component: {fileID: 475842931}
   m_Layer: 5
   m_Name: Rotacionar
-  m_TagString: Untagged
+  m_TagString: Rotacao
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31059,6 +31060,24 @@ MonoBehaviour:
   posicaoColliderDestino: {fileID: 400033470}
   abrePropriedade: {fileID: 923118886}
   objetoModificado: []
+--- !u!114 &475842931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 475842925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec55b4f844745f94093ba052e908a0df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nome: {fileID: 1982795659}
+  ativo: {fileID: 980835209}
+  valores:
+  - {fileID: 987868960}
+  - {fileID: 276886537}
+  - {fileID: 1570136245}
 --- !u!1 &476631355
 GameObject:
   m_ObjectHideFlags: 0
@@ -47100,6 +47119,7 @@ GameObject:
   - component: {fileID: 730235743}
   - component: {fileID: 730235742}
   - component: {fileID: 730235746}
+  - component: {fileID: 730235747}
   m_Layer: 5
   m_Name: Cubo
   m_TagString: Cubo
@@ -47214,6 +47234,30 @@ MonoBehaviour:
   posicaoColliderDestino: {fileID: 1679204756}
   abrePropriedade: {fileID: 1297222399}
   objetoModificado: []
+--- !u!114 &730235747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 730235740}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: beda3290249001844843c66981318711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textura: {fileID: 0}
+  cor: {fileID: 0}
+  ativo: {fileID: 1729546200}
+  nome: {fileID: 316352664}
+  tamanhoCubo:
+  - {fileID: 1103031433}
+  - {fileID: 388374925}
+  - {fileID: 1427201659}
+  posicaoCubo:
+  - {fileID: 1106296877}
+  - {fileID: 64154211}
+  - {fileID: 2087511010}
 --- !u!1 &736059756
 GameObject:
   m_ObjectHideFlags: 0
@@ -47644,6 +47688,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1022239865}
+    - targetCorrespondingSourceObject: {fileID: 1228575950853486, guid: e1ba83a608fa1e84d90fd890e9b95512,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1022239869}
   m_SourcePrefab: {fileID: 100100000, guid: e1ba83a608fa1e84d90fd890e9b95512, type: 3}
 --- !u!1001 &746083688
 PrefabInstance:
@@ -66041,6 +66089,24 @@ MonoBehaviour:
   escalaY: 0
   escalaZ: 0
   obj: {fileID: 220431207}
+--- !u!114 &1022239869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022239859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec55b4f844745f94093ba052e908a0df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nome: {fileID: 349910862}
+  ativo: {fileID: 797998277}
+  valores:
+  - {fileID: 958059410}
+  - {fileID: 1100936648}
+  - {fileID: 1603250007}
 --- !u!1 &1024342879
 GameObject:
   m_ObjectHideFlags: 0
@@ -71928,6 +71994,7 @@ GameObject:
   - component: {fileID: 1114196043}
   - component: {fileID: 1114196042}
   - component: {fileID: 1114196041}
+  - component: {fileID: 1114196045}
   m_Layer: 5
   m_Name: Arquivo
   m_TagString: Untagged
@@ -72028,6 +72095,19 @@ RectTransform:
   m_AnchoredPosition: {x: -412.20404, y: 192.92316}
   m_SizeDelta: {x: 101.13985, y: 138.7151}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1114196045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1114196040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4856193d6875f09499655bcd3fbd3032, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  teste: {fileID: 1335727666}
 --- !u!1 &1114478450
 GameObject:
   m_ObjectHideFlags: 0
@@ -80050,6 +80130,7 @@ GameObject:
   - component: {fileID: 1257808261}
   - component: {fileID: 1257808260}
   - component: {fileID: 1257808263}
+  - component: {fileID: 1257808264}
   m_Layer: 5
   m_Name: Iluminacao
   m_TagString: Iluminacao
@@ -80164,6 +80245,59 @@ MonoBehaviour:
   posicaoColliderDestino: {fileID: 588334092}
   abrePropriedade: {fileID: 1636276442}
   objetoModificado: []
+--- !u!114 &1257808264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257808258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 638eec74f777a5c40a5083b5644f965a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nome: {fileID: 1328828511}
+  tipoLuz: {fileID: 1610262861}
+  posicaoLuz:
+  - {fileID: 1300521164}
+  - {fileID: 354828473}
+  - {fileID: 507211050}
+  cor: {fileID: 0}
+  ativo: {fileID: 371022998}
+  posicaoLuzDirect:
+  - {fileID: 340077626}
+  - {fileID: 70104373}
+  - {fileID: 287969620}
+  corDirect: {fileID: 0}
+  ativoDirect: {fileID: 91166123}
+  intensidade: {fileID: 1869884186}
+  valores:
+  - {fileID: 1493827319}
+  - {fileID: 278417127}
+  - {fileID: 1537011207}
+  posicaoLuzPoint:
+  - {fileID: 1210574229}
+  - {fileID: 1707323734}
+  - {fileID: 179083150}
+  corPoint: {fileID: 0}
+  ativoPoint: {fileID: 192044438}
+  intPoint: {fileID: 1444804793}
+  distancia: {fileID: 1178229511}
+  posicaoLuzSpot:
+  - {fileID: 667735700}
+  - {fileID: 1321067552}
+  - {fileID: 2122821085}
+  corSpot: {fileID: 0}
+  ativoSpot: {fileID: 1635555157}
+  intSpot: {fileID: 1790510345}
+  distSpot: {fileID: 944610761}
+  angulo: {fileID: 1757375061}
+  expoente: {fileID: 1170029172}
+  valSpot:
+  - {fileID: 1496138374}
+  - {fileID: 1581696192}
+  - {fileID: 1648219099}
 --- !u!1 &1258760321
 GameObject:
   m_ObjectHideFlags: 0
@@ -85693,6 +85827,7 @@ GameObject:
   - component: {fileID: 1335727663}
   - component: {fileID: 1335727664}
   - component: {fileID: 1335727665}
+  - component: {fileID: 1335727666}
   m_Layer: 5
   m_Name: CameraP
   m_TagString: Camera
@@ -85846,6 +85981,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9715fcfafc82524397c6c308fbc07fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1335727666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1335727658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10c32521f2264914b81866d115861bb3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nome: {fileID: 1470296141}
+  fov: {fileID: 1207272914}
+  near: {fileID: 383625094}
+  far: {fileID: 1436772727}
+  posicaoCamera:
+  - {fileID: 243850900}
+  - {fileID: 347042435}
+  - {fileID: 1103949886}
+  lookAtCamera:
+  - {fileID: 1791929328}
+  - {fileID: 969075238}
+  - {fileID: 836045334}
 --- !u!1001 &1339068364
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90021,9 +90180,10 @@ GameObject:
   - component: {fileID: 1397182937}
   - component: {fileID: 1397182936}
   - component: {fileID: 1397182939}
+  - component: {fileID: 1397182940}
   m_Layer: 5
   m_Name: Transladar
-  m_TagString: Untagged
+  m_TagString: Translacao
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -90135,6 +90295,24 @@ MonoBehaviour:
   posicaoColliderDestino: {fileID: 400033470}
   abrePropriedade: {fileID: 1606766924}
   objetoModificado: []
+--- !u!114 &1397182940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397182934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec55b4f844745f94093ba052e908a0df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nome: {fileID: 1722452291}
+  ativo: {fileID: 1780926108}
+  valores:
+  - {fileID: 1386597433}
+  - {fileID: 1643870090}
+  - {fileID: 719165345}
 --- !u!1 &1398570762
 GameObject:
   m_ObjectHideFlags: 0
@@ -93768,6 +93946,7 @@ GameObject:
   - component: {fileID: 1450378885}
   - component: {fileID: 1450378884}
   - component: {fileID: 1450378887}
+  - component: {fileID: 1450378888}
   m_Layer: 5
   m_Name: ObjetoGraficoP
   m_TagString: Objeto
@@ -93886,6 +94065,20 @@ MonoBehaviour:
   - {fileID: 400033470}
   - {fileID: 588334092}
   - {fileID: 150896458}
+--- !u!114 &1450378888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1450378882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56b5c1787f769e34bb2eb02af1866b79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nome: {fileID: 903605243}
+  ativo: {fileID: 1308374070}
 --- !u!1 &1452570123
 GameObject:
   m_ObjectHideFlags: 0
@@ -105956,6 +106149,7 @@ GameObject:
   - component: {fileID: 1636276446}
   - component: {fileID: 1636276445}
   - component: {fileID: 1636276444}
+  - component: {fileID: 1636276448}
   m_Layer: 5
   m_Name: PropIluminacao
   m_TagString: Untagged
@@ -106070,6 +106264,41 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1636276442}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1636276448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636276442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 638eec74f777a5c40a5083b5644f965a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nome: {fileID: 1328828511}
+  tipoLuz: {fileID: 1610262861}
+  posicaoLuz: []
+  cor: {fileID: 0}
+  ativo: {fileID: 0}
+  posicaoLuzDirect: []
+  corDirect: {fileID: 0}
+  ativoDirect: {fileID: 0}
+  intensidade: {fileID: 0}
+  valores: []
+  posicaoLuzPoint: []
+  corPoint: {fileID: 0}
+  ativoPoint: {fileID: 0}
+  intPoint: {fileID: 0}
+  distancia: {fileID: 0}
+  posicaoLuzSpot: []
+  corSpot: {fileID: 0}
+  ativoSpot: {fileID: 0}
+  intSpot: {fileID: 0}
+  distSpot: {fileID: 0}
+  angulo: {fileID: 0}
+  expoente: {fileID: 0}
+  valSpot: []
 --- !u!1 &1636894959
 GameObject:
   m_ObjectHideFlags: 0
@@ -115309,7 +115538,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 4
   m_linkedTextComponent: {fileID: 0}
@@ -126259,7 +126488,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1980187253}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1114196045}
+        m_TargetAssemblyTypeName: Arquivo, Assembly-CSharp
+        m_MethodName: Exportar
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1980187253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127498,7 +127739,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -328.92007, y: -96.73999}
+  m_AnchoredPosition: {x: -328.92004, y: -96.73999}
   m_SizeDelta: {x: -1167.52, y: -756.41}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1991055355

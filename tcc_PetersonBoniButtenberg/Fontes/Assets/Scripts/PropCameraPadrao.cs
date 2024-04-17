@@ -131,18 +131,15 @@ public class PropCameraPadrao : MonoBehaviour {
         if (inputSelected == InputSelected.InputLookAtX)
         {
             Global.propCameraGlobal.LookAtX = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
-            print(Global.propCameraGlobal.LookAtX);
         }
         else if (inputSelected == InputSelected.InputLookAtY)
         {
             Global.propCameraGlobal.LookAtY = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
-            print(Global.propCameraGlobal.LookAtY);
 
         }
         else if (inputSelected == InputSelected.InputLookAtZ)
         {
             Global.propCameraGlobal.LookAtZ = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
-            print(Global.propCameraGlobal.LookAtZ);
         }
 
         if (inputSelected == InputSelected.InputFOV)
@@ -155,7 +152,6 @@ public class PropCameraPadrao : MonoBehaviour {
         if (inputSelected == InputSelected.InputFar)
         {
             Global.propCameraGlobal.Far = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
-            print(Global.propCameraGlobal.Far);
             GameObject.Find("CameraVisInferior").GetComponent<Camera>().farClipPlane = Global.propCameraGlobal.Far;
         }
         if (inputSelected == InputSelected.InputNear)
@@ -164,7 +160,6 @@ public class PropCameraPadrao : MonoBehaviour {
 
             GameObject.Find("CameraVisInferior").GetComponent<Camera>().nearClipPlane = Global.propCameraGlobal.Near;
             //GameObject.Find("CameraObjetoMain").transform.GetChild(0).GetComponent<Camera>().nearClipPlane = Global.propCameraGlobal.Near;
-            print(GameObject.Find("CameraVisInferior").GetComponent<Camera>().nearClipPlane);
         }
 
         //Atualiza posição da camera
@@ -189,7 +184,6 @@ public class PropCameraPadrao : MonoBehaviour {
             //  Quaternion.Euler(Global.propCameraGlobal.PropInicial.LookAtX + Global.propCameraGlobal.LookAtX,
             //                 Global.propCameraGlobal.PropInicial.LookAtY + Global.propCameraGlobal.LookAtY,
             //               Global.propCameraGlobal.PropInicial.LookAtZ + Global.propCameraGlobal.LookAtZ);
-            print(new Vector3(Global.propCameraGlobal.LookAtX, Global.propCameraGlobal.LookAtY, Global.propCameraGlobal.LookAtZ));
             goCameraObj.transform.GetChild(0).transform.LookAt(GameObject.Find("CuboAmb").transform, new Vector3( Global.propCameraGlobal.LookAtX, Global.propCameraGlobal.LookAtY, Global.propCameraGlobal.LookAtZ));
         }
             

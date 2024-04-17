@@ -23,6 +23,7 @@ COISAS PRA ARRUMAR:
 * na versão antiga tem como importar foto pra usar de textura, ver se é possível (DEIXAR POR ÚLTIMO) (N DEU)
 	NÃO SEI SE ROLA A PARTE DE IMPORTAR TEXTURA: https://discussions.unity.com/t/write-a-editor-to-select-file-from-disk-and-import-to-unity/85143/2
 * ele não permite gerar herança entre objetos gráficos... (FAZER, SE DER TEMPO!)
+* só permite uma Iluminação na cena toda, e é no OG sendo usado no momento (o último mexido)
 
 ---------------- EXTENÇÃO FUTURA, LIMITAÇÃO ATUAL ----------------
 * deixar colocar o bloco de iluminação na raiz da cena

@@ -11,6 +11,8 @@ TagManager:
   - Escala
   - Cubo
   - Lixeira
+  - Translacao
+  - Rotacao
   layers:
   - Default
   - TransparentFX

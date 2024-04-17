@@ -65,8 +65,6 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
     {        
         gameObject.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = prPeca.Nome;
 
-        print("testando campos");
-
         if (Global.propriedadePecas.ContainsKey(prPeca.Nome))
         {     
             gameObject.transform.GetChild(3).GetComponent<Toggle>().isOn = prPeca.Ativo;
@@ -129,13 +127,8 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
                 prPeca.Tam.Y = float.Parse(validaVazio(TamY.text), CultureInfo.InvariantCulture.NumberFormat);
                 prPeca.Tam.Z = float.Parse(validaVazio(TamZ.text), CultureInfo.InvariantCulture.NumberFormat);
 
-                
-
-                print(TamX.text);
-
                 x = y = z = 1;
 
-                
                 if (prPeca.Ativo)
                 {
                     x = prPeca.Tam.X;
@@ -161,8 +154,6 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
                     labelZ.text = prPeca.Tam.Z.ToString();
                 }
                  */  
-
-                print(PosX.text);
 
                 x = y = z = 0;
 

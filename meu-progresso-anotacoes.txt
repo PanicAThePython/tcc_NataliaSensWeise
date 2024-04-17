@@ -25,6 +25,45 @@ FAZENDO PAINEL DE ARQUIVO:
 -> preciso saber como q seria a estrutura da cena em json... olhar o projeto em threejs
 -> ajeitei o json
 
+	-> MONTANDO MEU CÓDIGO -> https://www.youtube.com/watch?v=C9WFOX6kDoo
+	-> removi props q n existem no GRADE do arq json do visedu em threejs
+	-> antes de começar a programar, importar como puglin o simplejson (joão passou o link no whats) (feito)
+	-> "children" sempre vai ser um array json JSONArray()
+	-> como fazer com props, q tem várias chaves?? vai ser um objeto json dentro de outro JSONObject()
+	-> qual das listas/dicionários em Global é a que contém os nomes das peças? vou conseguir pegar as props tbm? ou vou importar os painéis de props e analisar os valores, assim como fiz no tutorial?
+	-> começar pela exportação, vai ser mais tranquilo pq n vai precisar jogar na tela as peças, só dar um retorno q "foi exportado com sucesso!"
+	-> qnd for importar, só pegar o conteúdo da caixa de texto e transformar ele em JSON, pra conseguir pegar as props e peças e tacar na tela
+	-> "PARECE SIMPLES!"
+	-> n aparece o renderer na cena salva, ele sempre tá lá, ent n precisa
+	-> existe uma lista com todos os objetos em cena
+	-> existe uma lista apenas com nomes de slots
+	-> existe um dicionário q contém apenas os objetos que tiveram suas propriedades alteradas
+	-> essa lista de objetos em cena, adiciona na ordem que EU coloco, não na ordem que aparece em cena (ou seja, n tem como saber quem é filho de quem)
+	-> listaPosicaoObjetosRender NÃO MOSTRA ND, N IMPORTA QUÃO GRANDE SEJA A CENA
+	-> listaEncaixes mostra qual objt da cena está em qual slot
+	-> listLastGOTransformacoesSlot NÃO GUARDA ND
+	-> listaPosicaoObjetosRender NÃO GUARDA ND
+	-> propriedadeIluminacao -> dentro dela, tem o objt iluminação e uma lista com os outros objetos de cena e a iluminação dnv
+	-> lightObjectList NÃO GUARDA ND
+	-> PARA ACESSAR AS PROPS -> DENTRO DO CONTROLER, GO ABREPROPRIEDADE
+		-> tem um controller dentro de cada peça da fábrica
+	-> pensando aqui na gambi q vou ter q fazer (ou n) pra montar essa estrutura em json... (já q parece q n existe a estrutura para uma peça ser mãe de outra)
+		PropriedadePeca prPeca = new PropriedadePeca();
+                    prPeca.Nome = gameObject.name;
+                    prPeca.PodeAtualizar = true;
+                    prPeca.NomeCuboAmbiente = "CuboAmbiente" +...
+                    prPeca.NomeCuboVis = "
+	-> acessar a lista propriedadePecas, acessar as props via func (ler no code o nome delas) e pegar os valores, pronto
+	-> essa func... createGameObjectTree... é uma mentira
+	CRIAR NOVO CODE-> VAI SER ASSIM:
+		
+		-> toda vez q eu adicionar algum bloco, vou no msm instante adicionar ele no meu JSON, fica mais simples (daí rola ter children[])
+		-> sobre as props... ainda tenho q ver mlr
+		-> IDEIA: um code para kd tipo de peça-> se a tag for TAL, aí vai lá e acessa TAIS PROPS
+		-> como acessar as props? dentro de kd code, vou tacar o painel de props e vou pegar elas de lá
+		-> consigo acessar cada uma das props (menos cor e textura, ainda n sei como pegar elas)
+		-> falta criar o lance de children
+
 TUTORIAL:
 - mostrar como cada aba funciona (arquivo, fábrica, props, ajuda)
 - mostrar o render, o ambiente e o visualizador
@@ -36,6 +75,8 @@ TUTORIAL:
 		- a cena de exercícios vai ser a principal só q com a flag de exercícios ativada, e com um botão de "verificar resposta", q daí vai retornar num painel quanto a pessoa acertou
 	- dps q o tutorial acabar, ele redireciona pro "montar minha cena"
 		- dentro do "montar minha cena", dentro da seção q agr está como "ajuda", terá como eu abri novamente o 		menu e ir pros exercícios
+
+->>> NÃO ROLOU REFAZER O MENU, PQ DEU RUIM QND FUI TIRAR O MENU ANTIGO...
 
 ATUALIZAR TEXT-MESH-PRO: JANELA WINDOW -> atualizei e nd mudou
 	- coloquei o modo noturno numa cor q dá pra ler o texto preto
