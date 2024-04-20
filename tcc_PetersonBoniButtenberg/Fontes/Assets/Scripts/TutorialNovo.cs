@@ -20,7 +20,7 @@ public class TutorialNovo : MonoBehaviour
     {
         abrirTutorial();
     }
-    public IEnumerator apagarTela(GameObject tela)
+    public static IEnumerator apagarTela(GameObject tela)
     {
         yield return new WaitForSeconds(3.0f);
         tela.SetActive(false);

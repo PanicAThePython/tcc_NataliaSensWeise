@@ -7,6 +7,7 @@ using System.IO;
 public class Arquivo : MonoBehaviour
 {
     public static JSONObject cena = new JSONObject();
+    public GameObject mensagem;
 
     MeuObjetoGrafico objetoAtual = new MeuObjetoGrafico();
     string nomeObjetoAtual = "";
@@ -177,8 +178,11 @@ public class Arquivo : MonoBehaviour
             }
         }
         if (nomeObjetoAtual.Length > 0) cena.Add(nomeObjetoAtual, objetoAtual.getProps());
-        print(Application.persistentDataPath);
-        string path = Application.persistentDataPath + "/teste.json";
+        //string path = Application.persistentDataPath + "/arquivoGRADE.json";
+        string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop), "arquivoGRADE.json");
         File.WriteAllText(path, cena.ToString());
+        //print(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop));
+        mensagem.SetActive(true);
+        StartCoroutine(TutorialNovo.apagarTela(mensagem));
     }
 }
