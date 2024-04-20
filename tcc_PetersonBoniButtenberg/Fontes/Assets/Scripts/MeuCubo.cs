@@ -5,19 +5,19 @@ using TMPro;
 using SimpleJSON;
 using UnityEngine.UI;
 
-public class MeuCubo : MonoBehaviour
+public class MeuCubo : MeuModelo
 {
     public JSONObject props = new JSONObject();
 
     //NÃO É ASSIM Q SE SALVA COR E TEXTURA! COMO Q É???
-    public Material textura;
-    public Material cor;
+    //public Material textura;
+    //public Material cor;
     public Toggle ativo;
     public TMP_InputField nome;
     public TMP_InputField[] tamanhoCubo;
     public TMP_InputField[] posicaoCubo;
 
-    public void AddPropsCubo()
+    public void addProps()
     {
         props.Add("nome", nome.text);
 
@@ -33,8 +33,13 @@ public class MeuCubo : MonoBehaviour
         posicao.Add("z", posicaoCubo[2].text);
         props.Add("posicao", posicao);
 
-        props.Add("cor", cor.color.ToString());
-        props.Add("textura", textura.color.ToString());
+        //props.Add("cor", cor.color.ToString());
+        //props.Add("textura", textura.color.ToString());
         props.Add("ativo", ativo.enabled);
+    }
+
+    public JSONObject getProps()
+    {
+        return props;
     }
 }

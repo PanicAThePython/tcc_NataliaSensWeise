@@ -63,7 +63,16 @@ FAZENDO PAINEL DE ARQUIVO:
 		-> como acessar as props? dentro de kd code, vou tacar o painel de props e vou pegar elas de lá
 		-> consigo acessar cada uma das props (menos cor e textura, ainda n sei como pegar elas)
 		-> falta criar o lance de children
+			-> VERIFICAR Y DAS PEÇAS... SE A PEÇA ESTIVER ENTRE UM OBJGRAF E OUTRO, ENT ELA É FILHA DO PRIMEIRO
+			-> infelizmente, os objetos não são filhos NEM EM CENA, ent fica difícil de montar uma estrutura
+			-> nem com a colisão rola, pq se eu remover a peça, continua na lista de children
 
+			x de ObGrf -> 697; y-> 631
+				cubo 628
+				escalar 625
+			x camera -> 696
+
+			
 TUTORIAL:
 - mostrar como cada aba funciona (arquivo, fábrica, props, ajuda)
 - mostrar o render, o ambiente e o visualizador

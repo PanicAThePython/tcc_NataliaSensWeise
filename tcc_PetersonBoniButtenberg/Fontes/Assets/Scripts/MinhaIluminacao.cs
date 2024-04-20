@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using SimpleJSON;
 using UnityEngine.UI;
-public class MinhaIluminacao : MonoBehaviour
+public class MinhaIluminacao : MeuModelo
 {
     public JSONObject props = new JSONObject();
 
@@ -44,8 +44,11 @@ public class MinhaIluminacao : MonoBehaviour
 
     //é assim q pega o tipo da luz
     //tipoLuz.options[tipoLuz.value].text;
-
-    public void addPropsIluminacao()
+    public JSONObject getProps()
+    {
+        return props;
+    }
+    public void addProps()
     {
         props.Add("nome", nome.text);
         string tipo = tipoLuz.options[tipoLuz.value].text;
@@ -57,7 +60,7 @@ public class MinhaIluminacao : MonoBehaviour
                 posicao.Add("y", posicaoLuz[1].text);
                 posicao.Add("z", posicaoLuz[2].text);
                 props.Add("posicao", posicao);
-                props.Add("cor", cor.color.ToString());
+                //props.Add("cor", cor.color.ToString());
                 props.Add("ativo", ativo.enabled);
                 break;
             case "Directional":
@@ -66,7 +69,7 @@ public class MinhaIluminacao : MonoBehaviour
                 posicao2.Add("y", posicaoLuzDirect[1].text);
                 posicao2.Add("z", posicaoLuzDirect[2].text);
                 props.Add("posicao", posicao2);
-                props.Add("cor", corDirect.color.ToString());
+                //props.Add("cor", corDirect.color.ToString());
                 props.Add("ativo", ativoDirect.enabled);
                 props.Add("intensidade", intensidade.text);
                 JSONArray vals = new JSONArray();
@@ -81,7 +84,7 @@ public class MinhaIluminacao : MonoBehaviour
                 posicao3.Add("y", posicaoLuzPoint[1].text);
                 posicao3.Add("z", posicaoLuzPoint[2].text);
                 props.Add("posicao", posicao3);
-                props.Add("cor", corDirect.color.ToString());
+                //props.Add("cor", corDirect.color.ToString());
                 props.Add("ativo", ativoDirect.enabled);
                 props.Add("intensidade", intPoint.text);
                 props.Add("distancia", distancia.text);
@@ -92,7 +95,7 @@ public class MinhaIluminacao : MonoBehaviour
                 posicao4.Add("y", posicaoLuzSpot[1].text);
                 posicao4.Add("z", posicaoLuzSpot[2].text);
                 props.Add("posicao", posicao4);
-                props.Add("cor", corDirect.color.ToString());
+                //props.Add("cor", corDirect.color.ToString());
                 props.Add("ativo", ativoDirect.enabled);
                 props.Add("intensidade", intSpot.text);
                 props.Add("distancia", distSpot.text);

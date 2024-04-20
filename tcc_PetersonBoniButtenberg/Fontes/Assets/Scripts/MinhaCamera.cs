@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using SimpleJSON;
 
-public class MinhaCamera : MonoBehaviour
+public class MinhaCamera : MeuModelo
 {
     public JSONObject props = new JSONObject();
 
@@ -14,8 +14,11 @@ public class MinhaCamera : MonoBehaviour
     public TMP_InputField far;
     public TMP_InputField[] posicaoCamera;
     public TMP_InputField[] lookAtCamera;
-
-    public void addPropsCamera()
+    public JSONObject getProps()
+    {
+        return props;
+    }
+    public void addProps()
     {
         props.Add("nome", nome.text);
 

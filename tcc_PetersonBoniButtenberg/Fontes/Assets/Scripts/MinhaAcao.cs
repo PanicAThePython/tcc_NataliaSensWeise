@@ -5,7 +5,7 @@ using TMPro;
 using SimpleJSON;
 using UnityEngine.UI;
 
-public class MinhaAcao : MonoBehaviour
+public class MinhaAcao : MeuModelo
 {
     public JSONObject props = new JSONObject();
 
@@ -13,7 +13,7 @@ public class MinhaAcao : MonoBehaviour
     public Toggle ativo;
     public TMP_InputField[] valores;
 
-    public void addPropsAcao()
+    public void addProps()
     {
         props.Add("nome", nome.text);
         props.Add("ativo", ativo.enabled);
@@ -23,5 +23,10 @@ public class MinhaAcao : MonoBehaviour
         vals.Add("y", valores[1].text);
         vals.Add("z", valores[2].text);
         props.Add("valores", vals);
+    }
+
+    public JSONObject getProps()
+    {
+        return props;
     }
 }
