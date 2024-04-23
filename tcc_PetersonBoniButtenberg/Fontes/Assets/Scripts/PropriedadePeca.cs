@@ -41,8 +41,8 @@ public class PropriedadePeca {
     private string nomeCuboVis;
     private PropriedadePeca forma;
     private bool jaInstanciou;
-    private Color cor;
-    private Texture textura;    
+    private Color cor = Color.white;
+    private Texture textura;   
 
     //Iluminação
     private int tipoLuz;

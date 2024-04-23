@@ -23,6 +23,12 @@ public class MinhaAcao : MeuModelo
         vals.Add("y", valores[1].text);
         vals.Add("z", valores[2].text);
         props.Add("valores", vals);
+
+        JSONArray posPeca = new JSONArray();
+        posPeca.Add("x", this.transform.position.x);
+        posPeca.Add("y", this.transform.position.y);
+        posPeca.Add("z", this.transform.position.z);
+        props.Add("posPeca", posPeca);
     }
 
     public JSONObject getProps()

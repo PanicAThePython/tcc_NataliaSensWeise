@@ -37,5 +37,11 @@ public class MinhaCamera : MeuModelo
         props.Add("fov", fov.text);
         props.Add("near", near.text);
         props.Add("far", far.text);
+
+        JSONArray posPeca = new JSONArray();
+        posPeca.Add("x", this.transform.position.x);
+        posPeca.Add("y", this.transform.position.y);
+        posPeca.Add("z", this.transform.position.z);
+        props.Add("posPeca", posPeca);
     }
 }

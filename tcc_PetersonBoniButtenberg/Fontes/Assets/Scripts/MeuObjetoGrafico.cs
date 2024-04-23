@@ -18,6 +18,11 @@ public class MeuObjetoGrafico : MeuModelo
         children.Add(filho);
     }
 
+    public void setChildren(JSONArray c)
+    {
+        children = c;
+    }
+
     public void addProps(string n)
     {
         if (nome.text.Length == 0) props.Add("nome", n);
@@ -25,6 +30,12 @@ public class MeuObjetoGrafico : MeuModelo
 
         props.Add("ativo", ativo.enabled);
         props.Add("children", children);
+
+        JSONArray posPeca = new JSONArray();
+        posPeca.Add("x", this.transform.position.x);
+        posPeca.Add("y", this.transform.position.y);
+        posPeca.Add("z", this.transform.position.z);
+        props.Add("posPeca", posPeca);
     }
     public JSONObject getProps()
     {

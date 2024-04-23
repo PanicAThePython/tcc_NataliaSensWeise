@@ -9,9 +9,6 @@ public class MeuCubo : MeuModelo
 {
     public JSONObject props = new JSONObject();
 
-    //NÃO É ASSIM Q SE SALVA COR E TEXTURA! COMO Q É???
-    //public Material textura;
-    //public Material cor;
     public Toggle ativo;
     public TMP_InputField nome;
     public TMP_InputField[] tamanhoCubo;
@@ -33,9 +30,20 @@ public class MeuCubo : MeuModelo
         posicao.Add("z", posicaoCubo[2].text);
         props.Add("posicao", posicao);
 
-        //props.Add("cor", cor.color.ToString());
-        //props.Add("textura", textura.color.ToString());
+        if (Global.propriedadePecas.ContainsKey(nome.text))
+        {
+            props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
+            //problema com a textura... n consegui definir uma pra ser padrão...
+            if (Global.propriedadePecas[nome.text].Cor.ToString() == "RGBA(1.000, 1.000, 1.000, 1.000)") props.Add("textura", Global.propriedadePecas[nome.text].Textura.ToString());
+        }
+
         props.Add("ativo", ativo.enabled);
+
+        JSONArray posPeca = new JSONArray();
+        posPeca.Add("x", this.transform.position.x);
+        posPeca.Add("y", this.transform.position.y);
+        posPeca.Add("z", this.transform.position.z);
+        props.Add("posPeca", posPeca);
     }
 
     public JSONObject getProps()
