@@ -13,6 +13,15 @@ public class MeuCubo : MeuModelo
     public TMP_InputField nome;
     public TMP_InputField[] tamanhoCubo;
     public TMP_InputField[] posicaoCubo;
+    public Material texturaPadrao;
+
+    private void Start()
+    {
+        if (Global.propriedadePecas.ContainsKey(nome.text))
+        {
+            Global.propriedadePecas[nome.text].Textura = texturaPadrao.GetTexture("TexturaNenhuma");
+        }
+    }
 
     public void addProps()
     {
@@ -33,8 +42,7 @@ public class MeuCubo : MeuModelo
         if (Global.propriedadePecas.ContainsKey(nome.text))
         {
             props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
-            //problema com a textura... n consegui definir uma pra ser padrão...
-            if (Global.propriedadePecas[nome.text].Cor.ToString() == "RGBA(1.000, 1.000, 1.000, 1.000)") props.Add("textura", Global.propriedadePecas[nome.text].Textura.ToString());
+            if (Global.propriedadePecas[nome.text].Textura != null) props.Add("textura", Global.propriedadePecas[nome.text].Textura.ToString());
         }
 
         props.Add("ativo", ativo.enabled);

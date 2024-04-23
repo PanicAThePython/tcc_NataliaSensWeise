@@ -60,7 +60,7 @@ public class MinhaIluminacao : MeuModelo
                 posicao.Add("y", posicaoLuz[1].text);
                 posicao.Add("z", posicaoLuz[2].text);
                 props.Add("posicao", posicao);
-                //props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
+                props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
                 props.Add("ativo", ativo.enabled);
                 break;
             case "Directional":
@@ -69,7 +69,7 @@ public class MinhaIluminacao : MeuModelo
                 posicao2.Add("y", posicaoLuzDirect[1].text);
                 posicao2.Add("z", posicaoLuzDirect[2].text);
                 props.Add("posicao", posicao2);
-                //props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
+                props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
                 props.Add("ativo", ativoDirect.enabled);
                 props.Add("intensidade", intensidade.text);
                 JSONArray vals = new JSONArray();
@@ -84,7 +84,7 @@ public class MinhaIluminacao : MeuModelo
                 posicao3.Add("y", posicaoLuzPoint[1].text);
                 posicao3.Add("z", posicaoLuzPoint[2].text);
                 props.Add("posicao", posicao3);
-                //props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
+                props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
                 props.Add("ativo", ativoDirect.enabled);
                 props.Add("intensidade", intPoint.text);
                 props.Add("distancia", distancia.text);
@@ -95,7 +95,7 @@ public class MinhaIluminacao : MeuModelo
                 posicao4.Add("y", posicaoLuzSpot[1].text);
                 posicao4.Add("z", posicaoLuzSpot[2].text);
                 props.Add("posicao", posicao4);
-                //props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
+                props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
                 props.Add("ativo", ativoDirect.enabled);
                 props.Add("intensidade", intSpot.text);
                 props.Add("distancia", distSpot.text);

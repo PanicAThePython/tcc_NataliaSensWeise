@@ -741,7 +741,6 @@ public class Controller : MonoBehaviour {
         else
         {
             bool podeDestruir = screenPoint.y > cam.pixelRect.height / 2;
-            print(podeDestruir);
 
             if (podeDestruir && !Global.listaEncaixes.ContainsKey(gameObject.name))
             {

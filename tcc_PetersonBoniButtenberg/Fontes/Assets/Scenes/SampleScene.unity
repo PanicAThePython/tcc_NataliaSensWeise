@@ -47271,6 +47271,7 @@ MonoBehaviour:
   - {fileID: 1106296877}
   - {fileID: 64154211}
   - {fileID: 2087511010}
+  texturaPadrao: {fileID: 2100000, guid: 6cd52d38ae610a240996035e578b0432, type: 2}
 --- !u!1 &736059756
 GameObject:
   m_ObjectHideFlags: 0
