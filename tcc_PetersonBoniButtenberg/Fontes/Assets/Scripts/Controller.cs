@@ -479,6 +479,8 @@ public class Controller : MonoBehaviour {
 
             ajustaPecaAoSlot(ref incX, ref incY);
 
+            //aqui gera os slots de ações
+
             if (podeGerarCopia || Tutorial.estaExecutandoTutorial)
             {
                 if ((Tutorial.estaExecutandoTutorial && Tutorial.passoTutorial == Tutorial.Passo.QuintoPasso) || (!Tutorial.estaExecutandoTutorial && (gameObject.name.Contains("Transladar") || gameObject.name.Contains("Rotacionar") || gameObject.name.Contains("Escalar"))))
@@ -777,7 +779,7 @@ public class Controller : MonoBehaviour {
             
     }
 
-    private void ajustaPecaAoSlot(ref float incX, ref float incY)
+    public void ajustaPecaAoSlot(ref float incX, ref float incY)
     {
         switch (getNomeObjeto(gameObject.name))
         {
@@ -812,7 +814,7 @@ public class Controller : MonoBehaviour {
         }
     }
 
-    private void SetActiveObjects()
+    public void SetActiveObjects()
     {
         for (int i = 0; i < objetoModificado.Length; i++)
         {
@@ -1011,7 +1013,7 @@ public class Controller : MonoBehaviour {
 
     }
 
-    private void createGameObjectTree(int numObj)
+    public void createGameObjectTree(int numObj)
     {
         // Cria novo 'CuboVisObjectMain'
         string numObjGraf = Convert.ToString(numObj);
@@ -1033,7 +1035,7 @@ public class Controller : MonoBehaviour {
         newGoPos.transform.GetChild(0).GetChild(0).name += numObjGraf; // CuboAmbiente
     }
 
-    private void setActiveAndRenameGameObject(GameObject goActive, GameObject goRename)
+    public void setActiveAndRenameGameObject(GameObject goActive, GameObject goRename)
     {     
         for (int i = 0; i < goActive.transform.childCount; i++)
         {
@@ -1077,7 +1079,7 @@ public class Controller : MonoBehaviour {
         return null;
     }
 
-    private void adicionaObjetoRender()
+    public void adicionaObjetoRender()
     {
         if (DropPeca.parentName != "Render")
         {
@@ -1271,9 +1273,34 @@ public class Controller : MonoBehaviour {
 
         cloneFab = Instantiate(gameObject, gameObject.transform.position, gameObject.transform.rotation, gameObject.transform.parent);
         cloneFab.name = objName + concatNum;
-        cloneFab.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);        
-    }  
-    
+        cloneFab.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
+    }
+
+    public GameObject GeraCopiaPeca(float x = 0, float y = 0, float z = 0)
+    {
+        objName = getNomeObjeto(gameObject.name);
+        int ObjectValue = 1;
+
+        if (Global.listObjectCount.ContainsKey(objName))
+        {
+            ObjectValue = ++Global.listObjectCount[objName];
+            Global.listObjectCount.Remove(objName);
+            Global.listObjectCount.Add(objName, ObjectValue);
+        }
+        else
+            Global.listObjectCount.Add(objName, ObjectValue);
+
+        string concatNum = "1";
+
+        concatNum = ObjectValue == 1 ? concatNum : Convert.ToString(ObjectValue);
+
+        cloneFab = Instantiate(gameObject, gameObject.transform.position, gameObject.transform.rotation, gameObject.transform.parent);
+        cloneFab.name = objName + concatNum;
+        if (x == 0 && y == 0 && z == 0) cloneFab.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
+        else cloneFab.transform.position = new Vector3(x, y, z);
+        return cloneFab;
+    }
+
     public void processaExclusao()
     {     
         string slotOrigem = Global.listaEncaixes[gameObject.name];
@@ -1751,7 +1778,7 @@ public class Controller : MonoBehaviour {
 
     }
 
-    private string getSohLetras(string texto)
+    public string getSohLetras(string texto)
     {
         string textReturn = String.Empty;
 
