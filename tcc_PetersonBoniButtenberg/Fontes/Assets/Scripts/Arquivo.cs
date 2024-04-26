@@ -284,7 +284,8 @@ public class Arquivo : MonoBehaviour
                 //tem q acessar o prefab do objeto q qr gerar uma c�pia, acessar o controller e pegar a func de copiar
                 //FUNCIONOU
                 //FALTA O RETORNO VISUAL NO AMBIENTE GR�FICO E VISUALIZADOR(PROVAVELMENTE)!!
-                GameObject copia = pecasPrefabs[0].GetComponent<Controller>().GeraCopiaPeca();
+                var controller = pecasPrefabs[0].GetComponent<Controller>();
+                GameObject copia = controller.GeraCopiaPeca();
                 //pegar nome prefab + numero e mudar posicao
                 pecasPrefabs[0].transform.position = new Vector3(x, y, z);
                 Global.addObject(GameObject.Find(pecasPrefabs[0].name));
@@ -321,7 +322,8 @@ public class Arquivo : MonoBehaviour
                 //PROS FILHOS:
                 //função separada de foreach numa lista children
                 //acessar o children dentro do value, e qnd tiver algo, chamar a func e acessar e criar os objts filho
-                GameObject copia = pecasPrefabs[1].GetComponent<Controller>().GeraCopiaPeca();
+                var controller = pecasPrefabs[1].GetComponent<Controller>();
+                GameObject copia = controller.GeraCopiaPeca();
                 //GameObject objeto = GameObject.Find(pecasPrefabs[1].name);
                 //else objeto = GameObject.Find("ObjetoGraficoP" + countObjt);
                 
@@ -363,6 +365,7 @@ public class Arquivo : MonoBehaviour
                             Global.listaEncaixes.Add(GameObject.Find(pecasPrefabs[1].name).name, slot.Key);
                     }
                 }
+                print(value["children"]);
                 //pecasPrefabs[1] = GameObject.Find("ObjetoGraficoP"+countObjt);
                 //PARA ARRUMAR: ADICIONAR FILHOS
             }
