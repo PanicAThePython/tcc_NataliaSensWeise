@@ -15,14 +15,14 @@ public class Arquivo : MonoBehaviour
     MeuObjetoGrafico objetoAtual = new MeuObjetoGrafico();
     string nomeObjetoAtual = "";
 
-    List<GameObject> ordenarCena()
+    List<GameObject> ordenarCena(List<GameObject> lista)
     {
-		for (int j = Global.listaObjetos.Count - 1; j > 0; j--)
+		for (int j = lista.Count - 1; j > 0; j--)
 		{
 			for (int i = 0; i < j; i++)
 			{
-				if (Global.listaObjetos[i].transform.position.y < Global.listaObjetos[i + 1].transform.position.y)
-				    trocarPosicao(Global.listaObjetos, i, i + 1);
+				if (lista[i].transform.position.y < lista[i + 1].transform.position.y)
+				    trocarPosicao(lista, i, i + 1);
             }
 		}
 		return Global.listaObjetos;
@@ -78,6 +78,12 @@ public class Arquivo : MonoBehaviour
             props.Add("posicao", posicao);
 
             props.Add("ativo", true);
+
+            JSONArray posPeca = new JSONArray();
+            posPeca.Add("x", this.transform.position.x);
+            posPeca.Add("y", this.transform.position.y);
+            posPeca.Add("z", this.transform.position.z);
+            props.Add("posPeca", posPeca);
             propsLuz = props;
         }
         JSONObject filho = new JSONObject();
@@ -108,6 +114,12 @@ public class Arquivo : MonoBehaviour
             props.Add("posicao", posicao);
 
             props.Add("ativo", true);
+
+            JSONArray posPeca = new JSONArray();
+            posPeca.Add("x", this.transform.position.x);
+            posPeca.Add("y", this.transform.position.y);
+            posPeca.Add("z", this.transform.position.z);
+            props.Add("posPeca", posPeca);
             propsCubo = props;
         }
         JSONObject filho = new JSONObject();
@@ -132,6 +144,11 @@ public class Arquivo : MonoBehaviour
             posicao.Add("z", "1");
             props.Add("valores", posicao);
 
+            JSONArray posPeca = new JSONArray();
+            posPeca.Add("x", this.transform.position.x);
+            posPeca.Add("y", this.transform.position.y);
+            posPeca.Add("z", this.transform.position.z);
+            props.Add("posPeca", posPeca);
             propsAcao = props;
         }
         JSONObject filho = new JSONObject();
@@ -157,6 +174,11 @@ public class Arquivo : MonoBehaviour
             posicao.Add("z", "0");
             props.Add("valores", posicao);
 
+            JSONArray posPeca = new JSONArray();
+            posPeca.Add("x", this.transform.position.x);
+            posPeca.Add("y", this.transform.position.y);
+            posPeca.Add("z", this.transform.position.z);
+            props.Add("posPeca", posPeca);
             propsAcao = props;
         }
         JSONObject filho = new JSONObject();
@@ -172,26 +194,26 @@ public class Arquivo : MonoBehaviour
     //faltou exportar a textura!!!!!!!!!
     public void Exportar()
     {
-        ordenarCena();
-        for (int l = 0; l < Global.listaObjetos.Count; l++)
+        List<GameObject> ordenada = ordenarCena(Global.listaObjetos);
+        for (int l = 0; l < ordenada.Count; l++)
         {
-            if (Global.listaObjetos[l].name.Contains("Camera"))
+            if (ordenada[l].name.Contains("Camera"))
             {
                 adicionarCameraNoJSON(l);
             }
-            else if (Global.listaObjetos[l].name.Contains("Objeto"))
+            else if (ordenada[l].name.Contains("Objeto"))
             {
                 adicionarObjetoGraficoNoJSON(l);
             }
-            else if (Global.listaObjetos[l].name.Contains("Iluminacao"))
+            else if (ordenada[l].name.Contains("Iluminacao"))
             {
                 adicionarIluminacaoNoJSON(l);
             }
-            else if (Global.listaObjetos[l].name.Contains("Cubo"))
+            else if (ordenada[l].name.Contains("Cubo"))
             {
                 adicionarCuboNoJSON(l);
             }
-            else if (Global.listaObjetos[l].name.Contains("Escala"))
+            else if (ordenada[l].name.Contains("Escala"))
             {
                 adicionarEscalaNoJSON(l);
             }
@@ -234,6 +256,62 @@ public class Arquivo : MonoBehaviour
         }
     }
 
+    void adicionarCriancas(JSONArray children)
+    {
+        foreach (KeyValuePair<string, JSONNode> son in children)
+        {
+            foreach (KeyValuePair<string, JSONNode> props in son.Value)
+            {
+                var key = props.Key;
+                var value = props.Value;
+                float x = value["posPeca"][0];
+                float y = value["posPeca"][1];
+                float z = value["posPeca"][2];
+
+                if (key.Contains("Cubo"))
+                {
+                    var controller = pecasPrefabs[2].GetComponent<Controller>();
+                    controller.GeraCopiaPeca();
+                    //pegar nome prefab + numero e mudar posicao
+                    pecasPrefabs[2].transform.position = new Vector3(x, y, z);
+                    GameObject.Find(pecasPrefabs[2].name).GetComponent<BoxCollider>().enabled = true;
+                    Global.addObject(GameObject.Find(pecasPrefabs[2].name));
+
+                    Global.atualizaListaSlot();
+                    //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
+                    foreach (KeyValuePair<string, float> slot in Global.listaPosicaoSlot)  // Slot / posição no eixo y
+                    {
+                        if (slot.Key.Contains(Global.GetSlot(GameObject.Find(pecasPrefabs[2].name).name)) && !Global.listaEncaixes.ContainsKey(GameObject.Find(pecasPrefabs[2].name).name))
+                        {
+                            if (GameObject.Find(slot.Key) != null)
+                                Global.listaEncaixes.Add(GameObject.Find(pecasPrefabs[2].name).name, slot.Key);
+                        }
+                    }
+                }
+                if (key.Contains("Ilumi"))
+                {
+                    var controller = pecasPrefabs[6].GetComponent<Controller>();
+                    controller.GeraCopiaPeca();
+                    //pegar nome prefab + numero e mudar posicao
+                    pecasPrefabs[6].transform.position = new Vector3(x, y, z); //TÁ COM PROBLEMAS NO Y!!!!!!!!!
+                    GameObject.Find(pecasPrefabs[6].name).GetComponent<BoxCollider>().enabled = true;
+                    Global.addObject(GameObject.Find(pecasPrefabs[6].name));
+
+                    Global.atualizaListaSlot();
+                    //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
+                    foreach (KeyValuePair<string, float> slot in Global.listaPosicaoSlot)  // Slot / posição no eixo y
+                    {
+                        if (slot.Key.Contains(Global.GetSlot(GameObject.Find(pecasPrefabs[6].name).name)) && !Global.listaEncaixes.ContainsKey(GameObject.Find(pecasPrefabs[6].name).name))
+                        {
+                            if (GameObject.Find(slot.Key) != null)
+                                Global.listaEncaixes.Add(GameObject.Find(pecasPrefabs[6].name).name, slot.Key);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public void Importar()
     {
         //TEM Q CHECAR SE A LISTA TA VAZIA, SENÃO DÁ ERRO!!!
@@ -264,7 +342,7 @@ public class Arquivo : MonoBehaviour
             //isso acontece pq, msm dps de deletar o objeto, a aba de props deixa as props do bonito lá
 
             //QUANDO ROLA A TELA, ESSES FICAM NAS POSI��ES!!!!!!!!!!!!!!!!!!!!
-            if (key == "CameraP") 
+            if (key.Contains("CameraP")) 
             {
                 //ele s� encaixa a pe�a, mas as funcs n v�o
                 //deu certo a ideia, mas parece q h� um problema com a prefab... ele t� vindo esticado e pequeno
@@ -367,7 +445,7 @@ public class Arquivo : MonoBehaviour
                             Global.listaEncaixes.Add(GameObject.Find(pecasPrefabs[1].name).name, slot.Key);
                     }
                 }
-                print(value["children"]);
+                if (value["children"].Count > 0) adicionarCriancas((JSONArray) value["children"]);
                 //pecasPrefabs[1] = GameObject.Find("ObjetoGraficoP"+countObjt);
                 //PARA ARRUMAR: ADICIONAR FILHOS
             }
