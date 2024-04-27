@@ -5,6 +5,8 @@ using SimpleJSON;
 using System.IO;
 using TMPro;
 using System;
+using UnityEngine.UI;
+
 public class Arquivo : MonoBehaviour
 {
     public static JSONObject cena = new JSONObject();
@@ -256,7 +258,134 @@ public class Arquivo : MonoBehaviour
         }
     }
 
-    void adicionarCriancas(JSONArray children)
+    void setPropsCamera(Controller controller, JSONNode values)
+    {
+        controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
+
+        controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
+        controller.abrePropriedade.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
+        controller.abrePropriedade.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
+
+        controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(1).GetComponent<TMP_InputField>().text = values["lookAt"][0];
+        controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(1).GetComponent<TMP_InputField>().text = values["lookAt"][1];
+        controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(1).GetComponent<TMP_InputField>().text = values["lookAt"][2];
+
+        controller.abrePropriedade.transform.GetChild(3).GetChild(1).GetComponent<TMP_InputField>().text = values["fov"];
+        controller.abrePropriedade.transform.GetChild(4).GetChild(1).GetComponent<TMP_InputField>().text = values["near"];
+        controller.abrePropriedade.transform.GetChild(5).GetChild(1).GetComponent<TMP_InputField>().text = values["far"];
+    }
+
+    void setPropsObjetoGrafico(Controller controller, JSONNode values)
+    {
+        controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
+        controller.abrePropriedade.transform.GetChild(2).GetComponent<Toggle>().enabled = values["ativo"];
+    }
+
+    void setPropsCubo(Controller controller, JSONNode values)
+    {
+        controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
+
+        controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["tamanho"][0];
+        controller.abrePropriedade.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["tamanho"][1];
+        controller.abrePropriedade.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["tamanho"][2];
+
+        controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
+        controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
+        controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
+        
+        //como importar cor e textura???
+
+        controller.abrePropriedade.transform.GetChild(6).GetComponent<Toggle>().enabled = values["ativo"];
+    }
+
+    void setPropsAcoes(Controller controller, JSONNode values)
+    {
+        controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
+
+        controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][0];
+        controller.abrePropriedade.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][1];
+        controller.abrePropriedade.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][2];
+
+        controller.abrePropriedade.transform.GetChild(3).GetComponent<Toggle>().enabled = values["ativo"];
+    }
+
+    void setPropsIluminacao(Controller controller, JSONNode values)
+    {
+        controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
+       // controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetComponent<Dropdown>().value = values["tipoLuz"];
+
+        var tipoLuz = values["tipoLuz"];
+        switch (tipoLuz.ToString())
+        {
+            case "Ambiente": //2000x0
+                controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
+                
+                //como importar cor?????
+
+                controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(4).GetComponent<Toggle>().enabled = values["ativo"];
+                break;
+
+            case "Directional": //2100x0
+                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
+                //como importar cor?????
+                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(4).GetComponent<Toggle>().enabled = values["ativo"];
+
+                //direcional
+                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["intensidade"];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][0];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(1).GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][1];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(1).GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][2];
+                break;
+
+            case "Point": //2200x0
+                controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
+                //como importar cor?????
+                controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(4).GetComponent<Toggle>().enabled = values["ativo"];
+
+                //point
+                controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["intensidade"];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["distancia"];
+                break;
+            case "Spot":
+                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
+                //como importar cor?????
+                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(4).GetComponent<Toggle>().enabled = values["ativo"];
+
+                //spot
+                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["intensidade"];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["distancia"];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["angulo"];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(3).GetChild(0).GetComponent<TMP_InputField>().text = values["expoente"];
+
+                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][0];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(4).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][1];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(4).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][2];
+                break;
+        }
+
+    }
+
+    void adicionarEncaixe(GameObject peca)
+    {
+        foreach (KeyValuePair<string, float> slot in Global.listaPosicaoSlot)  // Slot / posição no eixo y
+        {
+            if (slot.Key.Contains(Global.GetSlot(GameObject.Find(peca.name).name)) && !Global.listaEncaixes.ContainsKey(GameObject.Find(peca.name).name))
+            {
+                if (GameObject.Find(slot.Key) != null)
+                    Global.listaEncaixes.Add(GameObject.Find(peca.name).name, slot.Key);
+            }
+        }
+    }
+
+    int[] adicionarCriancas(JSONArray children, int countObjt, int countCubo, int countTrans, int countRot, int countEsc, int countLuz)
     {
         foreach (KeyValuePair<string, JSONNode> son in children)
         {
@@ -270,53 +399,254 @@ public class Arquivo : MonoBehaviour
 
                 if (key.Contains("Cubo"))
                 {
-                    var controller = pecasPrefabs[2].GetComponent<Controller>();
+                    var nome = "Cubo";
+                    if (countCubo > 0) nome += countCubo;
+                    var cubo = GameObject.Find(nome);
+                    var controller = cubo.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
+
                     //pegar nome prefab + numero e mudar posicao
-                    pecasPrefabs[2].transform.position = new Vector3(x, y, z);
-                    GameObject.Find(pecasPrefabs[2].name).GetComponent<BoxCollider>().enabled = true;
-                    Global.addObject(GameObject.Find(pecasPrefabs[2].name));
+                    cubo.transform.position = new Vector3(x, y, z);
+                    cubo.GetComponent<BoxCollider>().enabled = true;
+                    Global.addObject(cubo);
 
                     Global.atualizaListaSlot();
                     //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
-                    foreach (KeyValuePair<string, float> slot in Global.listaPosicaoSlot)  // Slot / posição no eixo y
+                    adicionarEncaixe(cubo);
+
+                    var cuboAmb = "CuboAmbiente";
+                    if (countObjt > 0) cuboAmb += countObjt;
+                    if (GameObject.Find(cuboAmb) != null)
                     {
-                        if (slot.Key.Contains(Global.GetSlot(GameObject.Find(pecasPrefabs[2].name).name)) && !Global.listaEncaixes.ContainsKey(GameObject.Find(pecasPrefabs[2].name).name))
+                        //numFormas = getNumeroSlotObjetoGrafico();
+                        var formasSlot = "FormasSlot";
+                        if (countCubo > 0) formasSlot += countCubo;
+                        GameObject t = GameObject.Find("FormasSlot" + formasSlot);
+
+                        controller.posicaoColliderDestino = t;
+                        controller.adicionaObjetoRender();
+
+                        if (GameObject.Find(Global.listaEncaixes[nome]) != null)
                         {
-                            if (GameObject.Find(slot.Key) != null)
-                                Global.listaEncaixes.Add(GameObject.Find(pecasPrefabs[2].name).name, slot.Key);
+                            if (Global.cameraAtiva && new PropIluminacaoPadrao().existeIluminacao())
+                                GameObject.Find("CameraVisInferior").GetComponent<Camera>().cullingMask = 1 << LayerMask.NameToLayer("Formas");
+
+                            // Verificar se o Objeto Gráfico pai está ativo para demonstrar o cubo.
+                            string goObjGraficoSlot = GameObject.Find(Global.listaEncaixes[nome]).transform.parent.name;
+
+                            string peca = string.Empty;
+
+                            // Verifica peça conectada ao slot
+                            foreach (KeyValuePair<string, string> pecas in Global.listaEncaixes)
+                            {
+                                if (Equals(pecas.Value, goObjGraficoSlot))
+                                {
+                                    peca = pecas.Key;
+                                    break;
+                                }
+                            }
+
+                            MeshRenderer mr = GameObject.Find(cuboAmb).GetComponent<MeshRenderer>();
+
+                            bool statusCubo = false;
+
+                            // Verifica se o Objeto Gráfico ja foi clicado.
+                            foreach (KeyValuePair<string, PropriedadePeca> pec in Global.propriedadePecas)
+                            {
+                                if (Equals(pec.Key, peca))
+                                {
+                                    if (Global.propriedadePecas[peca].Ativo)
+                                        statusCubo = true;
+                                }
+                                else
+                                    statusCubo = true;
+                            }
+
+                            if (statusCubo || Global.propriedadePecas.Count == 0) mr.enabled = true;
                         }
+                        else GameObject.Find(cuboAmb).GetComponent<MeshRenderer>().enabled = true;
                     }
+
+                    setPropsCubo(controller, value);
+                    countCubo++;
                 }
                 if (key.Contains("Ilumi"))
                 {
-                    var controller = pecasPrefabs[6].GetComponent<Controller>();
+                    var nome = "Iluminacao";
+                    if (countLuz > 0) nome += countLuz;
+                    var luz = GameObject.Find(nome);
+                    var controller = luz.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
+
                     //pegar nome prefab + numero e mudar posicao
-                    pecasPrefabs[6].transform.position = new Vector3(x, y, z); //TÁ COM PROBLEMAS NO Y!!!!!!!!!
-                    GameObject.Find(pecasPrefabs[6].name).GetComponent<BoxCollider>().enabled = true;
-                    Global.addObject(GameObject.Find(pecasPrefabs[6].name));
+                    luz.transform.position = new Vector3(x, y, z); //TÁ COM PROBLEMAS NO Y!!!!!!!!!
+                    luz.GetComponent<BoxCollider>().enabled = true;
+                    Global.addObject(luz);
 
                     Global.atualizaListaSlot();
                     //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
-                    foreach (KeyValuePair<string, float> slot in Global.listaPosicaoSlot)  // Slot / posição no eixo y
+                    adicionarEncaixe(luz);
+
+                    var iluminSlot = "IluminacaoSlot";
+                    if (countObjt > 0) iluminSlot += countObjt;
+                    GameObject t = GameObject.Find(iluminSlot);
+
+                    controller.posicaoColliderDestino = t;
+                    controller.adicionaObjetoRender();
+
+                    //Verifica se há câmera e aplica luz aos objetos com Layer "Formas"
+                    if (Global.cameraAtiva)
+                        GameObject.Find("CameraVisInferior").GetComponent<Camera>().cullingMask = 1 << LayerMask.NameToLayer("Formas");
+
+                    PropriedadePeca prPeca = new PropriedadePeca();
+                    prPeca.Nome = gameObject.name;
+                    prPeca.PodeAtualizar = true;
+                    if (countObjt > 0)
                     {
-                        if (slot.Key.Contains(Global.GetSlot(GameObject.Find(pecasPrefabs[6].name).name)) && !Global.listaEncaixes.ContainsKey(GameObject.Find(pecasPrefabs[6].name).name))
+                        prPeca.NomeCuboAmbiente = "CuboAmbiente" + Controller.getNumObjeto(Global.listaEncaixes[gameObject.name]);
+                        prPeca.NomeCuboVis = "CuboVis" + Controller.getNumObjeto(Global.listaEncaixes[gameObject.name]);
+                    }
+
+                    prPeca.TipoLuz = 0;
+                    Global.propriedadePecas.Add(gameObject.name, prPeca);
+
+                    if (gameObject.name.Length > "Iluminacao".Length)
+                        controller.CriaLightObject(gameObject.name.Substring("Iluminacao".Length, 1));
+
+                    setPropsIluminacao(controller, value);
+                    countLuz++;
+                }
+                if (key.Contains("Trans"))
+                {
+                    var nome = "Transladar";
+                    if (countTrans > 0) nome += countTrans;
+                    var transladar = GameObject.Find(nome);
+                    var controller = transladar.GetComponent<Controller>();
+                    controller.GeraCopiaPeca();
+
+                    //pegar nome prefab + numero e mudar posicao
+                    transladar.transform.position = new Vector3(x, y, z); //TÁ COM PROBLEMAS NO Y!!!!!!!!!
+                    transladar.GetComponent<BoxCollider>().enabled = true;
+                    Global.addObject(transladar);
+
+                    Global.atualizaListaSlot();
+                    //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
+                    adicionarEncaixe(transladar);
+
+                    var slotNome = "ObjGraficoSlot";
+                    if (countObjt > 0) slotNome += countObjt;
+                    GameObject ObjGrafSlot = GameObject.Find(slotNome);
+
+                    //Retorna  de TransformacoesSlot
+                    string slot = "";
+
+                    for (int i = 0; i < ObjGrafSlot.transform.childCount; i++)
+                    {
+                        if (ObjGrafSlot.transform.GetChild(i).name.Contains("TransformacoesSlot"))
                         {
-                            if (GameObject.Find(slot.Key) != null)
-                                Global.listaEncaixes.Add(GameObject.Find(pecasPrefabs[6].name).name, slot.Key);
+                            if (Global.listaEncaixes.ContainsValue(ObjGrafSlot.transform.GetChild(i).name))
+                            {
+                                slot = ObjGrafSlot.transform.GetChild(i).name;
+                            }
                         }
                     }
+
+                    int val = 0;
+                    string countTransformacoes = "";
+                    Int32.TryParse(slot.Substring(slot.IndexOf("_") + 1), out val);
+
+                    if (val > 0)
+                        countTransformacoes = Convert.ToString(val + 1);
+                    else
+                        countTransformacoes = "1";
+                    //-------------
+
+                    GameObject t = GameObject.Find(slot);
+                    GameObject cloneTrans = Instantiate(t, t.transform.position, t.transform.rotation, t.transform.parent);
+                    if (countObjt > 0) cloneTrans.name = "TransformacoesSlot" + countObjt + "_" + countTransformacoes;
+                    else cloneTrans.name = "TransformacoesSlot_" + countTransformacoes;
+                    cloneTrans.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 3f, t.transform.position.z);
+
+                    controller.addTransformacoeSequenciaSlots(cloneTrans.name);
+
+                    controller.posicaoColliderDestino = t;
+
+                    if (controller.renderController == null)
+                        controller.renderController = new RenderController();
+
+                    controller.renderController.ResizeBases(t, Consts.Transladar, true); // o Segundo parâmetro pode ser qualquer tranformação 
+
+                    controller.configuraIluminacao("-");
+
+                    if (countObjt == 0) controller.reorganizaObjetos("");
+                    else controller.reorganizaObjetos(countObjt.ToString());
+
+                    setPropsAcoes(controller, value);
+                    countTrans++;
+                }
+                if (key.Contains("Rotac"))
+                {
+                    var nome = "Rotacionar";
+                    if (countRot > 0) nome += countRot;
+                    var rotacionar = GameObject.Find(nome);
+                    var controller = rotacionar.GetComponent<Controller>();
+                    controller.GeraCopiaPeca();
+
+                    //pegar nome prefab + numero e mudar posicao
+                    rotacionar.transform.position = new Vector3(x, y, z); //TÁ COM PROBLEMAS NO Y!!!!!!!!!
+                    rotacionar.GetComponent<BoxCollider>().enabled = true;
+                    Global.addObject(rotacionar);
+
+                    Global.atualizaListaSlot();
+                    //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
+                    adicionarEncaixe(rotacionar);
+
+                    setPropsAcoes(controller, value);
+                    countRot++;
+                }
+                if (key.Contains("Escal"))
+                {
+                    var nome = "Escalar";
+                    if (countEsc > 0) nome += countEsc;
+                    var escalar = GameObject.Find(nome);
+                    var controller = escalar.GetComponent<Controller>();
+                    controller.GeraCopiaPeca();
+
+                    //pegar nome prefab + numero e mudar posicao
+                    escalar.transform.position = new Vector3(x, y, z); //TÁ COM PROBLEMAS NO Y!!!!!!!!!
+                    escalar.GetComponent<BoxCollider>().enabled = true;
+                    Global.addObject(escalar);
+
+                    Global.atualizaListaSlot();
+                    //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
+                    adicionarEncaixe(escalar);
+
+                    setPropsAcoes(controller, value);
+                    countEsc++;
                 }
             }
         }
+
+        int[] contadores = new int[5];
+        contadores[0] = countCubo;
+        contadores[1] = countTrans;
+        contadores[2] = countRot;
+        contadores[3] = countEsc;
+        contadores[4] = countEsc;
+        return contadores;
     }
 
     public void Importar()
     {
         //TEM Q CHECAR SE A LISTA TA VAZIA, SENÃO DÁ ERRO!!!
         //limparListaObjetos();
-        //var countObjt = 0;
+        var countObjt = 0;
+        var countCam = 0;
+        var countCubo = 0;
+        var countTrans = 0;
+        var countRot = 0;
+        var countEsc = 0;
+        var countLuz = 0;
         JSONObject cenaImportada = (JSONObject) JSONObject.Parse(cenaJSON.text);
         var count = 0;
         //string chaves = Object.(cenaImportada);
@@ -362,32 +692,31 @@ public class Arquivo : MonoBehaviour
                 //tem q acessar o prefab do objeto q qr gerar uma c�pia, acessar o controller e pegar a func de copiar
                 //FUNCIONOU
                 //FALTA O RETORNO VISUAL NO AMBIENTE GR�FICO E VISUALIZADOR(PROVAVELMENTE)!!
-                var controller = pecasPrefabs[0].GetComponent<Controller>();
+
+                var nome = "CameraP";
+                if (countCam > 0) nome += countCam;
+                var cam = GameObject.Find(nome);
+                var controller = cam.GetComponent<Controller>();
                 controller.GeraCopiaPeca();
+
                 //pegar nome prefab + numero e mudar posicao
-                pecasPrefabs[0].transform.position = new Vector3(x, y, z);
-                GameObject.Find(pecasPrefabs[0].name).GetComponent<BoxCollider>().enabled = true;
-                Global.addObject(GameObject.Find(pecasPrefabs[0].name));
+                cam.transform.position = new Vector3(x, y, z);
+                cam.GetComponent<BoxCollider>().enabled = true;
+                Global.addObject(cam);
 
                 GameObject.Find("CameraObjetoMain").transform.GetChild(0).gameObject.SetActive(true);
                 //faz o visualizador dar retorno!!
                 Global.cameraAtiva = true;
-                if (Global.cameraAtiva)
-                    GameObject.Find("CameraVisInferior").GetComponent<Camera>().cullingMask = 1 << LayerMask.NameToLayer("Formas");
+                //if (Global.cameraAtiva)
+                //    GameObject.Find("CameraVisInferior").GetComponent<Camera>().cullingMask = 1 << LayerMask.NameToLayer("Formas");
 
                 Global.atualizaListaSlot();
                 //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
-                foreach (KeyValuePair<string, float> slot in Global.listaPosicaoSlot)  // Slot / posição no eixo y
-                {
-                    if (slot.Key.Contains(Global.GetSlot(GameObject.Find(pecasPrefabs[0].name).name)) && !Global.listaEncaixes.ContainsKey(GameObject.Find(pecasPrefabs[0].name).name))
-                    {
-                        if (GameObject.Find(slot.Key) != null)
-                            Global.listaEncaixes.Add(GameObject.Find(pecasPrefabs[0].name).name, slot.Key);
-                    }
-                }
+                adicionarEncaixe(cam);
                 //pecasPrefabs[0] = GameObject.Find("CameraP1");
                 //--> ia solucionar o problema de varios objtsgrafcs, mas n deixou mais clicar na peca
-
+                setPropsCamera(controller, value);
+                countCam++;
             }
             if (key.Contains("Objeto"))
             {
@@ -401,14 +730,15 @@ public class Arquivo : MonoBehaviour
                 //PROS FILHOS:
                 //função separada de foreach numa lista children
                 //acessar o children dentro do value, e qnd tiver algo, chamar a func e acessar e criar os objts filho
-                var controller = pecasPrefabs[1].GetComponent<Controller>();
+                var nome = "ObjetoGraficoP";
+                if (countObjt > 0) nome += countObjt;
+                var objeto = GameObject.Find(nome);
+                var controller = objeto.GetComponent<Controller>();
                 controller.GeraCopiaPeca();
-                //GameObject objeto = GameObject.Find(pecasPrefabs[1].name);
-                //else objeto = GameObject.Find("ObjetoGraficoP" + countObjt);
-                
-                pecasPrefabs[1].transform.position = new Vector3(x, y, z);
-                GameObject.Find(pecasPrefabs[1].name).GetComponent<BoxCollider>().enabled = true;
-                Global.addObject(GameObject.Find(pecasPrefabs[1].name));
+
+                objeto.transform.position = new Vector3(x, y, z);
+                objeto.GetComponent<BoxCollider>().enabled = true;
+                Global.addObject(objeto);
 
                 var criaFormas = new Util_VisEdu();
                 criaFormas.criaFormasVazias();
@@ -418,7 +748,7 @@ public class Arquivo : MonoBehaviour
                     countObjGrafico = Convert.ToString(DropPeca.countObjetosGraficos);
 
                 if (!Equals(countObjGrafico, string.Empty))
-                    pecasPrefabs[1].GetComponent<Controller>().createGameObjectTree(DropPeca.countObjetosGraficos);
+                    objeto.GetComponent<Controller>().createGameObjectTree(DropPeca.countObjetosGraficos);
 
                 Global.iniciaListaSequenciaSlots(DropPeca.countObjetosGraficos);
 
@@ -428,26 +758,35 @@ public class Arquivo : MonoBehaviour
                 cloneObjGrafico.name = "ObjGraficoSlot" + Convert.ToString(++DropPeca.countObjetosGraficos);
                 cloneObjGrafico.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 11f, t.transform.position.z);
 
-                pecasPrefabs[1].GetComponent<Controller>().setActiveAndRenameGameObject(t, cloneObjGrafico);
+                objeto.GetComponent<Controller>().setActiveAndRenameGameObject(t, cloneObjGrafico);
 
                 var renderController = new RenderController();
 
                 renderController.ResizeBases(t, Consts.ObjetoGrafico, true);
-                pecasPrefabs[1].GetComponent<Controller>().adicionaObjetoRender();
+                objeto.GetComponent<Controller>().adicionaObjetoRender();
 
                 Global.atualizaListaSlot();
 
                 foreach (KeyValuePair<string, float> slot in Global.listaPosicaoSlot)  // Slot / posição no eixo y
                 {
-                    if (slot.Key.Contains(Global.GetSlot(GameObject.Find(pecasPrefabs[1].name).name)) && !Global.listaEncaixes.ContainsKey(GameObject.Find(pecasPrefabs[1].name).name))
+                    if (slot.Key.Contains(Global.GetSlot(GameObject.Find(objeto.name).name)) && !Global.listaEncaixes.ContainsKey(GameObject.Find(objeto.name).name))
                     {
                         if (GameObject.Find(slot.Key) != null)
-                            Global.listaEncaixes.Add(GameObject.Find(pecasPrefabs[1].name).name, slot.Key);
+                            Global.listaEncaixes.Add(GameObject.Find(objeto.name).name, slot.Key);
                     }
                 }
-                if (value["children"].Count > 0) adicionarCriancas((JSONArray) value["children"]);
-                //pecasPrefabs[1] = GameObject.Find("ObjetoGraficoP"+countObjt);
-                //PARA ARRUMAR: ADICIONAR FILHOS
+                if (value["children"].Count > 0)
+                {
+                    int[] contadores = adicionarCriancas((JSONArray)value["children"], countObjt, countCubo, countTrans, countRot, countEsc, countLuz);
+                    countCubo = contadores[0];
+                    countTrans = contadores[1];
+                    countRot = contadores[2];
+                    countEsc = contadores[3];
+                    countLuz = contadores[4];
+                }
+
+                setPropsObjetoGrafico(controller, value);
+                countObjt++;
             }
             count++;
         }

@@ -44,7 +44,7 @@ public class Controller : MonoBehaviour {
 
     private List<GameObject> listaAuxRender = new List<GameObject>();
 
-    private RenderController renderController;
+    public RenderController renderController;
 
     private void Start()
     {
@@ -909,7 +909,7 @@ public class Controller : MonoBehaviour {
             return "";
     }
 
-    private void configuraIluminacao(string sinal)
+    public void configuraIluminacao(string sinal)
     {
         float valorInc = 0;
         string iluminacao = "Iluminacao";
@@ -1230,7 +1230,7 @@ public class Controller : MonoBehaviour {
 
     }
 
-    private void addTransformacoeSequenciaSlots(string slot)
+    public void addTransformacoeSequenciaSlots(string slot)
     {
         string numObj = getNumeroSlotObjetoGrafico();
         bool encontrouTransf = false;
@@ -1488,7 +1488,7 @@ public class Controller : MonoBehaviour {
         return numSlotObjGrafico;
     }
 
-    private void reorganizaObjetos(string numObjeto)
+    public void reorganizaObjetos(string numObjeto)
     {
         const string ObjGrafico = "ObjGraficoSlot";
         bool podeOrganizarProximoObjeto = false;
@@ -1524,7 +1524,7 @@ public class Controller : MonoBehaviour {
         }
     }
 
-    public string getNumObjeto(string objeto)
+    public static string getNumObjeto(string objeto)
     {
         int val = 0;
         string numObj = "";
@@ -1801,7 +1801,7 @@ public class Controller : MonoBehaviour {
         return textReturn;
     }
 
-    private void CriaLightObject(string numLight)
+    public void CriaLightObject(string numLight)
     {
         const string LightObjectsIluminacao = "LightObjectsIluminacao";
 
