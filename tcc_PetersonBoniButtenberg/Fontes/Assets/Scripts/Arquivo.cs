@@ -285,9 +285,10 @@ public class Arquivo : MonoBehaviour
                 //FUNCIONOU
                 //FALTA O RETORNO VISUAL NO AMBIENTE GR�FICO E VISUALIZADOR(PROVAVELMENTE)!!
                 var controller = pecasPrefabs[0].GetComponent<Controller>();
-                GameObject copia = controller.GeraCopiaPeca();
+                controller.GeraCopiaPeca();
                 //pegar nome prefab + numero e mudar posicao
                 pecasPrefabs[0].transform.position = new Vector3(x, y, z);
+                GameObject.Find(pecasPrefabs[0].name).GetComponent<BoxCollider>().enabled = true;
                 Global.addObject(GameObject.Find(pecasPrefabs[0].name));
 
                 GameObject.Find("CameraObjetoMain").transform.GetChild(0).gameObject.SetActive(true);
@@ -323,11 +324,12 @@ public class Arquivo : MonoBehaviour
                 //função separada de foreach numa lista children
                 //acessar o children dentro do value, e qnd tiver algo, chamar a func e acessar e criar os objts filho
                 var controller = pecasPrefabs[1].GetComponent<Controller>();
-                GameObject copia = controller.GeraCopiaPeca();
+                controller.GeraCopiaPeca();
                 //GameObject objeto = GameObject.Find(pecasPrefabs[1].name);
                 //else objeto = GameObject.Find("ObjetoGraficoP" + countObjt);
                 
                 pecasPrefabs[1].transform.position = new Vector3(x, y, z);
+                GameObject.Find(pecasPrefabs[1].name).GetComponent<BoxCollider>().enabled = true;
                 Global.addObject(GameObject.Find(pecasPrefabs[1].name));
 
                 var criaFormas = new Util_VisEdu();

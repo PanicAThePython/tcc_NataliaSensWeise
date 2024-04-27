@@ -1253,7 +1253,7 @@ public class Controller : MonoBehaviour {
         }
     }
 
-    private void GeraCopiaPeca()
+    public void GeraCopiaPeca()
     {
         objName = getNomeObjeto(gameObject.name);
         int ObjectValue = 1;
@@ -1276,6 +1276,7 @@ public class Controller : MonoBehaviour {
         cloneFab.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
     }
 
+    /*
     public GameObject GeraCopiaPeca(float x = 0, float y = 0, float z = 0)
     {
         objName = getNomeObjeto(gameObject.name);
@@ -1300,7 +1301,7 @@ public class Controller : MonoBehaviour {
         else cloneFab.transform.position = new Vector3(x, y, z);
         return cloneFab;
     }
-
+    */
     public void processaExclusao()
     {     
         string slotOrigem = Global.listaEncaixes[gameObject.name];
