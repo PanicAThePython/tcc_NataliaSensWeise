@@ -5,14 +5,21 @@ using SimpleJSON;
 using System.IO;
 using TMPro;
 using System;
+using System.Globalization;
 using UnityEngine.UI;
 
 public class Arquivo : MonoBehaviour
 {
     public static JSONObject cena = new JSONObject();
+    public static bool importando = false;
     public GameObject mensagem;
     public TMP_InputField cenaJSON;
     public GameObject[] pecasPrefabs;
+
+    void setImportando(bool val)
+    {
+        importando = val;
+    }
 
     MeuObjetoGrafico objetoAtual = new MeuObjetoGrafico();
     string nomeObjetoAtual = "";
@@ -258,8 +265,17 @@ public class Arquivo : MonoBehaviour
         }
     }
 
-    void setPropsCamera(Controller controller, JSONNode values)
+    void setPropsCamera(Controller controller, JSONNode values, string nome)
     {
+
+        PropriedadePeca prPeca = new PropriedadePeca();
+        prPeca.Nome = values["nome"];
+        prPeca.PodeAtualizar = true;
+        prPeca.NomeCuboAmbiente = "CuboAmbiente";
+        prPeca.NomeCuboVis = "CuboVis";
+        prPeca.TipoLuz = 0;
+        Global.propriedadePecas.Add(nome, prPeca);
+
         controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
 
         controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
@@ -273,16 +289,101 @@ public class Arquivo : MonoBehaviour
         controller.abrePropriedade.transform.GetChild(3).GetChild(1).GetComponent<TMP_InputField>().text = values["fov"];
         controller.abrePropriedade.transform.GetChild(4).GetChild(1).GetComponent<TMP_InputField>().text = values["near"];
         controller.abrePropriedade.transform.GetChild(5).GetChild(1).GetComponent<TMP_InputField>().text = values["far"];
+
+        Global.propCameraGlobal.PosX = float.Parse(values["posicao"][0], CultureInfo.InvariantCulture.NumberFormat);
+        Global.propCameraGlobal.PosY = float.Parse(values["posicao"][1], CultureInfo.InvariantCulture.NumberFormat);
+        Global.propCameraGlobal.PosZ = float.Parse(values["posicao"][2], CultureInfo.InvariantCulture.NumberFormat);
+        Global.propCameraGlobal.FOV = new Vector2(float.Parse(values["fov"], CultureInfo.InvariantCulture.NumberFormat), float.Parse(values["fov"], CultureInfo.InvariantCulture.NumberFormat));
+        Global.propCameraGlobal.LookAtX = float.Parse(values["lookAt"][0], CultureInfo.InvariantCulture.NumberFormat);
+        Global.propCameraGlobal.LookAtY = float.Parse(values["lookAt"][1], CultureInfo.InvariantCulture.NumberFormat);
+        Global.propCameraGlobal.LookAtZ = float.Parse(values["lookAt"][2], CultureInfo.InvariantCulture.NumberFormat);
+        Global.propCameraGlobal.Near = float.Parse(values["near"], CultureInfo.InvariantCulture.NumberFormat);
+        Global.propCameraGlobal.Far = float.Parse(values["far"], CultureInfo.InvariantCulture.NumberFormat);
+
+        GameObject.Find("CameraVisInferior").GetComponent<Camera>().fieldOfView = float.Parse(values["fov"], CultureInfo.InvariantCulture.NumberFormat);
+        GameObject.Find("CameraVisInferior").GetComponent<Camera>().nearClipPlane = Global.propCameraGlobal.Near;
+        GameObject.Find("CameraVisInferior").GetComponent<Camera>().farClipPlane = Global.propCameraGlobal.Far;
+
+        //Atualiza posição da camera
+        GameObject goCameraObj = GameObject.Find("CameraObjetoMain");
+        goCameraObj.transform.position =
+            new Vector3(Global.propCameraGlobal.PropInicial.PosX + Global.propCameraGlobal.PosX,
+                        Global.propCameraGlobal.PropInicial.PosY + Global.propCameraGlobal.PosY,
+                        Global.propCameraGlobal.PropInicial.PosZ + Global.propCameraGlobal.PosZ);
+
+        GameObject goCameraPos = GameObject.Find("CameraObjectPos");
+        goCameraPos.transform.localPosition =
+            new Vector3(-Global.propCameraGlobal.PosX * 14,
+                        Global.propCameraGlobal.PosY * 13.333333f,
+                        -Global.propCameraGlobal.PosZ * 16);
+
+        goCameraObj.transform.GetChild(0).transform.LookAt(GameObject.Find("CuboAmb").transform, new Vector3(Global.propCameraGlobal.LookAtX, Global.propCameraGlobal.LookAtY, Global.propCameraGlobal.LookAtZ));
+        //Atualiza FOV da camera (Scale)
+        goCameraObj.transform.localScale =
+            new Vector3(Global.propCameraGlobal.PropInicial.FOV.x * Global.propCameraGlobal.FOV.x,
+                        Global.propCameraGlobal.PropInicial.FOV.y * Global.propCameraGlobal.FOV.y,
+                        goCameraObj.transform.localScale.z);
     }
 
-    void setPropsObjetoGrafico(Controller controller, JSONNode values)
+
+    void setPropsObjetoGrafico(Controller controller, JSONNode values, int countObjt, string nome)
     {
         controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
-        controller.abrePropriedade.transform.GetChild(2).GetComponent<Toggle>().enabled = values["ativo"];
+        controller.abrePropriedade.transform.GetChild(2).GetComponent<Toggle>().isOn = bool.Parse(values["ativo"]);
+
+        PropriedadePeca prPeca = new PropriedadePeca();
+        prPeca.Nome = values["nome"];
+        prPeca.PodeAtualizar = true;
+        var cuboAmb = "CuboAmbiente";
+        if (countObjt > 0) cuboAmb += countObjt;
+        prPeca.NomeCuboAmbiente = cuboAmb;
+        var cuboVis = "CuboVis";
+        if (countObjt > 0) cuboVis += countObjt;
+        prPeca.NomeCuboVis = cuboVis;
+        prPeca.TipoLuz = 0;
+        Global.propriedadePecas.Add(nome, prPeca);
+
+        Global.propriedadePecas[nome].Ativo = bool.Parse(values["ativo"]);
+        //ele até desativa a visualização, mas o toggle tá true
+
+        // Nome.
+        GameObject.Find("PropObjGrafico").transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
+
+        // Toggle.
+        GameObject.Find("PropObjGrafico").transform.GetChild(2).GetComponent<Toggle>().isOn = Global.propriedadePecas[nome].Ativo;
+
+        GameObject.Find("PropObjGrafico").GetComponent<PropObjetoGraficoScript>().AtualizaCubo(values["ativo"], nome);
+        GameObject.Find("PropObjGrafico").GetComponent<PropObjetoGraficoScript>().toggleField.isOn = bool.Parse(values["ativo"]);
     }
 
-    void setPropsCubo(Controller controller, JSONNode values)
-    {
+    void setPropsCubo(Controller controller, JSONNode values, int countObjt, string nome)
+    {   
+        PropriedadePeca prPeca = new PropriedadePeca();
+        prPeca.Nome = values["nome"];
+        prPeca.PodeAtualizar = true;
+        var cuboAmb = "CuboAmbiente";
+        if (countObjt > 0) cuboAmb += countObjt;
+        prPeca.NomeCuboAmbiente = cuboAmb;
+        var cuboVis = "CuboVis";
+        if (countObjt > 0) cuboVis += countObjt;
+        prPeca.NomeCuboVis = cuboVis;
+        prPeca.TipoLuz = 0;
+
+        prPeca.Ativo = bool.Parse(values["ativo"]);
+
+        //ELE N DX ADD ESSAS PROPS! PQ????
+        prPeca.Tam = new Tamanho();
+        prPeca.Tam.X = float.Parse(values["tamanho"][0]);
+        prPeca.Tam.Y = float.Parse(values["tamanho"][1]);
+        prPeca.Tam.Z = float.Parse(values["tamanho"][2]);
+
+        prPeca.Pos = new Posicao();
+        prPeca.Pos.X = float.Parse(values["posicao"][0]);
+        prPeca.Pos.Y = float.Parse(values["posicao"][1]);
+        prPeca.Pos.Z = float.Parse(values["posicao"][2]);
+        
+        Global.propriedadePecas.Add(nome, prPeca);
+
         controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
 
         controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["tamanho"][0];
@@ -295,7 +396,22 @@ public class Arquivo : MonoBehaviour
         
         //como importar cor e textura???
 
-        controller.abrePropriedade.transform.GetChild(6).GetComponent<Toggle>().enabled = values["ativo"];
+        controller.abrePropriedade.transform.GetChild(6).GetComponent<Toggle>().isOn = values["ativo"];
+        //GameObject.Find("PropCubo").GetComponent<PropCuboPadrao>().atualizaListaProp(nome); //--> atualiza as props, mas dá erro pq o prpeca.nome tá null --> ele chama p updatePosition automaticamente
+        //GameObject.Find("PropCubo").GetComponent<PropCuboPadrao>().updatePosition(prPeca);
+
+        /*
+
+       
+
+        Global.propriedadePecas[nome].Tam.X = values["tamanho"][0];
+        Global.propriedadePecas[nome].Tam.Y = float.Parse(values["tamanho"][1]);
+        Global.propriedadePecas[nome].Tam.Z = float.Parse(values["tamanho"][2]);
+
+        Global.propriedadePecas[nome].Pos.X = float.Parse(values["tamanho"][0]);
+        Global.propriedadePecas[nome].Pos.Y = float.Parse(values["tamanho"][1]);
+        Global.propriedadePecas[nome].Pos.Z = float.Parse(values["tamanho"][2]);
+        */
     }
 
     void setPropsAcoes(Controller controller, JSONNode values)
@@ -306,7 +422,7 @@ public class Arquivo : MonoBehaviour
         controller.abrePropriedade.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][1];
         controller.abrePropriedade.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][2];
 
-        controller.abrePropriedade.transform.GetChild(3).GetComponent<Toggle>().enabled = values["ativo"];
+        controller.abrePropriedade.transform.GetChild(3).GetComponent<Toggle>().isOn = values["ativo"];
     }
 
     void setPropsIluminacao(Controller controller, JSONNode values)
@@ -324,7 +440,7 @@ public class Arquivo : MonoBehaviour
                 
                 //como importar cor?????
 
-                controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(4).GetComponent<Toggle>().enabled = values["ativo"];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(4).GetComponent<Toggle>().isOn = values["ativo"];
                 break;
 
             case "Directional": //2100x0
@@ -332,7 +448,7 @@ public class Arquivo : MonoBehaviour
                 controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
                 //como importar cor?????
-                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(4).GetComponent<Toggle>().enabled = values["ativo"];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(4).GetComponent<Toggle>().isOn = values["ativo"];
 
                 //direcional
                 controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["intensidade"];
@@ -346,7 +462,7 @@ public class Arquivo : MonoBehaviour
                 controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
                 //como importar cor?????
-                controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(4).GetComponent<Toggle>().enabled = values["ativo"];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(4).GetComponent<Toggle>().isOn = values["ativo"];
 
                 //point
                 controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["intensidade"];
@@ -357,7 +473,7 @@ public class Arquivo : MonoBehaviour
                 controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
                 //como importar cor?????
-                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(4).GetComponent<Toggle>().enabled = values["ativo"];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(4).GetComponent<Toggle>().isOn = values["ativo"];
 
                 //spot
                 controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["intensidade"];
@@ -467,7 +583,7 @@ public class Arquivo : MonoBehaviour
                         else GameObject.Find(cuboAmb).GetComponent<MeshRenderer>().enabled = true;
                     }
 
-                    setPropsCubo(controller, value);
+                    setPropsCubo(controller, value, countObjt, nome);
                     countCubo++;
                 }
                 if (key.Contains("Ilumi"))
@@ -503,8 +619,8 @@ public class Arquivo : MonoBehaviour
                     prPeca.PodeAtualizar = true;
                     if (countObjt > 0)
                     {
-                        prPeca.NomeCuboAmbiente = "CuboAmbiente" + Controller.getNumObjeto(Global.listaEncaixes[gameObject.name]);
-                        prPeca.NomeCuboVis = "CuboVis" + Controller.getNumObjeto(Global.listaEncaixes[gameObject.name]);
+                        prPeca.NomeCuboAmbiente = "CuboAmbiente" + Controller.getNumObjeto(countObjt.ToString());
+                        prPeca.NomeCuboVis = "CuboVis" + Controller.getNumObjeto(countObjt.ToString());
                     }
 
                     prPeca.TipoLuz = 0;
@@ -638,6 +754,7 @@ public class Arquivo : MonoBehaviour
 
     public void Importar()
     {
+        setImportando(true);
         //TEM Q CHECAR SE A LISTA TA VAZIA, SENÃO DÁ ERRO!!!
         //limparListaObjetos();
         var countObjt = 0;
@@ -715,7 +832,7 @@ public class Arquivo : MonoBehaviour
                 adicionarEncaixe(cam);
                 //pecasPrefabs[0] = GameObject.Find("CameraP1");
                 //--> ia solucionar o problema de varios objtsgrafcs, mas n deixou mais clicar na peca
-                setPropsCamera(controller, value);
+                setPropsCamera(controller, value, nome);
                 countCam++;
             }
             if (key.Contains("Objeto"))
@@ -785,7 +902,7 @@ public class Arquivo : MonoBehaviour
                     countLuz = contadores[4];
                 }
 
-                setPropsObjetoGrafico(controller, value);
+                setPropsObjetoGrafico(controller, value, countObjt, nome);
                 countObjt++;
             }
             count++;

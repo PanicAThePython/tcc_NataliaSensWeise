@@ -85,7 +85,7 @@ public class PropCuboPadrao : MonoBehaviour
 
                 gameObject.transform.GetChild(6).GetComponent<Toggle>().isOn = prPeca.Ativo;
 
-                instanciaTransformacao();
+                if (!Arquivo.importando) instanciaTransformacao();
 
                 TamX.text = prPeca.Tam.X.ToString();
                 TamY.text = prPeca.Tam.Y.ToString();
@@ -101,8 +101,11 @@ public class PropCuboPadrao : MonoBehaviour
         }        
     }
 
-    protected void updatePosition()
-    {        
+    //antes era private acho, e n tinha prop
+    //TENTAR ENTENDER PQ ELE N DX POR O TAM E POS!!!!!!!!
+    public void updatePosition(PropriedadePeca teste = null)
+    {
+        if (teste != null) prPeca = teste;//
         if (Global.propriedadePecas.ContainsKey(prPeca.Nome))
         {
             TamX = gameObject.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>();
@@ -113,10 +116,12 @@ public class PropCuboPadrao : MonoBehaviour
             PosY = gameObject.transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<TMP_InputField>();
             PosZ = gameObject.transform.GetChild(2).GetChild(2).GetChild(0).GetComponent<TMP_InputField>();
 
+            if (prPeca.Tam == null) prPeca.Tam = new Tamanho(); //
             prPeca.Tam.X = float.Parse(validaVazio(TamX.text, typeTransf.Tam), CultureInfo.InvariantCulture.NumberFormat);
             prPeca.Tam.Y = float.Parse(validaVazio(TamY.text, typeTransf.Tam), CultureInfo.InvariantCulture.NumberFormat);
             prPeca.Tam.Z = float.Parse(validaVazio(TamZ.text, typeTransf.Tam), CultureInfo.InvariantCulture.NumberFormat);
 
+            if (prPeca.Pos == null) prPeca.Pos = new Posicao(); //
             prPeca.Pos.X = float.Parse(validaVazio(PosX.text, typeTransf.Pos), CultureInfo.InvariantCulture.NumberFormat);
             prPeca.Pos.Y = float.Parse(validaVazio(PosY.text, typeTransf.Pos), CultureInfo.InvariantCulture.NumberFormat);
             prPeca.Pos.Z = float.Parse(validaVazio(PosZ.text, typeTransf.Pos), CultureInfo.InvariantCulture.NumberFormat);
@@ -139,12 +144,14 @@ public class PropCuboPadrao : MonoBehaviour
 
     }
 
-    private void atualizaListaProp()
+    public void atualizaListaProp(string reserva = "")
     {
-        if (Global.propriedadePecas.ContainsKey(prPeca.Nome))
+        string nome = prPeca.Nome;//
+        if (nome == null) nome = reserva;//
+        if (Global.propriedadePecas.ContainsKey(nome))
         {
-            Global.propriedadePecas.Remove(prPeca.Nome);
-            Global.propriedadePecas.Add(prPeca.Nome, prPeca);
+            Global.propriedadePecas.Remove(nome);
+            Global.propriedadePecas.Add(nome, prPeca);
         }
     }
 

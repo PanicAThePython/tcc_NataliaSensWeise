@@ -12,7 +12,7 @@ public class PropObjetoGraficoScript : MonoBehaviour {
 
     public void Start()
     {
-        if (toggleField != null)
+        if (toggleField != null && !Arquivo.importando)//
             toggleField.onValueChanged.AddListener(delegate {
                 Global.propriedadePecas[Global.gameObjectName].Ativo = toggleField.isOn;
                 AtualizaCubo(toggleField.isOn);
@@ -50,13 +50,19 @@ public class PropObjetoGraficoScript : MonoBehaviour {
         
     }  
     
-    private void AtualizaCubo(bool isOn)
+    public void AtualizaCubo(bool isOn, string nomeReserva = "")
     {
+        //aqui funciona mais ou menos... dps q eu ligo de volta, o cubo n volta
+        //e tbm, o toggle tá com problema, aí complica
+        string nome = Global.gameObjectName;
+        if (nome == null) nome = nomeReserva;
         if (!isOn)
-            GameObject.Find(Global.propriedadePecas[Global.gameObjectName].NomeCuboAmbiente).GetComponent<MeshRenderer>().enabled = false;
+        {
+            GameObject.Find(Global.propriedadePecas[nome].NomeCuboAmbiente).GetComponent<MeshRenderer>().enabled = false;
+        }
         else
         {
-            GameObject goObjGraficoSlot = GameObject.Find(Global.listaEncaixes[Global.gameObjectName]);
+            GameObject goObjGraficoSlot = GameObject.Find(Global.listaEncaixes[nome]);
             string formasSlot = string.Empty;
             string peca = string.Empty;
 
@@ -93,9 +99,9 @@ public class PropObjetoGraficoScript : MonoBehaviour {
                 }
 
                 if (existePropriedade)
-                    GameObject.Find(Global.propriedadePecas[Global.gameObjectName].NomeCuboAmbiente).GetComponent<MeshRenderer>().enabled = Global.propriedadePecas[peca].Ativo;
+                    GameObject.Find(Global.propriedadePecas[nome].NomeCuboAmbiente).GetComponent<MeshRenderer>().enabled = Global.propriedadePecas[peca].Ativo;
                 else
-                    GameObject.Find(Global.propriedadePecas[Global.gameObjectName].NomeCuboAmbiente).GetComponent<MeshRenderer>().enabled = true;
+                    GameObject.Find(Global.propriedadePecas[nome].NomeCuboAmbiente).GetComponent<MeshRenderer>().enabled = true;
             }
         }
     }

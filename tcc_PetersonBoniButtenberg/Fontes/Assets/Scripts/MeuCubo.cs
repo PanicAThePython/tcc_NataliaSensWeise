@@ -17,10 +17,12 @@ public class MeuCubo : MeuModelo
 
     private void Start()
     {
+        /*
         if (Global.propriedadePecas.ContainsKey(nome.text))
         {
             Global.propriedadePecas[nome.text].Textura = texturaPadrao.GetTexture("TexturaNenhuma");
         }
+        */
     }
 
     public void addProps()
