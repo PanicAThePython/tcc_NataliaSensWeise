@@ -42,7 +42,7 @@ public class Controller : MonoBehaviour {
     private Util_VisEdu criaFormas;
     private Vector3 OBjGraficoPeca;
 
-    private List<GameObject> listaAuxRender = new List<GameObject>();
+    private List<GameObject> listaAuxRender;
 
     public RenderController renderController;
 
@@ -967,7 +967,7 @@ public class Controller : MonoBehaviour {
     // firstNameObject = primeiro GameObject pai
     // extensionName   = concatena com o nome do GameObject
     // mainGameObject  = nome do GameObject princial
-    private void addGameObjectTree(string firstNameObject, string extensionName, string mainGameObject)
+    public void addGameObjectTree(string firstNameObject, string extensionName, string mainGameObject)
     {     
         GameObject goFirst = GameObject.Find(firstNameObject);
 

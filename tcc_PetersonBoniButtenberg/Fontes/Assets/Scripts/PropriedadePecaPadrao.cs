@@ -62,35 +62,40 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
     }
 
     protected void preencheCampos()
-    {        
+    {
         gameObject.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = prPeca.Nome;
 
         if (Global.propriedadePecas.ContainsKey(prPeca.Nome))
         {     
             gameObject.transform.GetChild(3).GetComponent<Toggle>().isOn = prPeca.Ativo;
 
-            instanciaTransformacao();
-
-            if (tipoTransformacao == typeTransformacao.Escalar)
+            if (!Arquivo.importando)
             {
-                TamX = gameObject.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>();
-                TamY = gameObject.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>();
-                TamZ = gameObject.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>();
+                instanciaTransformacao();
 
-                TamX.text = prPeca.Tam.X.ToString();
-                TamY.text = prPeca.Tam.Y.ToString();
-                TamZ.text = prPeca.Tam.Z.ToString();
-            }
-            else
-            {
-                PosX = gameObject.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>();
-                PosY = gameObject.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>();
-                PosZ = gameObject.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>();
+                if (tipoTransformacao == typeTransformacao.Escalar)
+                {
+                    TamX = gameObject.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>();
+                    TamY = gameObject.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>();
+                    TamZ = gameObject.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>();
 
-                PosX.text = prPeca.Pos.X.ToString();
-                PosY.text = prPeca.Pos.Y.ToString();
-                PosZ.text = prPeca.Pos.Z.ToString();
+                    TamX.text = prPeca.Tam.X.ToString();
+                    TamY.text = prPeca.Tam.Y.ToString();
+                    TamZ.text = prPeca.Tam.Z.ToString();
+                }
+                else
+                {
+                    PosX = gameObject.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>();
+                    PosY = gameObject.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>();
+                    PosZ = gameObject.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>();
+
+                    PosX.text = prPeca.Pos.X.ToString();
+                    PosY.text = prPeca.Pos.Y.ToString();
+                    PosZ.text = prPeca.Pos.Z.ToString();
+                }
             }
+
+            if (Arquivo.importando) updatePosition();
         }        
     }
 
@@ -121,7 +126,6 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
                 TamX = gameObject.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>();
                 TamY = gameObject.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>();
                 TamZ = gameObject.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>();
-
 
                 prPeca.Tam.X = float.Parse(validaVazio(TamX.text), CultureInfo.InvariantCulture.NumberFormat);
                 prPeca.Tam.Y = float.Parse(validaVazio(TamY.text), CultureInfo.InvariantCulture.NumberFormat);

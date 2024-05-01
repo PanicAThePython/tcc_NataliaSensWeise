@@ -23,7 +23,7 @@ public class PropIluminacaoPadrao : MonoBehaviour {
         Global.propriedadePecas[Global.gameObjectName].JaIniciouValores = true;
         propIluminacao.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = Global.gameObjectName;
 
-        if (!Global.propriedadePecas[Global.gameObjectName].JaInstanciou)
+        if (!Global.propriedadePecas[Global.gameObjectName].JaInstanciou && !Arquivo.importando)
             instanciaTransformacao();
 
         if (Global.propriedadePecas.ContainsKey(Global.gameObjectName))
@@ -314,6 +314,8 @@ public class PropIluminacaoPadrao : MonoBehaviour {
             propIluminacao = GameObject.Find("PropIluminacao");
 
         GameObject lightObject = null;
+
+        print((int)iluminacao);
 
         switch ((int)iluminacao)
         {

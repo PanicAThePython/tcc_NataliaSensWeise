@@ -16,13 +16,13 @@ public class Arquivo : MonoBehaviour
     public TMP_InputField cenaJSON;
     public GameObject[] pecasPrefabs;
 
+    MeuObjetoGrafico objetoAtual;
+    string nomeObjetoAtual = "";
+
     void setImportando(bool val)
     {
         importando = val;
     }
-
-    MeuObjetoGrafico objetoAtual = new MeuObjetoGrafico();
-    string nomeObjetoAtual = "";
 
     List<GameObject> ordenarCena(List<GameObject> lista)
     {
@@ -275,7 +275,7 @@ public class Arquivo : MonoBehaviour
         prPeca.NomeCuboVis = "CuboVis";
         prPeca.TipoLuz = 0;
         Global.propriedadePecas.Add(nome, prPeca);
-
+        
         controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
 
         controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
@@ -289,7 +289,7 @@ public class Arquivo : MonoBehaviour
         controller.abrePropriedade.transform.GetChild(3).GetChild(1).GetComponent<TMP_InputField>().text = values["fov"];
         controller.abrePropriedade.transform.GetChild(4).GetChild(1).GetComponent<TMP_InputField>().text = values["near"];
         controller.abrePropriedade.transform.GetChild(5).GetChild(1).GetComponent<TMP_InputField>().text = values["far"];
-
+        
         Global.propCameraGlobal.PosX = float.Parse(values["posicao"][0], CultureInfo.InvariantCulture.NumberFormat);
         Global.propCameraGlobal.PosY = float.Parse(values["posicao"][1], CultureInfo.InvariantCulture.NumberFormat);
         Global.propCameraGlobal.PosZ = float.Parse(values["posicao"][2], CultureInfo.InvariantCulture.NumberFormat);
@@ -371,7 +371,6 @@ public class Arquivo : MonoBehaviour
 
         prPeca.Ativo = bool.Parse(values["ativo"]);
 
-        //ELE N DX ADD ESSAS PROPS! PQ????
         prPeca.Tam = new Tamanho();
         prPeca.Tam.X = float.Parse(values["tamanho"][0]);
         prPeca.Tam.Y = float.Parse(values["tamanho"][1]);
@@ -381,9 +380,29 @@ public class Arquivo : MonoBehaviour
         prPeca.Pos.X = float.Parse(values["posicao"][0]);
         prPeca.Pos.Y = float.Parse(values["posicao"][1]);
         prPeca.Pos.Z = float.Parse(values["posicao"][2]);
-        
+
+        //como importar cor e textura???
+        if (values["cor"])
+        {
+            var teste = values["cor"].ToString().Split(',');
+            teste[0] = teste[0].Split('(')[1];
+            teste[3] = teste[3].Split(')')[0];
+            float pos0conv = float.Parse(teste[0]);
+            float pos1conv = float.Parse(teste[1]);
+            float pos2conv = float.Parse(teste[2]);
+            float pos3conv = float.Parse(teste[3]);
+
+            float[] colors = new float[4];
+            colors[0] = pos0conv;
+            colors[1] = pos1conv;
+            colors[2] = pos2conv;
+            colors[3] = pos3conv;
+            prPeca.Cor = new Color(colors[0], colors[1], colors[2], colors[3]);
+
+        }
         Global.propriedadePecas.Add(nome, prPeca);
 
+        /*
         controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
 
         controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["tamanho"][0];
@@ -394,27 +413,14 @@ public class Arquivo : MonoBehaviour
         controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
         controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
         
-        //como importar cor e textura???
 
         controller.abrePropriedade.transform.GetChild(6).GetComponent<Toggle>().isOn = values["ativo"];
+        */
         //GameObject.Find("PropCubo").GetComponent<PropCuboPadrao>().atualizaListaProp(nome); //--> atualiza as props, mas dá erro pq o prpeca.nome tá null --> ele chama p updatePosition automaticamente
         //GameObject.Find("PropCubo").GetComponent<PropCuboPadrao>().updatePosition(prPeca);
-
-        /*
-
-       
-
-        Global.propriedadePecas[nome].Tam.X = values["tamanho"][0];
-        Global.propriedadePecas[nome].Tam.Y = float.Parse(values["tamanho"][1]);
-        Global.propriedadePecas[nome].Tam.Z = float.Parse(values["tamanho"][2]);
-
-        Global.propriedadePecas[nome].Pos.X = float.Parse(values["tamanho"][0]);
-        Global.propriedadePecas[nome].Pos.Y = float.Parse(values["tamanho"][1]);
-        Global.propriedadePecas[nome].Pos.Z = float.Parse(values["tamanho"][2]);
-        */
     }
 
-    void setPropsAcoes(Controller controller, JSONNode values)
+    void setPropsAcoes(Controller controller, JSONNode values, int countObjt, string nome)
     {
         controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
 
@@ -423,27 +429,130 @@ public class Arquivo : MonoBehaviour
         controller.abrePropriedade.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][2];
 
         controller.abrePropriedade.transform.GetChild(3).GetComponent<Toggle>().isOn = values["ativo"];
+
+        PropriedadePeca prPeca = new PropriedadePeca();
+        prPeca.Nome = values["nome"];
+        prPeca.PodeAtualizar = true;
+        var nomeAmb = values["nome"]+"Amb";
+        if (countObjt > 0) nomeAmb += countObjt;
+        prPeca.NomeCuboAmbiente = nomeAmb;
+        var nomeVis = values["nome"]+"Vis";
+        if (countObjt > 0) nomeVis += countObjt;
+        prPeca.NomeCuboVis = nomeVis;
+        prPeca.TipoLuz = 0;
+
+        prPeca.Ativo = bool.Parse(values["ativo"]);
+
+        if (nome.Contains("Escal"))
+        {
+            prPeca.Tam = new Tamanho();
+            prPeca.Tam.X = float.Parse(values["valores"][0]);
+            prPeca.Tam.Y = float.Parse(values["valores"][1]);
+            prPeca.Tam.Z = float.Parse(values["valores"][2]);
+        }
+        else
+        {
+            prPeca.Pos = new Posicao();
+            prPeca.Pos.X = float.Parse(values["valores"][0]);
+            prPeca.Pos.Y = float.Parse(values["valores"][1]);
+            prPeca.Pos.Z = float.Parse(values["valores"][2]);
+
+        }
+        Global.propriedadePecas.Add(nome, prPeca);
     }
 
-    void setPropsIluminacao(Controller controller, JSONNode values)
+    void setPropsIluminacao(Controller controller, JSONNode values, string nome)
     {
-        controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
-       // controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetComponent<Dropdown>().value = values["tipoLuz"];
+        //controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
+        // controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetComponent<Dropdown>().value = values["tipoLuz"];
+        PropriedadePeca[] pecas = new PropriedadePeca[4];
+
+        for (int i = 0; i < pecas.Length; i++)
+        {
+            PropriedadePeca peca = new PropriedadePeca();
+
+            peca.Pos = new Posicao();
+            peca.ValorIluminacao = new ValorIluminacao();
+
+            peca.Pos.X = 100;
+            peca.Pos.Y = 300;
+            peca.Pos.Z = 0;
+            peca.Cor = Color.white;
+            peca.Ativo = true;
+            peca.Intensidade = 1.5f;
+            peca.ValorIluminacao.X = 0;
+            peca.ValorIluminacao.Y = 0;
+            peca.ValorIluminacao.Z = 0;
+            peca.Distancia = 1000;
+            peca.Angulo = 30f;
+            peca.Expoente = 10f;
+
+            pecas[i] = peca;
+        }
+
+        PropriedadePeca prPeca = new PropriedadePeca();
+        prPeca.Nome = values["nome"];
+        prPeca.PodeAtualizar = true;
+        var nomeAmb = values["nome"] + "Amb";
+        prPeca.NomeCuboAmbiente = nomeAmb;
+        var nomeVis = values["nome"] + "Vis";
+        prPeca.NomeCuboVis = nomeVis;
+
+        prPeca.Ativo = bool.Parse(values["ativo"]);
+
+        prPeca.Pos = new Posicao();
+        prPeca.Pos.X = float.Parse(values["posicao"][0]);
+        prPeca.Pos.Y = float.Parse(values["posicao"][1]);
+        prPeca.Pos.Z = float.Parse(values["posicao"][2]);
+
+        if (values["cor"])
+        {
+            var teste = values["cor"].ToString().Split(',');
+            teste[0] = teste[0].Split('(')[1];
+            teste[3] = teste[3].Split(')')[0];
+            float pos0conv = float.Parse(teste[0]);
+            float pos1conv = float.Parse(teste[1]);
+            float pos2conv = float.Parse(teste[2]);
+            float pos3conv = float.Parse(teste[3]);
+
+            float[] colors = new float[4];
+            colors[0] = pos0conv;
+            colors[1] = pos1conv;
+            colors[2] = pos2conv;
+            colors[3] = pos3conv;
+            prPeca.Cor = new Color(colors[0], colors[1], colors[2], colors[3]);
+        }
+
+        //props aparecem no painel (só na luz ambiente), mas n reflete no amb e vis!!!!!!
+            //precisa mudar o tipo luz das outras peças???
+        //checar pospeca (tanto nesse caso qnt nos de deletar peça antes de exportar)
+        //entender pq a peça cubo sai do lugar (tanto aqui qnt nas ações [junto com a luz])
+        //olhar se funciona pra qnd tenho mais de um tipo de peça igual
+        //arrumar os toggles
+        //descobrir como exportar/importar textura
 
         var tipoLuz = values["tipoLuz"];
+        print(tipoLuz);
         switch (tipoLuz.ToString())
         {
             case "Ambiente": //2000x0
+                GameObject.Find("PropIluminacao").transform.GetChild(1).GetChild(0).GetComponent<TMP_Dropdown>().value = 0;
                 controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
                 
                 //como importar cor?????
 
-                controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(4).GetComponent<Toggle>().isOn = values["ativo"];
+                controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(4).GetComponent<Toggle>().isOn = bool.Parse(values["ativo"]);
+                
+                prPeca.TipoLuz = 0;
+                
+
+                GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().preencheCamposIluminacao(0);
                 break;
 
             case "Directional": //2100x0
+                GameObject.Find("PropIluminacao").transform.GetChild(1).GetChild(0).GetComponent<TMP_Dropdown>().value = 1;
                 controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
@@ -455,9 +564,20 @@ public class Arquivo : MonoBehaviour
                 controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][0];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(1).GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][1];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(1).GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][2];
+
+                prPeca.Intensidade = float.Parse(values["intensidade"]);
+                ValorIluminacao val = new ValorIluminacao();
+                val.X = float.Parse(values["valores"][0]);
+                val.Y = float.Parse(values["valores"][1]);
+                val.Z = float.Parse(values["valores"][2]);
+                prPeca.ValorIluminacao = val;
+                prPeca.TipoLuz = 1;
+                
+                GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().preencheCamposIluminacao(1); 
                 break;
 
             case "Point": //2200x0
+                GameObject.Find("PropIluminacao").transform.GetChild(1).GetChild(0).GetComponent<TMP_Dropdown>().value = 2;
                 controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
@@ -467,8 +587,15 @@ public class Arquivo : MonoBehaviour
                 //point
                 controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["intensidade"];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["distancia"];
+               
+                prPeca.Intensidade = float.Parse(values["intensidade"]);
+                prPeca.Distancia = float.Parse(values["distancia"]);
+                prPeca.TipoLuz = 2;
+                
+                GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().preencheCamposIluminacao(2); 
                 break;
             case "Spot":
+                GameObject.Find("PropIluminacao").transform.GetChild(1).GetChild(0).GetComponent<TMP_Dropdown>().value = 3;
                 controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
@@ -484,9 +611,29 @@ public class Arquivo : MonoBehaviour
                 controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][0];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(4).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][1];
                 controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(4).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][2];
+
+
+                prPeca.Intensidade = float.Parse(values["intensidade"]);
+                prPeca.Distancia = float.Parse(values["distancia"]);
+                prPeca.Angulo = float.Parse(values["angulo"]);
+                prPeca.Expoente = float.Parse(values["expoente"]);
+
+                ValorIluminacao val1 = new ValorIluminacao();
+                val1.X = float.Parse(values["valores"][0]);
+                val1.Y = float.Parse(values["valores"][1]);
+                val1.Z = float.Parse(values["valores"][2]);
+                prPeca.ValorIluminacao = val1;
+
+                prPeca.TipoLuz = 3;
+               
+                GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().preencheCamposIluminacao(3); 
                 break;
         }
-
+        
+        pecas[prPeca.TipoLuz] = prPeca;
+        Global.propriedadeIluminacao.Add(nome, pecas);
+        prPeca.JaInstanciou = true;
+        Global.propriedadePecas.Add(nome, prPeca);
     }
 
     void adicionarEncaixe(GameObject peca)
@@ -629,7 +776,7 @@ public class Arquivo : MonoBehaviour
                     if (gameObject.name.Length > "Iluminacao".Length)
                         controller.CriaLightObject(gameObject.name.Substring("Iluminacao".Length, 1));
 
-                    setPropsIluminacao(controller, value);
+                    setPropsIluminacao(controller, value, nome);
                     countLuz++;
                 }
                 if (key.Contains("Trans"))
@@ -692,12 +839,15 @@ public class Arquivo : MonoBehaviour
 
                     controller.renderController.ResizeBases(t, Consts.Transladar, true); // o Segundo parâmetro pode ser qualquer tranformação 
 
+                    controller.addGameObjectTree("GameObjectAmb" + controller.getNumeroSlotObjetoGrafico(), "Amb", "CuboAmbiente" + controller.getNumeroSlotObjetoGrafico());
+                    controller.addGameObjectTree("CuboVisObject" + controller.getNumeroSlotObjetoGrafico(), "Vis", "CuboVis" + controller.getNumeroSlotObjetoGrafico());
+
                     controller.configuraIluminacao("-");
 
                     if (countObjt == 0) controller.reorganizaObjetos("");
                     else controller.reorganizaObjetos(countObjt.ToString());
 
-                    setPropsAcoes(controller, value);
+                    setPropsAcoes(controller, value, countObjt, nome);
                     countTrans++;
                 }
                 if (key.Contains("Rotac"))
@@ -717,7 +867,58 @@ public class Arquivo : MonoBehaviour
                     //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
                     adicionarEncaixe(rotacionar);
 
-                    setPropsAcoes(controller, value);
+                    var slotNome = "ObjGraficoSlot";
+                    if (countObjt > 0) slotNome += countObjt;
+                    GameObject ObjGrafSlot = GameObject.Find(slotNome);
+
+                    //Retorna  de TransformacoesSlot
+                    string slot = "";
+
+                    for (int i = 0; i < ObjGrafSlot.transform.childCount; i++)
+                    {
+                        if (ObjGrafSlot.transform.GetChild(i).name.Contains("TransformacoesSlot"))
+                        {
+                            if (Global.listaEncaixes.ContainsValue(ObjGrafSlot.transform.GetChild(i).name))
+                            {
+                                slot = ObjGrafSlot.transform.GetChild(i).name;
+                            }
+                        }
+                    }
+
+                    int val = 0;
+                    string countTransformacoes = "";
+                    Int32.TryParse(slot.Substring(slot.IndexOf("_") + 1), out val);
+
+                    if (val > 0)
+                        countTransformacoes = Convert.ToString(val + 1);
+                    else
+                        countTransformacoes = "1";
+                    //-------------
+
+                    GameObject t = GameObject.Find(slot);
+                    GameObject cloneTrans = Instantiate(t, t.transform.position, t.transform.rotation, t.transform.parent);
+                    if (countObjt > 0) cloneTrans.name = "TransformacoesSlot" + countObjt + "_" + countTransformacoes;
+                    else cloneTrans.name = "TransformacoesSlot_" + countTransformacoes;
+                    cloneTrans.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 3f, t.transform.position.z);
+
+                    controller.addTransformacoeSequenciaSlots(cloneTrans.name);
+
+                    controller.posicaoColliderDestino = t;
+
+                    if (controller.renderController == null)
+                        controller.renderController = new RenderController();
+
+                    controller.renderController.ResizeBases(t, Consts.Rotacionar, true); // o Segundo parâmetro pode ser qualquer tranformação 
+
+                    controller.addGameObjectTree("GameObjectAmb" + controller.getNumeroSlotObjetoGrafico(), "Amb", "CuboAmbiente" + controller.getNumeroSlotObjetoGrafico());
+                    controller.addGameObjectTree("CuboVisObject" + controller.getNumeroSlotObjetoGrafico(), "Vis", "CuboVis" + controller.getNumeroSlotObjetoGrafico());
+
+                    controller.configuraIluminacao("-");
+
+                    if (countObjt == 0) controller.reorganizaObjetos("");
+                    else controller.reorganizaObjetos(countObjt.ToString());
+
+                    setPropsAcoes(controller, value, countObjt, nome);
                     countRot++;
                 }
                 if (key.Contains("Escal"))
@@ -737,7 +938,58 @@ public class Arquivo : MonoBehaviour
                     //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
                     adicionarEncaixe(escalar);
 
-                    setPropsAcoes(controller, value);
+                    var slotNome = "ObjGraficoSlot";
+                    if (countObjt > 0) slotNome += countObjt;
+                    GameObject ObjGrafSlot = GameObject.Find(slotNome);
+
+                    //Retorna  de TransformacoesSlot
+                    string slot = "";
+
+                    for (int i = 0; i < ObjGrafSlot.transform.childCount; i++)
+                    {
+                        if (ObjGrafSlot.transform.GetChild(i).name.Contains("TransformacoesSlot"))
+                        {
+                            if (Global.listaEncaixes.ContainsValue(ObjGrafSlot.transform.GetChild(i).name))
+                            {
+                                slot = ObjGrafSlot.transform.GetChild(i).name;
+                            }
+                        }
+                    }
+
+                    int val = 0;
+                    string countTransformacoes = "";
+                    Int32.TryParse(slot.Substring(slot.IndexOf("_") + 1), out val);
+
+                    if (val > 0)
+                        countTransformacoes = Convert.ToString(val + 1);
+                    else
+                        countTransformacoes = "1";
+                    //-------------
+
+                    GameObject t = GameObject.Find(slot);
+                    GameObject cloneTrans = Instantiate(t, t.transform.position, t.transform.rotation, t.transform.parent);
+                    if (countObjt > 0) cloneTrans.name = "TransformacoesSlot" + countObjt + "_" + countTransformacoes;
+                    else cloneTrans.name = "TransformacoesSlot_" + countTransformacoes;
+                    cloneTrans.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 3f, t.transform.position.z);
+
+                    controller.addTransformacoeSequenciaSlots(cloneTrans.name);
+
+                    controller.posicaoColliderDestino = t;
+
+                    if (controller.renderController == null)
+                        controller.renderController = new RenderController();
+
+                    controller.renderController.ResizeBases(t, Consts.Escalar, true); // o Segundo parâmetro pode ser qualquer tranformação 
+
+                    controller.addGameObjectTree("GameObjectAmb" + controller.getNumeroSlotObjetoGrafico(), "Amb", "CuboAmbiente" + controller.getNumeroSlotObjetoGrafico());
+                    controller.addGameObjectTree("CuboVisObject" + controller.getNumeroSlotObjetoGrafico(), "Vis", "CuboVis" + controller.getNumeroSlotObjetoGrafico());
+
+                    controller.configuraIluminacao("-");
+
+                    if (countObjt == 0) controller.reorganizaObjetos("");
+                    else controller.reorganizaObjetos(countObjt.ToString());
+
+                    setPropsAcoes(controller, value, countObjt, nome);
                     countEsc++;
                 }
             }
