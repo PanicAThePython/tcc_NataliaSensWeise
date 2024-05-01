@@ -393,10 +393,10 @@ public class Arquivo : MonoBehaviour
             float pos3conv = float.Parse(teste[3]);
 
             float[] colors = new float[4];
-            colors[0] = pos0conv;
-            colors[1] = pos1conv;
-            colors[2] = pos2conv;
-            colors[3] = pos3conv;
+            colors[0] = pos0conv/1000;
+            colors[1] = pos1conv/1000;
+            colors[2] = pos2conv/1000;
+            colors[3] = pos3conv/1000;
             prPeca.Cor = new Color(colors[0], colors[1], colors[2], colors[3]);
 
         }
@@ -463,8 +463,6 @@ public class Arquivo : MonoBehaviour
 
     void setPropsIluminacao(Controller controller, JSONNode values, string nome)
     {
-        //controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
-        // controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetComponent<Dropdown>().value = values["tipoLuz"];
         PropriedadePeca[] pecas = new PropriedadePeca[4];
 
         for (int i = 0; i < pecas.Length; i++)
@@ -497,7 +495,6 @@ public class Arquivo : MonoBehaviour
         prPeca.NomeCuboAmbiente = nomeAmb;
         var nomeVis = values["nome"] + "Vis";
         prPeca.NomeCuboVis = nomeVis;
-
         prPeca.Ativo = bool.Parse(values["ativo"]);
 
         prPeca.Pos = new Posicao();
@@ -516,124 +513,55 @@ public class Arquivo : MonoBehaviour
             float pos3conv = float.Parse(teste[3]);
 
             float[] colors = new float[4];
-            colors[0] = pos0conv;
-            colors[1] = pos1conv;
-            colors[2] = pos2conv;
-            colors[3] = pos3conv;
+            colors[0] = pos0conv/1000;
+            colors[1] = pos1conv/1000;
+            colors[2] = pos2conv/1000;
+            colors[3] = pos3conv/1000;
             prPeca.Cor = new Color(colors[0], colors[1], colors[2], colors[3]);
         }
 
-        //props aparecem no painel (só na luz ambiente), mas n reflete no amb e vis!!!!!!
-            //precisa mudar o tipo luz das outras peças???
-        //checar pospeca (tanto nesse caso qnt nos de deletar peça antes de exportar)
-        //entender pq a peça cubo sai do lugar (tanto aqui qnt nas ações [junto com a luz])
-        //olhar se funciona pra qnd tenho mais de um tipo de peça igual
-        //arrumar os toggles
-        //descobrir como exportar/importar textura
-
-        var tipoLuz = values["tipoLuz"];
-        print(tipoLuz);
-        switch (tipoLuz.ToString())
+        string tipoLuz = values["tipoLuz"].ToString();
+        if (tipoLuz.Contains("Ambiente")) prPeca.TipoLuz = 0; //2000x0
+        else if (tipoLuz.Contains("Directional"))//2100x0
         {
-            case "Ambiente": //2000x0
-                GameObject.Find("PropIluminacao").transform.GetChild(1).GetChild(0).GetComponent<TMP_Dropdown>().value = 0;
-                controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
-                
-                //como importar cor?????
+            prPeca.Intensidade = float.Parse(values["intensidade"]);
+            ValorIluminacao val = new ValorIluminacao();
+            val.X = float.Parse(values["valores"][0]);
+            val.Y = float.Parse(values["valores"][1]);
+            val.Z = float.Parse(values["valores"][2]);
+            prPeca.ValorIluminacao = val;
+            prPeca.TipoLuz = 1;
 
-                controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetChild(4).GetComponent<Toggle>().isOn = bool.Parse(values["ativo"]);
-                
-                prPeca.TipoLuz = 0;
-                
+        }
+        else if (tipoLuz.Contains("Point")) //2200x0
+        {
+            prPeca.Intensidade = float.Parse(values["intensidade"]);
+            prPeca.Distancia = float.Parse(values["distancia"]);
+            prPeca.TipoLuz = 2;
 
-                GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().preencheCamposIluminacao(0);
-                break;
+        }
+        else if (tipoLuz.Contains("Spot")) //2300x0
+        { 
+            prPeca.Intensidade = float.Parse(values["intensidade"]);
+            prPeca.Distancia = float.Parse(values["distancia"]);
+            prPeca.Angulo = float.Parse(values["angulo"]);
+            prPeca.Expoente = float.Parse(values["expoente"]);
 
-            case "Directional": //2100x0
-                GameObject.Find("PropIluminacao").transform.GetChild(1).GetChild(0).GetComponent<TMP_Dropdown>().value = 1;
-                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
-                //como importar cor?????
-                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetChild(4).GetComponent<Toggle>().isOn = values["ativo"];
+            ValorIluminacao val1 = new ValorIluminacao();
+            val1.X = float.Parse(values["valores"][0]);
+            val1.Y = float.Parse(values["valores"][1]);
+            val1.Z = float.Parse(values["valores"][2]);
+            prPeca.ValorIluminacao = val1;
 
-                //direcional
-                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["intensidade"];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(1).GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][0];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(1).GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][1];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(1).GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][2];
-
-                prPeca.Intensidade = float.Parse(values["intensidade"]);
-                ValorIluminacao val = new ValorIluminacao();
-                val.X = float.Parse(values["valores"][0]);
-                val.Y = float.Parse(values["valores"][1]);
-                val.Z = float.Parse(values["valores"][2]);
-                prPeca.ValorIluminacao = val;
-                prPeca.TipoLuz = 1;
-                
-                GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().preencheCamposIluminacao(1); 
-                break;
-
-            case "Point": //2200x0
-                GameObject.Find("PropIluminacao").transform.GetChild(1).GetChild(0).GetComponent<TMP_Dropdown>().value = 2;
-                controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
-                //como importar cor?????
-                controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetChild(4).GetComponent<Toggle>().isOn = values["ativo"];
-
-                //point
-                controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["intensidade"];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["distancia"];
-               
-                prPeca.Intensidade = float.Parse(values["intensidade"]);
-                prPeca.Distancia = float.Parse(values["distancia"]);
-                prPeca.TipoLuz = 2;
-                
-                GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().preencheCamposIluminacao(2); 
-                break;
-            case "Spot":
-                GameObject.Find("PropIluminacao").transform.GetChild(1).GetChild(0).GetComponent<TMP_Dropdown>().value = 3;
-                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
-                //como importar cor?????
-                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(0).GetChild(4).GetComponent<Toggle>().isOn = values["ativo"];
-
-                //spot
-                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["intensidade"];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["distancia"];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["angulo"];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(3).GetChild(0).GetComponent<TMP_InputField>().text = values["expoente"];
-
-                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(4).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][0];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(4).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][1];
-                controller.abrePropriedade.transform.GetChild(2).GetChild(3).GetChild(1).GetChild(4).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][2];
-
-
-                prPeca.Intensidade = float.Parse(values["intensidade"]);
-                prPeca.Distancia = float.Parse(values["distancia"]);
-                prPeca.Angulo = float.Parse(values["angulo"]);
-                prPeca.Expoente = float.Parse(values["expoente"]);
-
-                ValorIluminacao val1 = new ValorIluminacao();
-                val1.X = float.Parse(values["valores"][0]);
-                val1.Y = float.Parse(values["valores"][1]);
-                val1.Z = float.Parse(values["valores"][2]);
-                prPeca.ValorIluminacao = val1;
-
-                prPeca.TipoLuz = 3;
-               
-                GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().preencheCamposIluminacao(3); 
-                break;
+            prPeca.TipoLuz = 3;
         }
         
         pecas[prPeca.TipoLuz] = prPeca;
         Global.propriedadeIluminacao.Add(nome, pecas);
         prPeca.JaInstanciou = true;
         Global.propriedadePecas.Add(nome, prPeca);
+        GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().preencheCamposIluminacao(prPeca.TipoLuz);
+
     }
 
     void adicionarEncaixe(GameObject peca)
