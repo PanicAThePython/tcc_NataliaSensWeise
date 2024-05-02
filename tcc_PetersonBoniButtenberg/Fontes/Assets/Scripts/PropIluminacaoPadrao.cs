@@ -18,6 +18,20 @@ public class PropIluminacaoPadrao : MonoBehaviour {
     private const float VALOR_INICIAL_ROTACAO_X = 71.819f;
     private const float VALOR_INICIAL_ROTACAO_Y = 90f;
 
+    /*
+    private GameObject Ambiente;
+    private GameObject Directional;
+    private GameObject Point;
+    private GameObject Spot;
+
+    private void Start()
+    {
+        Ambiente = GameObject.Find("PropIluminacao").transform.GetChild(2).GetChild(0).gameObject;
+        Directional = GameObject.Find("PropIluminacao").transform.GetChild(2).GetChild(1).gameObject;
+        Point = GameObject.Find("PropIluminacao").transform.GetChild(2).GetChild(2).gameObject;
+        Spot = GameObject.Find("PropIluminacao").transform.GetChild(2).GetChild(3).gameObject;
+    }
+    */
     protected void preencheCampos()
     {
         Global.propriedadePecas[Global.gameObjectName].JaIniciouValores = true;
@@ -314,7 +328,6 @@ public class PropIluminacaoPadrao : MonoBehaviour {
             propIluminacao = GameObject.Find("PropIluminacao");
 
         GameObject lightObject = null;
-
         switch ((int)iluminacao)
         {
             case (int)TipoIluminacao.Ambiente:
@@ -359,6 +372,7 @@ public class PropIluminacaoPadrao : MonoBehaviour {
                 AtivaIluminacao(lightObject.name, Global.propriedadeIluminacao[Global.gameObjectName][(int)TipoIluminacao.Directional].Ativo);
 
                 //AtivaCamera(Global.propriedadeIluminacao[Global.gameObjectName][(int)TipoIluminacao.Directional].Ativo);
+                // (Arquivo.importando) propLuz.AdicionaValorPropriedade(1);
 
                 break;
             case (int)TipoIluminacao.Point:
@@ -388,6 +402,7 @@ public class PropIluminacaoPadrao : MonoBehaviour {
                 lightObject.GetComponent<Light>().range = Global.propriedadeIluminacao[Global.gameObjectName][(int)TipoIluminacao.Point].Distancia;
 
                 //AtivaCamera(Global.propriedadeIluminacao[Global.gameObjectName][(int)TipoIluminacao.Point].Ativo);
+                //if (Arquivo.importando) propLuz.AdicionaValorPropriedade(2);
 
                 break;
             case (int)TipoIluminacao.Spot:
@@ -421,7 +436,7 @@ public class PropIluminacaoPadrao : MonoBehaviour {
                 lightObject.GetComponent<Light>().intensity = Global.propriedadeIluminacao[Global.gameObjectName][(int)TipoIluminacao.Spot].Intensidade;
                 lightObject.GetComponent<Light>().range = Global.propriedadeIluminacao[Global.gameObjectName][(int)TipoIluminacao.Spot].Distancia;
 
-               // AtivaCamera(Global.propriedadeIluminacao[Global.gameObjectName][(int)TipoIluminacao.Spot].Ativo);
+                // AtivaCamera(Global.propriedadeIluminacao[Global.gameObjectName][(int)TipoIluminacao.Spot].Ativo);
 
                 //// Altera escala de acordo com o range.
                 //float scaleObjSpot = Global.propriedadeIluminacao[Global.gameObjectName][(int)TipoIluminacao.Spot].Distancia / 1000;
@@ -429,8 +444,10 @@ public class PropIluminacaoPadrao : MonoBehaviour {
 
                 //objSpot.localScale = new Vector3(scaleObjSpot, scaleObjSpot, scaleObjSpot);
                 //objSpot.localPosition = Vector3.zero;
+                //if (Arquivo.importando) propLuz.AdicionaValorPropriedade(3);
+
                 break;
-        }   
+        }
     }
 
     public void preencheCamposIluminacao(int iluminacao)

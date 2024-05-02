@@ -16,6 +16,11 @@ public class Arquivo : MonoBehaviour
     public TMP_InputField cenaJSON;
     public GameObject[] pecasPrefabs;
 
+    public GameObject Ambiente;
+    public GameObject Directional;
+    public GameObject Point;
+    public GameObject Spot;
+
     MeuObjetoGrafico objetoAtual;
     string nomeObjetoAtual = "";
 
@@ -561,6 +566,8 @@ public class Arquivo : MonoBehaviour
         prPeca.JaInstanciou = true;
         Global.propriedadePecas.Add(nome, prPeca);
         GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().preencheCamposIluminacao(prPeca.TipoLuz);
+        PropTipoLuz ptl = new PropTipoLuz();
+        ptl.AdicionaValorPropriedade(prPeca.TipoLuz, Ambiente, Directional, Point, Spot);
 
     }
 

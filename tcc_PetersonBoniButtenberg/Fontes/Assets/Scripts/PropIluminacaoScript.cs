@@ -10,6 +10,12 @@ public class PropIluminacaoScript : PropIluminacaoPadrao {
     public TMP_InputField mainInputField;
     public Toggle toggleField;
 
+    /*
+    public static GameObject Ambiente;
+    public static GameObject Directional;
+    public static GameObject Point;
+    public static GameObject Spot;
+    */
     public void Start()
     {    
         if (mainInputField != null)

@@ -24,9 +24,21 @@ public class PropTipoLuz : MonoBehaviour {
             mainDropdown.onValueChanged.AddListener(delegate { AdicionaValorPropriedade(); });
     }
 
-    public void AdicionaValorPropriedade()
+    public void AdicionaValorPropriedade(int indexTipoLuz = -1, GameObject Ambiente1 = null, GameObject Directional1 = null, GameObject Point1 = null, GameObject Spot1 = null)
     {
-        switch (gameObject.GetComponent<TMP_Dropdown>().value)
+        var dropdown = 0;
+        if (indexTipoLuz > -1)
+        {
+            dropdown = indexTipoLuz;
+        }
+        else dropdown = gameObject.GetComponent<TMP_Dropdown>().value;
+
+        if (Ambiente1 != null) Ambiente = Ambiente1;
+        if (Directional1 != null) Directional = Directional1;
+        if (Point1 != null) Point = Point1;
+        if (Spot1 != null) Spot = Spot1;
+
+        switch (dropdown)
         {
             case 0: //Ambiente
                 Ambiente.SetActive(true);
@@ -71,7 +83,7 @@ public class PropTipoLuz : MonoBehaviour {
         }
     }
 
-    private void AtivaIluminacao(int idxIluminacao)
+    public void AtivaIluminacao(int idxIluminacao)
     {
         Light lDirectional = GameObject.Find("Directional" + Global.gameObjectName).GetComponent<Light>();
         Light lPoint = GameObject.Find("Point" + Global.gameObjectName).GetComponent<Light>();
