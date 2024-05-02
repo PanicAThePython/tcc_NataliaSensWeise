@@ -69,7 +69,7 @@ public class Arquivo : MonoBehaviour
             cena.Add(nomeObjetoAtual, objetoAtual.getProps());
             objetoAtual.setChildren(limpandoListaChildren());
         }
-        Global.listaObjetos[l].GetComponent<MeuObjetoGrafico>().addProps("Objeto Gr�fico");
+        Global.listaObjetos[l].GetComponent<MeuObjetoGrafico>().addProps();
         objetoAtual = Global.listaObjetos[l].GetComponent<MeuObjetoGrafico>();
         nomeObjetoAtual = Global.listaObjetos[l].name;
     }
@@ -79,10 +79,11 @@ public class Arquivo : MonoBehaviour
         var luz = Global.listaObjetos[l].GetComponent<MinhaIluminacao>();
         luz.addProps();
         var propsLuz = luz.getProps();
+
         if (propsLuz["nome"] == "")
         {
             JSONObject props = new JSONObject();
-            props.Add("nome", "Ilumina��o");
+            props.Add("nome", "Iluminacao");
             props.Add("tipoLuz", "Ambiente");
 
             JSONArray posicao = new JSONArray();
@@ -100,6 +101,15 @@ public class Arquivo : MonoBehaviour
             props.Add("posPeca", posPeca);
             propsLuz = props;
         }
+        if (propsLuz["posicao"][0].Count == 0)
+        {
+            JSONArray posicao = new JSONArray();
+            posicao.Add("x", "100");
+            posicao.Add("y", "300");
+            posicao.Add("z", "0");
+            propsLuz.Add("posicao", posicao);
+        }
+        if (propsLuz["cor"] == null) propsLuz.Add("cor", "RGBA(1.000, 1.000, 1.000, 1.000)");
         JSONObject filho = new JSONObject();
         filho.Add(Global.listaObjetos[l].name, propsLuz);
         objetoAtual.addChildren(filho);
@@ -136,6 +146,7 @@ public class Arquivo : MonoBehaviour
             props.Add("posPeca", posPeca);
             propsCubo = props;
         }
+        if (propsCubo["cor"] == null) propsCubo.Add("cor", "RGBA(1.000, 1.000, 1.000, 1.000)");
         JSONObject filho = new JSONObject();
         filho.Add(Global.listaObjetos[l].name, propsCubo);
         objetoAtual.addChildren(filho);
@@ -398,31 +409,19 @@ public class Arquivo : MonoBehaviour
             float pos3conv = float.Parse(teste[3]);
 
             float[] colors = new float[4];
-            colors[0] = pos0conv/1000;
-            colors[1] = pos1conv/1000;
-            colors[2] = pos2conv/1000;
-            colors[3] = pos3conv/1000;
+            colors[0] = pos0conv / 1000;
+            colors[1] = pos1conv / 1000;
+            colors[2] = pos2conv / 1000;
+            colors[3] = pos3conv / 1000;
             prPeca.Cor = new Color(colors[0], colors[1], colors[2], colors[3]);
 
         }
+        //else prPeca.Cor = Color.white;
         Global.propriedadePecas.Add(nome, prPeca);
 
-        /*
-        controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
-
-        controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["tamanho"][0];
-        controller.abrePropriedade.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["tamanho"][1];
-        controller.abrePropriedade.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["tamanho"][2];
-
-        controller.abrePropriedade.transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
-        controller.abrePropriedade.transform.GetChild(2).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][1];
-        controller.abrePropriedade.transform.GetChild(2).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][2];
-        
-
-        controller.abrePropriedade.transform.GetChild(6).GetComponent<Toggle>().isOn = values["ativo"];
-        */
-        //GameObject.Find("PropCubo").GetComponent<PropCuboPadrao>().atualizaListaProp(nome); //--> atualiza as props, mas dá erro pq o prpeca.nome tá null --> ele chama p updatePosition automaticamente
-        //GameObject.Find("PropCubo").GetComponent<PropCuboPadrao>().updatePosition(prPeca);
+        //seta a cor no cubo
+        GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].color = Global.propriedadePecas[prPeca.Nome].Cor;
+        GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboVis).GetComponent<MeshRenderer>().materials[0].color = Global.propriedadePecas[prPeca.Nome].Cor;
     }
 
     void setPropsAcoes(Controller controller, JSONNode values, int countObjt, string nome)
@@ -518,12 +517,13 @@ public class Arquivo : MonoBehaviour
             float pos3conv = float.Parse(teste[3]);
 
             float[] colors = new float[4];
-            colors[0] = pos0conv/1000;
-            colors[1] = pos1conv/1000;
-            colors[2] = pos2conv/1000;
-            colors[3] = pos3conv/1000;
+            colors[0] = pos0conv / 1000;
+            colors[1] = pos1conv / 1000;
+            colors[2] = pos2conv / 1000;
+            colors[3] = pos3conv / 1000;
             prPeca.Cor = new Color(colors[0], colors[1], colors[2], colors[3]);
         }
+        //else prPeca.Cor = Color.white;
 
         string tipoLuz = values["tipoLuz"].ToString();
         if (tipoLuz.Contains("Ambiente")) prPeca.TipoLuz = 0; //2000x0
@@ -565,6 +565,7 @@ public class Arquivo : MonoBehaviour
         Global.propriedadeIluminacao.Add(nome, pecas);
         prPeca.JaInstanciou = true;
         Global.propriedadePecas.Add(nome, prPeca);
+        if (Global.gameObjectName == null) Global.gameObjectName = prPeca.Nome;
         GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().preencheCamposIluminacao(prPeca.TipoLuz);
         PropTipoLuz ptl = new PropTipoLuz();
         ptl.AdicionaValorPropriedade(prPeca.TipoLuz, Ambiente, Directional, Point, Spot);

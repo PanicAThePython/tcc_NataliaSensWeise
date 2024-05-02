@@ -23,11 +23,13 @@ public class MeuObjetoGrafico : MeuModelo
         children = c;
     }
 
-    public void addProps(string n)
+    public void addProps()
     {
+        /*
         if (nome.text.Length == 0) props.Add("nome", n);
         else props.Add("nome", nome.text);
-
+        */
+        props.Add("nome", "Objeto Grafico");
         props.Add("ativo", ativo.enabled);
         props.Add("children", children);
 

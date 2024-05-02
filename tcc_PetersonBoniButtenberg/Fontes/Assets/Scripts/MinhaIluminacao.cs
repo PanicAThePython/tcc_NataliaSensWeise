@@ -50,7 +50,7 @@ public class MinhaIluminacao : MeuModelo
     }
     public void addProps()
     {
-        props.Add("nome", nome.text);
+        props.Add("nome", "Iluminacao");
         string tipo = tipoLuz.options[tipoLuz.value].text;
         props.Add("tipoLuz", tipo);
         switch (tipo){
