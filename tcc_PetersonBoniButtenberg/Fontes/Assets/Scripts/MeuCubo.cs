@@ -44,7 +44,11 @@ public class MeuCubo : MeuModelo
         if (Global.propriedadePecas.ContainsKey(nome.text))
         {
             props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
-            if (Global.propriedadePecas[nome.text].Textura != null) props.Add("textura", Global.propriedadePecas[nome.text].Textura.ToString());
+            if (Global.propriedadePecas[nome.text].Textura != null)
+            {
+                var textura = Global.propriedadePecas[nome.text].Textura.ToString().Replace(" (UnityEngine.Texture2D)", "");
+                props.Add("textura", textura);
+            }
         }
 
         props.Add("ativo", ativo.enabled);

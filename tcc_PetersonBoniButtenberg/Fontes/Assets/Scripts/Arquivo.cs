@@ -21,8 +21,19 @@ public class Arquivo : MonoBehaviour
     public GameObject Point;
     public GameObject Spot;
 
+    public GameObject[] texturas;
+
     MeuObjetoGrafico objetoAtual;
     string nomeObjetoAtual = "";
+    /*
+    private void Start()
+    {
+        for (int i = 0; i < texturas.Length; i++)
+        {
+            print(texturas[i].gameObject.GetComponent<MeshRenderer>().material.name);
+        }
+    }
+    */
 
     void setImportando(bool val)
     {
@@ -416,12 +427,32 @@ public class Arquivo : MonoBehaviour
             prPeca.Cor = new Color(colors[0], colors[1], colors[2], colors[3]);
 
         }
-        //else prPeca.Cor = Color.white;
+        
+        if (values["textura"])
+        {
+            for (int i = 0; i < texturas.Length; i++)
+            {
+                string novoNome = texturas[i].gameObject.GetComponent<MeshRenderer>().material.name;
+
+                if (novoNome.Contains(values["textura"]))
+                {
+                    prPeca.Textura = texturas[i].gameObject.GetComponent<MeshRenderer>().material.mainTexture;
+                }
+            }
+        }
+        
         Global.propriedadePecas.Add(nome, prPeca);
 
         //seta a cor no cubo
         GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].color = Global.propriedadePecas[prPeca.Nome].Cor;
         GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboVis).GetComponent<MeshRenderer>().materials[0].color = Global.propriedadePecas[prPeca.Nome].Cor;
+
+        if (prPeca.Textura)
+        {
+            //Texturiza os cubos
+            GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].mainTexture = prPeca.Textura;
+            GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboVis).GetComponent<MeshRenderer>().materials[0].mainTexture = prPeca.Textura;
+        }
     }
 
     void setPropsAcoes(Controller controller, JSONNode values, int countObjt, string nome)

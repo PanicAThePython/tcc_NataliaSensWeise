@@ -66400,6 +66400,19 @@ MonoBehaviour:
   Directional: {fileID: 1254839556}
   Point: {fileID: 1185153281}
   Spot: {fileID: 99654871}
+  texturas:
+  - {fileID: 337734615}
+  - {fileID: 343127233}
+  - {fileID: 1668565104}
+  - {fileID: 1352245126}
+  - {fileID: 1135920672}
+  - {fileID: 1152805071}
+  - {fileID: 1052877814}
+  - {fileID: 184747951}
+  - {fileID: 2015359834}
+  - {fileID: 1543815456}
+  - {fileID: 363072107}
+  - {fileID: 390890594}
 --- !u!1 &1114478450
 GameObject:
   m_ObjectHideFlags: 0
