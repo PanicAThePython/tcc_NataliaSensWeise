@@ -48,71 +48,105 @@ public class MinhaIluminacao : MeuModelo
     {
         return props;
     }
-    public void addProps()
+    public void addProps(string nomePeca)
     {
-        props.Add("nome", "Iluminacao");
-        string tipo = tipoLuz.options[tipoLuz.value].text;
-        props.Add("tipoLuz", tipo);
-        switch (tipo){
-            case "Ambiente":
-                JSONArray posicao = new JSONArray();
-                posicao.Add("x", posicaoLuz[0].text);
-                posicao.Add("y", posicaoLuz[1].text);
-                posicao.Add("z", posicaoLuz[2].text);
-                props.Add("posicao", posicao);
-                if (Global.propriedadePecas.ContainsKey(nome.text)) props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
-                props.Add("ativo", ativo.enabled);
-                break;
-            case "Directional":
-                JSONArray posicao2 = new JSONArray();
-                posicao2.Add("x", posicaoLuzDirect[0].text);
-                posicao2.Add("y", posicaoLuzDirect[1].text);
-                posicao2.Add("z", posicaoLuzDirect[2].text);
-                props.Add("posicao", posicao2);
-                if (Global.propriedadePecas.ContainsKey(nome.text)) props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
-                props.Add("ativo", ativoDirect.enabled);
-                props.Add("intensidade", intensidade.text);
-                JSONArray vals = new JSONArray();
-                vals.Add("x", valores[0].text);
-                vals.Add("y", valores[1].text);
-                vals.Add("z", valores[2].text);
-                props.Add("valores", vals);
-                break;
-            case "Point":
-                JSONArray posicao3 = new JSONArray();
-                posicao3.Add("x", posicaoLuzPoint[0].text);
-                posicao3.Add("y", posicaoLuzPoint[1].text);
-                posicao3.Add("z", posicaoLuzPoint[2].text);
-                props.Add("posicao", posicao3);
-                if (Global.propriedadePecas.ContainsKey(nome.text)) props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
-                props.Add("ativo", ativoDirect.enabled);
-                props.Add("intensidade", intPoint.text);
-                props.Add("distancia", distancia.text);
-                break;
-            case "Spot":
-                JSONArray posicao4 = new JSONArray();
-                posicao4.Add("x", posicaoLuzSpot[0].text);
-                posicao4.Add("y", posicaoLuzSpot[1].text);
-                posicao4.Add("z", posicaoLuzSpot[2].text);
-                props.Add("posicao", posicao4);
-                if (Global.propriedadePecas.ContainsKey(nome.text)) props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
-                props.Add("ativo", ativoDirect.enabled);
-                props.Add("intensidade", intSpot.text);
-                props.Add("distancia", distSpot.text);
-                props.Add("angulo", angulo.text);
-                props.Add("expoente", expoente.text);
-                JSONArray vals2 = new JSONArray();
-                vals2.Add("x", valSpot[0].text);
-                vals2.Add("y", valSpot[1].text);
-                vals2.Add("z", valSpot[2].text);
-                props.Add("valores", vals2);
-                break;
+        if (Global.propriedadePecas.ContainsKey(nomePeca))
+        {
+            var luz = Global.propriedadePecas[nomePeca];
+            props.Add("nome", "Iluminacao");
+            string tipo = tipoLuz.options[tipoLuz.value].text;
+            props.Add("tipoLuz", tipo);
+            switch (tipo)
+            {
+                case "Ambiente":
+                    JSONArray posicao = new JSONArray();
+                    posicao.Add("x", posicaoLuz[0].text);
+                    posicao.Add("y", posicaoLuz[1].text);
+                    posicao.Add("z", posicaoLuz[2].text);
+                    props.Add("posicao", posicao);
+                    if (Global.propriedadePecas.ContainsKey(nome.text)) props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
+                    props.Add("ativo", ativo.enabled);
+                    break;
+                case "Directional":
+                    JSONArray posicao2 = new JSONArray();
+                    posicao2.Add("x", posicaoLuzDirect[0].text);
+                    posicao2.Add("y", posicaoLuzDirect[1].text);
+                    posicao2.Add("z", posicaoLuzDirect[2].text);
+                    props.Add("posicao", posicao2);
+                    if (Global.propriedadePecas.ContainsKey(nome.text)) props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
+                    props.Add("ativo", ativoDirect.enabled);
+                    props.Add("intensidade", intensidade.text);
+                    JSONArray vals = new JSONArray();
+                    vals.Add("x", valores[0].text);
+                    vals.Add("y", valores[1].text);
+                    vals.Add("z", valores[2].text);
+                    props.Add("valores", vals);
+                    break;
+                case "Point":
+                    JSONArray posicao3 = new JSONArray();
+                    posicao3.Add("x", posicaoLuzPoint[0].text);
+                    posicao3.Add("y", posicaoLuzPoint[1].text);
+                    posicao3.Add("z", posicaoLuzPoint[2].text);
+                    props.Add("posicao", posicao3);
+                    if (Global.propriedadePecas.ContainsKey(nome.text)) props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
+                    props.Add("ativo", ativoDirect.enabled);
+                    props.Add("intensidade", intPoint.text);
+                    props.Add("distancia", distancia.text);
+                    break;
+                case "Spot":
+                    JSONArray posicao4 = new JSONArray();
+                    posicao4.Add("x", posicaoLuzSpot[0].text);
+                    posicao4.Add("y", posicaoLuzSpot[1].text);
+                    posicao4.Add("z", posicaoLuzSpot[2].text);
+                    props.Add("posicao", posicao4);
+                    if (Global.propriedadePecas.ContainsKey(nome.text)) props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
+                    props.Add("ativo", ativoDirect.enabled);
+                    props.Add("intensidade", intSpot.text);
+                    props.Add("distancia", distSpot.text);
+                    props.Add("angulo", angulo.text);
+                    props.Add("expoente", expoente.text);
+                    JSONArray vals2 = new JSONArray();
+                    vals2.Add("x", valSpot[0].text);
+                    vals2.Add("y", valSpot[1].text);
+                    vals2.Add("z", valSpot[2].text);
+                    props.Add("valores", vals2);
+                    break;
+            }
+
+            JSONArray posPeca = new JSONArray();
+            posPeca.Add("x", this.transform.position.x);
+            posPeca.Add("y", this.transform.position.y);
+            posPeca.Add("z", this.transform.position.z);
+            props.Add("posPeca", posPeca);
+        }
+        else
+        {
+            props.Add("nome", "Iluminacao");
+            props.Add("tipoLuz", "Ambiente");
+
+            JSONArray posicao = new JSONArray();
+            posicao.Add("x", "100");
+            posicao.Add("y", "300");
+            posicao.Add("z", "0");
+            props.Add("posicao", posicao);
+
+            props.Add("ativo", true);
+
+            JSONArray posPeca = new JSONArray();
+            posPeca.Add("x", this.transform.position.x);
+            posPeca.Add("y", this.transform.position.y);
+            posPeca.Add("z", this.transform.position.z);
+            props.Add("posPeca", posPeca);
+        }
+        if (props["posicao"][0].Count == 0)
+        {
+            JSONArray posicao = new JSONArray();
+            posicao.Add("x", "100");
+            posicao.Add("y", "300");
+            posicao.Add("z", "0");
+            props.Add("posicao", posicao);
         }
 
-        JSONArray posPeca = new JSONArray();
-        posPeca.Add("x", this.transform.position.x);
-        posPeca.Add("y", this.transform.position.y);
-        posPeca.Add("z", this.transform.position.z);
-        props.Add("posPeca", posPeca);
+        if (props["cor"] == null) props.Add("cor", "RGBA(1.000, 1.000, 1.000, 1.000)");
     }
 }

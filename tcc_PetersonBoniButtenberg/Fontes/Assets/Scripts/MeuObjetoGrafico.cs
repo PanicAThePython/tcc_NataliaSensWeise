@@ -23,21 +23,33 @@ public class MeuObjetoGrafico : MeuModelo
         children = c;
     }
 
-    public void addProps()
+    public void addProps(string nomePeca)
     {
-        /*
-        if (nome.text.Length == 0) props.Add("nome", n);
-        else props.Add("nome", nome.text);
-        */
-        props.Add("nome", "Objeto Grafico");
-        props.Add("ativo", ativo.enabled);
-        props.Add("children", children);
+        if (Global.propriedadePecas.ContainsKey(nomePeca))
+        {
+            var objeto = Global.propriedadePecas[nomePeca];
+            props.Add("nome", nomePeca);
+            props.Add("ativo", objeto.Ativo);
+            props.Add("children", children);
 
-        JSONArray posPeca = new JSONArray();
-        posPeca.Add("x", this.transform.position.x);
-        posPeca.Add("y", this.transform.position.y);
-        posPeca.Add("z", this.transform.position.z);
-        props.Add("posPeca", posPeca);
+            JSONArray posPeca = new JSONArray();
+            posPeca.Add("x", this.transform.position.x);
+            posPeca.Add("y", this.transform.position.y);
+            posPeca.Add("z", this.transform.position.z);
+            props.Add("posPeca", posPeca);
+        }
+        else
+        {
+            props.Add("nome", nomePeca);
+            props.Add("ativo", true);
+            props.Add("children", children);
+
+            JSONArray posPeca = new JSONArray();
+            posPeca.Add("x", this.transform.position.x);
+            posPeca.Add("y", this.transform.position.y);
+            posPeca.Add("z", this.transform.position.z);
+            props.Add("posPeca", posPeca);
+        }
     }
     public JSONObject getProps()
     {

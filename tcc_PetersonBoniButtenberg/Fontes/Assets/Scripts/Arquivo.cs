@@ -25,15 +25,6 @@ public class Arquivo : MonoBehaviour
 
     MeuObjetoGrafico objetoAtual;
     string nomeObjetoAtual = "";
-    /*
-    private void Start()
-    {
-        for (int i = 0; i < texturas.Length; i++)
-        {
-            print(texturas[i].gameObject.GetComponent<MeshRenderer>().material.name);
-        }
-    }
-    */
 
     void setImportando(bool val)
     {
@@ -67,158 +58,51 @@ public class Arquivo : MonoBehaviour
         return new JSONArray();
     }
     
-    void adicionarCameraNoJSON(int l)
+    void adicionarCameraNoJSON(int l, List<GameObject> listaOrdenada)
     {
-        var camera = Global.listaObjetos[l].GetComponent<MinhaCamera>();
+        var camera = listaOrdenada[l].GetComponent<MinhaCamera>();
         camera.addProps();
-        cena.Add(Global.listaObjetos[l].name, camera.getProps());
+        cena.Add(listaOrdenada[l].name, camera.getProps());
     }
 
-    void adicionarObjetoGraficoNoJSON(int l)
+    void adicionarObjetoGraficoNoJSON(int l, List<GameObject> listaOrdenada)
     {
         if (nomeObjetoAtual.Length > 0) {
             cena.Add(nomeObjetoAtual, objetoAtual.getProps());
             objetoAtual.setChildren(limpandoListaChildren());
         }
-        Global.listaObjetos[l].GetComponent<MeuObjetoGrafico>().addProps();
-        objetoAtual = Global.listaObjetos[l].GetComponent<MeuObjetoGrafico>();
-        nomeObjetoAtual = Global.listaObjetos[l].name;
+        listaOrdenada[l].GetComponent<MeuObjetoGrafico>().addProps(listaOrdenada[l].name);
+        objetoAtual = listaOrdenada[l].GetComponent<MeuObjetoGrafico>();
+        nomeObjetoAtual = listaOrdenada[l].name;
     }
 
-    void adicionarIluminacaoNoJSON(int l)
+    void adicionarIluminacaoNoJSON(int l, List<GameObject> listaOrdenada)
     {
-        var luz = Global.listaObjetos[l].GetComponent<MinhaIluminacao>();
-        luz.addProps();
+        var luz = listaOrdenada[l].GetComponent<MinhaIluminacao>();
+        luz.addProps(listaOrdenada[l].name);
         var propsLuz = luz.getProps();
-
-        if (propsLuz["nome"] == "")
-        {
-            JSONObject props = new JSONObject();
-            props.Add("nome", "Iluminacao");
-            props.Add("tipoLuz", "Ambiente");
-
-            JSONArray posicao = new JSONArray();
-            posicao.Add("x", "100");
-            posicao.Add("y", "300");
-            posicao.Add("z", "0");
-            props.Add("posicao", posicao);
-
-            props.Add("ativo", true);
-
-            JSONArray posPeca = new JSONArray();
-            posPeca.Add("x", this.transform.position.x);
-            posPeca.Add("y", this.transform.position.y);
-            posPeca.Add("z", this.transform.position.z);
-            props.Add("posPeca", posPeca);
-            propsLuz = props;
-        }
-        if (propsLuz["posicao"][0].Count == 0)
-        {
-            JSONArray posicao = new JSONArray();
-            posicao.Add("x", "100");
-            posicao.Add("y", "300");
-            posicao.Add("z", "0");
-            propsLuz.Add("posicao", posicao);
-        }
-        if (propsLuz["cor"] == null) propsLuz.Add("cor", "RGBA(1.000, 1.000, 1.000, 1.000)");
         JSONObject filho = new JSONObject();
-        filho.Add(Global.listaObjetos[l].name, propsLuz);
+        filho.Add(listaOrdenada[l].name, propsLuz);
         objetoAtual.addChildren(filho);
     }
 
-    void adicionarCuboNoJSON(int l)
+    void adicionarCuboNoJSON(int l, List<GameObject> listaOrdenada)
     {
-        var cubo = Global.listaObjetos[l].GetComponent<MeuCubo>();
-        cubo.addProps();
+        var cubo = listaOrdenada[l].GetComponent<MeuCubo>();
+        cubo.addProps(listaOrdenada[l].name);
         var propsCubo = cubo.getProps();
-        if (propsCubo["nome"] == "")
-        {
-            JSONObject props = new JSONObject();
-            props.Add("nome", "Cubo");
-
-            JSONArray tamanho = new JSONArray();
-            tamanho.Add("x", "1");
-            tamanho.Add("y", "1");
-            tamanho.Add("z", "1");
-            props.Add("tamanho", tamanho);
-
-            JSONArray posicao = new JSONArray();
-            posicao.Add("x", "0");
-            posicao.Add("y", "0");
-            posicao.Add("z", "0");
-            props.Add("posicao", posicao);
-
-            props.Add("ativo", true);
-
-            JSONArray posPeca = new JSONArray();
-            posPeca.Add("x", this.transform.position.x);
-            posPeca.Add("y", this.transform.position.y);
-            posPeca.Add("z", this.transform.position.z);
-            props.Add("posPeca", posPeca);
-            propsCubo = props;
-        }
-        if (propsCubo["cor"] == null) propsCubo.Add("cor", "RGBA(1.000, 1.000, 1.000, 1.000)");
         JSONObject filho = new JSONObject();
-        filho.Add(Global.listaObjetos[l].name, propsCubo);
+        filho.Add(listaOrdenada[l].name, propsCubo);
         objetoAtual.addChildren(filho);
     }
 
-    void adicionarEscalaNoJSON(int l)
+    void adicionarAcoesNoJSON(int l, List<GameObject> listaOrdenada)
     {
-        var acao = Global.listaObjetos[l].GetComponent<MinhaAcao>();
-        acao.addProps();
+        var acao = listaOrdenada[l].GetComponent<MinhaAcao>();
+        acao.addProps(listaOrdenada[l].name);
         var propsAcao = acao.getProps();
-        if (propsAcao["nome"] == "")
-        {
-            JSONObject props = new JSONObject();
-            props.Add("nome", "Escalar");
-            props.Add("ativo", true);
-
-            JSONArray posicao = new JSONArray();
-            posicao.Add("x", "1");
-            posicao.Add("y", "1");
-            posicao.Add("z", "1");
-            props.Add("valores", posicao);
-
-            JSONArray posPeca = new JSONArray();
-            posPeca.Add("x", this.transform.position.x);
-            posPeca.Add("y", this.transform.position.y);
-            posPeca.Add("z", this.transform.position.z);
-            props.Add("posPeca", posPeca);
-            propsAcao = props;
-        }
         JSONObject filho = new JSONObject();
-        filho.Add(Global.listaObjetos[l].name, propsAcao);
-        objetoAtual.addChildren(filho);
-    }
-
-    void adicionarOutrasAcoesNoJSON(int l)
-    {
-        var acao = Global.listaObjetos[l].GetComponent<MinhaAcao>();
-        acao.addProps();
-        var propsAcao = acao.getProps();
-        if (propsAcao["nome"] == "")
-        {
-            JSONObject props = new JSONObject();
-            if (Global.listaObjetos[l].name.Contains("Trans")) props.Add("nome", "Transladar");
-            else props.Add("nome", "Rotacionar");
-            props.Add("ativo", true);
-
-            JSONArray posicao = new JSONArray();
-            posicao.Add("x", "0");
-            posicao.Add("y", "0");
-            posicao.Add("z", "0");
-            props.Add("valores", posicao);
-
-            JSONArray posPeca = new JSONArray();
-            posPeca.Add("x", this.transform.position.x);
-            posPeca.Add("y", this.transform.position.y);
-            posPeca.Add("z", this.transform.position.z);
-            props.Add("posPeca", posPeca);
-            propsAcao = props;
-        }
-        JSONObject filho = new JSONObject();
-        filho.Add(Global.listaObjetos[l].name, propsAcao);
+        filho.Add(listaOrdenada[l].name, propsAcao);
         objetoAtual.addChildren(filho);
     }
 
@@ -227,7 +111,6 @@ public class Arquivo : MonoBehaviour
         return Application.persistentDataPath + "/" + fileName;
     }
 
-    //faltou exportar a textura!!!!!!!!!
     public void Exportar()
     {
         List<GameObject> ordenada = ordenarCena(Global.listaObjetos);
@@ -235,27 +118,23 @@ public class Arquivo : MonoBehaviour
         {
             if (ordenada[l].name.Contains("Camera"))
             {
-                adicionarCameraNoJSON(l);
+                adicionarCameraNoJSON(l, ordenada);
             }
             else if (ordenada[l].name.Contains("Objeto"))
             {
-                adicionarObjetoGraficoNoJSON(l);
+                adicionarObjetoGraficoNoJSON(l, ordenada);
             }
             else if (ordenada[l].name.Contains("Iluminacao"))
             {
-                adicionarIluminacaoNoJSON(l);
+                adicionarIluminacaoNoJSON(l, ordenada);
             }
             else if (ordenada[l].name.Contains("Cubo"))
             {
-                adicionarCuboNoJSON(l);
-            }
-            else if (ordenada[l].name.Contains("Escala"))
-            {
-                adicionarEscalaNoJSON(l);
+                adicionarCuboNoJSON(l, ordenada);
             }
             else
             {
-                adicionarOutrasAcoesNoJSON(l);
+                adicionarAcoesNoJSON(l, ordenada);
             }
         }
         
@@ -292,6 +171,7 @@ public class Arquivo : MonoBehaviour
         }
     }
 
+    // checar posicao da camera
     void setPropsCamera(Controller controller, JSONNode values, string nome)
     {
 
@@ -624,16 +504,22 @@ public class Arquivo : MonoBehaviour
                 var key = props.Key;
                 var value = props.Value;
                 float x = value["posPeca"][0];
-                float y = value["posPeca"][1];
                 float z = value["posPeca"][2];
 
                 if (key.Contains("Cubo"))
                 {
                     var nome = "Cubo";
-                    if (countCubo > 0) nome += countCubo;
+                    var nomeSlot = "FormasSlot";
+                    if (countCubo > 0)
+                    {
+                        nome += countCubo;
+                        nomeSlot += countCubo;
+                    }
                     var cubo = GameObject.Find(nome);
                     var controller = cubo.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
+
+                    float y = GameObject.Find(nomeSlot).gameObject.transform.position.y;
 
                     //pegar nome prefab + numero e mudar posicao
                     cubo.transform.position = new Vector3(x, y, z);
@@ -703,11 +589,18 @@ public class Arquivo : MonoBehaviour
                 if (key.Contains("Ilumi"))
                 {
                     var nome = "Iluminacao";
-                    if (countLuz > 0) nome += countLuz;
+                    var nomeSlot = "IluminacaoSlot";
+                    if (countLuz > 0)
+                    {
+                        nome += countLuz;
+                        nomeSlot += countLuz;
+                    }
+
                     var luz = GameObject.Find(nome);
                     var controller = luz.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
 
+                    float y = GameObject.Find(nomeSlot).gameObject.transform.position.y;
                     //pegar nome prefab + numero e mudar posicao
                     luz.transform.position = new Vector3(x, y, z); //TÁ COM PROBLEMAS NO Y!!!!!!!!!
                     luz.GetComponent<BoxCollider>().enabled = true;
@@ -749,11 +642,17 @@ public class Arquivo : MonoBehaviour
                 if (key.Contains("Trans"))
                 {
                     var nome = "Transladar";
-                    if (countTrans > 0) nome += countTrans;
+                    var nomeSlot = "TransformacoesSlot";
+                    if (countTrans > 0)
+                    {
+                        nome += countTrans;
+                        nomeSlot += countTrans;
+                    }
                     var transladar = GameObject.Find(nome);
                     var controller = transladar.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
 
+                    float y = GameObject.Find(nomeSlot).gameObject.transform.position.y;
                     //pegar nome prefab + numero e mudar posicao
                     transladar.transform.position = new Vector3(x, y, z); //TÁ COM PROBLEMAS NO Y!!!!!!!!!
                     transladar.GetComponent<BoxCollider>().enabled = true;
@@ -820,11 +719,18 @@ public class Arquivo : MonoBehaviour
                 if (key.Contains("Rotac"))
                 {
                     var nome = "Rotacionar";
-                    if (countRot > 0) nome += countRot;
+                    var nomeSlot = "TransformacoesSlot";
+                    if (countRot > 0)
+                    {
+                        nome += countRot;
+                        nomeSlot += countRot;
+                    }
+
                     var rotacionar = GameObject.Find(nome);
                     var controller = rotacionar.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
 
+                    float y = GameObject.Find(nomeSlot).gameObject.transform.position.y;
                     //pegar nome prefab + numero e mudar posicao
                     rotacionar.transform.position = new Vector3(x, y, z); //TÁ COM PROBLEMAS NO Y!!!!!!!!!
                     rotacionar.GetComponent<BoxCollider>().enabled = true;
@@ -891,11 +797,17 @@ public class Arquivo : MonoBehaviour
                 if (key.Contains("Escal"))
                 {
                     var nome = "Escalar";
-                    if (countEsc > 0) nome += countEsc;
+                    var nomeSlot = "TransformacoesSlot";
+                    if (countEsc > 0)
+                    {
+                        nome += countEsc;
+                        nomeSlot += countEsc;
+                    }
                     var escalar = GameObject.Find(nome);
                     var controller = escalar.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
 
+                    float y = GameObject.Find(nomeSlot).gameObject.transform.position.y;
                     //pegar nome prefab + numero e mudar posicao
                     escalar.transform.position = new Vector3(x, y, z); //TÁ COM PROBLEMAS NO Y!!!!!!!!!
                     escalar.GetComponent<BoxCollider>().enabled = true;
@@ -999,9 +911,10 @@ public class Arquivo : MonoBehaviour
             //o certo é o contrário!!
             var key = entry.Key;
             var value = entry.Value;
+            
             float x = value["posPeca"][0];
-            float y = value["posPeca"][1];
             float z = value["posPeca"][2];
+            
             //var contr; //essa linha às vezes dá erro sla pq
             //MissingReferenceException: The object of type 'GameObject' has been destroyed but you are still trying to access it.
             //Your script should either check if it is null or you should not destroy the object.
@@ -1035,6 +948,8 @@ public class Arquivo : MonoBehaviour
                 var controller = cam.GetComponent<Controller>();
                 controller.GeraCopiaPeca();
 
+                //DEU CERTO ASSIM!!! VEIO NO ENCAIXE!!
+                float y = GameObject.Find("CameraSlot").gameObject.transform.position.y;
                 //pegar nome prefab + numero e mudar posicao
                 cam.transform.position = new Vector3(x, y, z);
                 cam.GetComponent<BoxCollider>().enabled = true;
@@ -1067,10 +982,17 @@ public class Arquivo : MonoBehaviour
                 //função separada de foreach numa lista children
                 //acessar o children dentro do value, e qnd tiver algo, chamar a func e acessar e criar os objts filho
                 var nome = "ObjetoGraficoP";
-                if (countObjt > 0) nome += countObjt;
+                var nomeSlot = "ObjGraficoSlot";
+                if (countObjt > 0)
+                {
+                    nome += countObjt;
+                    nomeSlot += countObjt;
+                }
                 var objeto = GameObject.Find(nome);
                 var controller = objeto.GetComponent<Controller>();
                 controller.GeraCopiaPeca();
+
+                float y = GameObject.Find(nomeSlot).gameObject.transform.position.y;
 
                 objeto.transform.position = new Vector3(x, y, z);
                 objeto.GetComponent<BoxCollider>().enabled = true;

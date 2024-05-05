@@ -13,22 +13,61 @@ public class MinhaAcao : MeuModelo
     public Toggle ativo;
     public TMP_InputField[] valores;
 
-    public void addProps()
+    public void addProps(string nomePeca)
     {
-        props.Add("nome", nome.text);
-        props.Add("ativo", ativo.enabled);
+        if (Global.propriedadePecas.ContainsKey(nomePeca))
+        {
+            var acao = Global.propriedadePecas[nomePeca];
+            props.Add("nome", acao.Nome);
+            props.Add("ativo", acao.Ativo);
 
-        JSONArray vals = new JSONArray();
-        vals.Add("x", valores[0].text);
-        vals.Add("y", valores[1].text);
-        vals.Add("z", valores[2].text);
-        props.Add("valores", vals);
+            if (nomePeca.Contains("Escala"))
+            {
+                JSONArray vals = new JSONArray();
+                vals.Add("x", acao.Tam.X.ToString());
+                vals.Add("y", acao.Tam.Y.ToString());
+                vals.Add("z", acao.Tam.Z.ToString());
+                props.Add("valores", vals);
+            }
+            else
+            {
+                JSONArray vals = new JSONArray();
+                vals.Add("x", acao.Pos.X.ToString());
+                vals.Add("y", acao.Pos.Y.ToString());
+                vals.Add("z", acao.Pos.Z.ToString());
+                props.Add("valores", vals);
+            }
+            
 
-        JSONArray posPeca = new JSONArray();
-        posPeca.Add("x", this.transform.position.x);
-        posPeca.Add("y", this.transform.position.y);
-        posPeca.Add("z", this.transform.position.z);
-        props.Add("posPeca", posPeca);
+            JSONArray posPeca = new JSONArray();
+            posPeca.Add("x", this.transform.position.x);
+            posPeca.Add("y", this.transform.position.y);
+            posPeca.Add("z", this.transform.position.z);
+            props.Add("posPeca", posPeca);
+        }
+        else
+        {
+            props.Add("nome", nomePeca);
+            props.Add("ativo", true);
+
+            if (nomePeca.Contains("Escala"))
+            {
+                JSONArray vals = new JSONArray();
+                vals.Add("x", "1");
+                vals.Add("y", "1");
+                vals.Add("z", "1");
+                props.Add("valores", vals);
+            }
+            else
+            {
+                JSONArray vals = new JSONArray();
+                vals.Add("x", "0");
+                vals.Add("y", "0");
+                vals.Add("z", "0");
+                props.Add("valores", vals);
+            }
+        }
+        
     }
 
     public JSONObject getProps()

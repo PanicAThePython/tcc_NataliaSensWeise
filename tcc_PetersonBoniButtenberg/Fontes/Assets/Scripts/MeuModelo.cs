@@ -5,7 +5,13 @@ using SimpleJSON;
 
 public class MeuModelo : MonoBehaviour
 {
-    public void addProps()
+    public JSONObject props;
+    public void addProps(string nome)
     {
+    }
+
+    public JSONObject getProps()
+    {
+        return props;
     }
 }

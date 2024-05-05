@@ -15,49 +15,67 @@ public class MeuCubo : MeuModelo
     public TMP_InputField[] posicaoCubo;
     public Material texturaPadrao;
 
-    private void Start()
+    public void addProps(string nomePeca)
     {
-        /*
-        if (Global.propriedadePecas.ContainsKey(nome.text))
+        if (Global.propriedadePecas.ContainsKey(nomePeca))
         {
-            Global.propriedadePecas[nome.text].Textura = texturaPadrao.GetTexture("TexturaNenhuma");
-        }
-        */
-    }
+            var cubo = Global.propriedadePecas[nomePeca];
+            props.Add("nome", cubo.Nome);
 
-    public void addProps()
-    {
-        props.Add("nome", nome.text);
+            JSONArray tamanho = new JSONArray();
+            tamanho.Add("x", cubo.Tam.X);
+            tamanho.Add("y", cubo.Tam.Y);
+            tamanho.Add("z", cubo.Tam.Z);
+            props.Add("tamanho", tamanho);
 
-        JSONArray tamanho = new JSONArray();
-        tamanho.Add("x", tamanhoCubo[0].text);
-        tamanho.Add("y", tamanhoCubo[1].text);
-        tamanho.Add("z", tamanhoCubo[2].text);
-        props.Add("tamanho", tamanho);
+            JSONArray posicao = new JSONArray();
+            posicao.Add("x", cubo.Pos.X);
+            posicao.Add("y", cubo.Pos.Y);
+            posicao.Add("z", cubo.Pos.Z);
+            props.Add("posicao", posicao);
 
-        JSONArray posicao = new JSONArray();
-        posicao.Add("x", posicaoCubo[0].text);
-        posicao.Add("y", posicaoCubo[1].text);
-        posicao.Add("z", posicaoCubo[2].text);
-        props.Add("posicao", posicao);
-
-        if (Global.propriedadePecas.ContainsKey(nome.text))
-        {
-            props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
-            if (Global.propriedadePecas[nome.text].Textura != null)
+            props.Add("cor", cubo.Cor.ToString());
+            if (cubo.Textura != null)
             {
-                var textura = Global.propriedadePecas[nome.text].Textura.ToString().Replace(" (UnityEngine.Texture2D)", "");
+                var textura = cubo.Textura.ToString().Replace(" (UnityEngine.Texture2D)", "");
                 props.Add("textura", textura);
             }
+
+            props.Add("ativo", cubo.Ativo);
+
+            JSONArray posPeca = new JSONArray();
+            posPeca.Add("x", this.transform.position.x);
+            posPeca.Add("y", this.transform.position.y);
+            posPeca.Add("z", this.transform.position.z);
+            props.Add("posPeca", posPeca);
         }
+        else
+        {
+            props.Add("nome", nomePeca);
 
-        props.Add("ativo", ativo.enabled);
+            JSONArray tamanho = new JSONArray();
+            tamanho.Add("x", "1");
+            tamanho.Add("y", "1");
+            tamanho.Add("z", "1");
+            props.Add("tamanho", tamanho);
 
-        JSONArray posPeca = new JSONArray();
-        posPeca.Add("x", this.transform.position.x);
-        posPeca.Add("y", this.transform.position.y);
-        posPeca.Add("z", this.transform.position.z);
-        props.Add("posPeca", posPeca);
+            JSONArray posicao = new JSONArray();
+            posicao.Add("x", "0");
+            posicao.Add("y", "0");
+            posicao.Add("z", "0");
+            props.Add("posicao", posicao);
+
+            props.Add("ativo", true);
+
+            JSONArray posPeca = new JSONArray();
+            posPeca.Add("x", this.transform.position.x);
+            posPeca.Add("y", this.transform.position.y);
+            posPeca.Add("z", this.transform.position.z);
+            props.Add("posPeca", posPeca);
+
+            props.Add("cor", "RGBA(1.000, 1.000, 1.000, 1.000)");
+        }
+       
     }
 
     public JSONObject getProps()

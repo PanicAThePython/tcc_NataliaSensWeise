@@ -112,3 +112,23 @@ calculo pra near e far:
 		-> parece ser algo mt trabalhoso pro pouco tempo q temos no momento, seria mlr dx de lado e voltar caso dê tempo
 		-> por alguma razão, o look at parece se atualizar sozinho qnd mudo o ponto, mas o msm n acontece com far e near
 		-> como o resultado desse esforço n vai retornar mts pontos, vou voltar nele qnd sobrar tempo, pq agr tenho q focar em algo q valha mais pra banca
+
+
+
+
+EXPORTAR/IMPORTAR
+
+eu tinha tido a ideia de pegar a posição dos slots pra fazer a peça ficar no lugar, mas infelizmente n rolou
+por alguma razão o y do slot mandou a peça pra mt longe
+
+o formaslot n muda de y durante a rolagem
+
+acho q o negócio n é pegar a posição do slot, e sim gerar a peça na posição q o slot foi gerado
+deu certo!!
+
+problema na exportação: qnd vc n clica na peca pra ver as props, n é add na Global.propriedadePecas, aí complica de pegar as props certinhas
+
+hmmm mas se eu n mudei as props, ent ele vai entrar no if q seta os valores padrão
+tá, ent é checar se aquela chave existe e daí setar, blz -> deu certo!!
+
+resolvido, mas ele adiciona (às vezes) no objeto errado, daí dá erro
