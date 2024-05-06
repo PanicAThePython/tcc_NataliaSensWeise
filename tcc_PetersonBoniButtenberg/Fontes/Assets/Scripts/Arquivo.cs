@@ -73,7 +73,7 @@ public class Arquivo : MonoBehaviour
         }
         listaOrdenada[l].GetComponent<MeuObjetoGrafico>().addProps(listaOrdenada[l].name);
         objetoAtual = listaOrdenada[l].GetComponent<MeuObjetoGrafico>();
-        nomeObjetoAtual = listaOrdenada[l].name;
+        nomeObjetoAtual = objetoAtual.ConverterNomes(listaOrdenada[l].name);
     }
 
     void adicionarIluminacaoNoJSON(int l, List<GameObject> listaOrdenada)
@@ -92,7 +92,8 @@ public class Arquivo : MonoBehaviour
         cubo.addProps(listaOrdenada[l].name);
         var propsCubo = cubo.getProps();
         JSONObject filho = new JSONObject();
-        filho.Add(listaOrdenada[l].name, propsCubo);
+        var nome = cubo.ConverterNomes(listaOrdenada[l].name);
+        filho.Add(nome, propsCubo);
         objetoAtual.addChildren(filho);
     }
 
@@ -102,7 +103,8 @@ public class Arquivo : MonoBehaviour
         acao.addProps(listaOrdenada[l].name);
         var propsAcao = acao.getProps();
         JSONObject filho = new JSONObject();
-        filho.Add(listaOrdenada[l].name, propsAcao);
+        var nome = acao.ConverterNomes(listaOrdenada[l].name);
+        filho.Add(nome, propsAcao);
         objetoAtual.addChildren(filho);
     }
 
@@ -306,6 +308,9 @@ public class Arquivo : MonoBehaviour
             colors[3] = pos3conv / 1000;
             prPeca.Cor = new Color(colors[0], colors[1], colors[2], colors[3]);
 
+            //seta a cor no cubo
+            print(prPeca.Cor);
+            //print(Global.propriedadePecas[prPeca.Nome]);
         }
         
         if (values["textura"])
@@ -319,20 +324,20 @@ public class Arquivo : MonoBehaviour
                     prPeca.Textura = texturas[i].gameObject.GetComponent<MeshRenderer>().material.mainTexture;
                 }
             }
+
+            //Texturiza os cubos
+            GameObject.Find(prPeca.NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].mainTexture = prPeca.Textura;
+            GameObject.Find(prPeca.NomeCuboVis).GetComponent<MeshRenderer>().materials[0].mainTexture = prPeca.Textura;
         }
         
         Global.propriedadePecas.Add(nome, prPeca);
 
-        //seta a cor no cubo
-        GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].color = Global.propriedadePecas[prPeca.Nome].Cor;
-        GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboVis).GetComponent<MeshRenderer>().materials[0].color = Global.propriedadePecas[prPeca.Nome].Cor;
+        //por alguma razão, n tá sendo criado em cena com o nome certo... aí tem dois "CuboAmbiente" e "CuboVis"... n aparece o num qnd eu faço a conversão dos nomes
+        print(prPeca.NomeCuboAmbiente);
+        print(prPeca.NomeCuboVis);
 
-        if (prPeca.Textura)
-        {
-            //Texturiza os cubos
-            GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].mainTexture = prPeca.Textura;
-            GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboVis).GetComponent<MeshRenderer>().materials[0].mainTexture = prPeca.Textura;
-        }
+        GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].color = prPeca.Cor;
+        GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboVis).GetComponent<MeshRenderer>().materials[0].color = prPeca.Cor;
     }
 
     void setPropsAcoes(Controller controller, JSONNode values, int countObjt, string nome)

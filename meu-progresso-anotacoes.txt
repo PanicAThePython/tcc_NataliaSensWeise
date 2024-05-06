@@ -132,3 +132,28 @@ hmmm mas se eu n mudei as props, ent ele vai entrar no if q seta os valores padr
 tá, ent é checar se aquela chave existe e daí setar, blz -> deu certo!!
 
 resolvido, mas ele adiciona (às vezes) no objeto errado, daí dá erro
+
+no tutorial, qnd sem querer vou mt pra baixo com a peça da luz:
+NullReferenceException: Object reference not set to an instance of an object
+Controller.OnMouseUp () (at Assets/Scripts/Controller.cs:687)
+
+-> a câmera n parece começar com a posição importada...
+-> verificação na exportação de cena vazia  -> arquivo linha 142
+-> limpar cena na importação qnd n estiver vazia -> arquivo linha 948
+-> colocar grade de volta dps de acabar o tutorial
+-> problema pra importar cenas q começam com "cubo1"... fazer alguma verificação pra contornar o erro na chave -> arquivo linha 327
+	-> n dá mais erro, mas as props do cubo não são importadas (props tamanho e posicao)
+		-> se pegar outra peça q já tá na tela, dá ruim pq ficam as duas com "1" no nome, por exemplo
+		-> a solução é converter o nome pra "cubo", qnd já começa assim
+		-> oq seriam mlr... fazer isso na exportação ou na importação?
+			-> acho q exportação... pq daí ele vai adicionar em ordem, aí se eu to com o "Cubo1", eu checo se existe um "Cubo"
+			-> se existir, ent quer dizer q ele só tá mais pra baixo na cena, senão ele não existe, e aí eu converto o nome, e vou fazendo isso
+				-> checar se nomePeca é maior q 4 e pegar a posição nomePeca[nomePeca.Length-1] e converter pra int
+				-> aí se for 1, remove ele e checa se existe ou n
+				-> se for maior q 1, é só subtrair e checar se existe ou n
+
+					-> ainda dá erro na linha 312 do arquivo e na 90 do propcubopadrao
+			-> no caso da câmera e da luz, n precisa pq só aparece uma vez na cena
+			-> mas nos outros é importante, só n vai dar erro se n repetir a peça em cena
+	-> e as props n aparecem no painel
+	-> aí as peças de ação n funcam, pq n tem tam e pos no cubo

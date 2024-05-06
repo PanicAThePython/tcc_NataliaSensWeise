@@ -6,6 +6,11 @@ using SimpleJSON;
 public class MeuModelo : MonoBehaviour
 {
     public JSONObject props;
+
+    public string ConverterNomes(string nomePeca)
+    {
+        return nomePeca;
+    }
     public void addProps(string nome)
     {
     }

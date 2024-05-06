@@ -23,11 +23,36 @@ public class MeuObjetoGrafico : MeuModelo
         children = c;
     }
 
+    public string ConverterNomes(string nomePeca)
+    {
+        if (nomePeca.Length > "ObjetoGraficoP".Length)
+        {
+            int num = int.Parse(nomePeca.Replace("ObjetoGraficoP", ""));
+            if (num == 1)
+            {
+                if (!Global.propriedadePecas.ContainsKey("ObjetoGraficoP")) nomePeca = "ObjetoGraficoP";
+            }
+            else
+            {
+                num -= 1;
+                var nomeNum = "ObjetoGraficoP" + num;
+                if (Global.propriedadePecas.ContainsKey(nomeNum))
+                {
+                    int numNovo = int.Parse(Global.propriedadePecas[nomeNum].Nome.Replace("ObjetoGraficoP", ""));
+                    if (numNovo != num) nomePeca = nomeNum;
+                }
+                else nomePeca = nomeNum;
+            }
+        }
+        return nomePeca;
+    }
+
     public void addProps(string nomePeca)
     {
         if (Global.propriedadePecas.ContainsKey(nomePeca))
         {
             var objeto = Global.propriedadePecas[nomePeca];
+            nomePeca = ConverterNomes(nomePeca);
             props.Add("nome", nomePeca);
             props.Add("ativo", objeto.Ativo);
             props.Add("children", children);
@@ -40,6 +65,7 @@ public class MeuObjetoGrafico : MeuModelo
         }
         else
         {
+            nomePeca = ConverterNomes(nomePeca);
             props.Add("nome", nomePeca);
             props.Add("ativo", true);
             props.Add("children", children);

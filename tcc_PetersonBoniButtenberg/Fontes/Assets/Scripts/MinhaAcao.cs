@@ -13,11 +13,44 @@ public class MinhaAcao : MeuModelo
     public Toggle ativo;
     public TMP_InputField[] valores;
 
+    public string ConverterNomes(string nomePeca)
+    {
+        var nomeOriginal = "";
+        if (nomePeca.Contains("Escala")) nomeOriginal = "Escalar";
+        else if (nomePeca.Contains("Trans")) nomeOriginal = "Transladar";
+        else nomeOriginal = "Rotacionar";
+
+        print(nomeOriginal);
+
+        if (nomePeca.Length > nomeOriginal.Length)
+        {
+            int num = int.Parse(nomePeca.Replace(nomeOriginal, ""));
+            print(num);
+            if (num == 1)
+            {
+                //n rola com o escalar...
+                if (!Global.propriedadePecas.ContainsKey(nomeOriginal)) nomePeca = nomeOriginal;
+            }
+            else
+            {
+                num -= 1;
+                var nomeNum = nomeOriginal + num;
+                if (Global.propriedadePecas.ContainsKey(nomeNum))
+                {
+                    int numNovo = int.Parse(Global.propriedadePecas[nomeNum].Nome.Replace(nomeOriginal, ""));
+                    if (numNovo != num) nomePeca = nomeNum;
+                }
+                else nomePeca = nomeNum;
+            }
+        }
+        return nomePeca;
+    }
     public void addProps(string nomePeca)
     {
         if (Global.propriedadePecas.ContainsKey(nomePeca))
         {
             var acao = Global.propriedadePecas[nomePeca];
+            nomePeca = ConverterNomes(nomePeca);
             props.Add("nome", acao.Nome);
             props.Add("ativo", acao.Ativo);
 
@@ -47,6 +80,7 @@ public class MinhaAcao : MeuModelo
         }
         else
         {
+            nomePeca = ConverterNomes(nomePeca);
             props.Add("nome", nomePeca);
             props.Add("ativo", true);
 

@@ -15,12 +15,37 @@ public class MeuCubo : MeuModelo
     public TMP_InputField[] posicaoCubo;
     public Material texturaPadrao;
 
+
+    public string ConverterNomes(string nomePeca)
+    {
+        if (nomePeca.Length > 4)
+        {
+            int num = int.Parse(nomePeca.Replace("Cubo", ""));
+            if (num == 1)
+            {
+                if (!Global.propriedadePecas.ContainsKey("Cubo")) nomePeca = "Cubo";
+            }
+            else
+            {
+                num -= 1;
+                var nomeNum = "Cubo" + num;
+                if (Global.propriedadePecas.ContainsKey(nomeNum))
+                {
+                    int numNovo = int.Parse(Global.propriedadePecas[nomeNum].Nome.Replace("Cubo", ""));
+                    if (numNovo != num) nomePeca = nomeNum;
+                }
+                else nomePeca = nomeNum;
+            }
+        }
+        return nomePeca;
+    }
     public void addProps(string nomePeca)
     {
         if (Global.propriedadePecas.ContainsKey(nomePeca))
         {
             var cubo = Global.propriedadePecas[nomePeca];
-            props.Add("nome", cubo.Nome);
+            nomePeca = ConverterNomes(nomePeca);
+            props.Add("nome", nomePeca);
 
             JSONArray tamanho = new JSONArray();
             tamanho.Add("x", cubo.Tam.X);
@@ -51,6 +76,7 @@ public class MeuCubo : MeuModelo
         }
         else
         {
+            nomePeca = ConverterNomes(nomePeca);
             props.Add("nome", nomePeca);
 
             JSONArray tamanho = new JSONArray();
