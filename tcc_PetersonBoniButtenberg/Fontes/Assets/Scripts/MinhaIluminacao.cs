@@ -52,7 +52,7 @@ public class MinhaIluminacao : MeuModelo
     {
         if (Global.propriedadePecas.ContainsKey(nomePeca))
         {
-            var luz = Global.propriedadePecas[nomePeca];
+            //var luz = Global.propriedadePecas[nomePeca];
             props.Add("nome", "Iluminacao");
             string tipo = tipoLuz.options[tipoLuz.value].text;
             props.Add("tipoLuz", tipo);

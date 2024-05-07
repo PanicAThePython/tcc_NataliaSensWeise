@@ -74,7 +74,7 @@ public class Arquivo : MonoBehaviour
         }
         listaOrdenada[l].GetComponent<MeuObjetoGrafico>().addProps(listaOrdenada[l].name);
         objetoAtual = listaOrdenada[l].GetComponent<MeuObjetoGrafico>();
-        nomeObjetoAtual = objetoAtual.ConverterNomes(listaOrdenada[l].name);
+        nomeObjetoAtual = listaOrdenada[l].name;
     }
 
     void adicionarIluminacaoNoJSON(int l, List<GameObject> listaOrdenada)
@@ -119,6 +119,7 @@ public class Arquivo : MonoBehaviour
         List<GameObject> ordenada = ordenarCena(Global.listaObjetos);
         for (int l = 0; l < ordenada.Count; l++)
         {
+            print(ordenada[l].name);
             if (ordenada[l].name.Contains("Camera"))
             {
                 adicionarCameraNoJSON(l, ordenada);
@@ -660,10 +661,6 @@ public class Arquivo : MonoBehaviour
                     var nomeSlot = "TransformacoesSlot";
                     if (countAcoes > 0) nomeSlot += "_" + countAcoes;
 
-                    //if (countRot > 0 && nome.Contains("Rot")) nome += countRot;
-                    //if (countTrans > 0 && nome.Contains("Trans")) nome += countTrans;
-                    //if (countEsc > 0 && nome.Contains("Esc")) nome += countEsc;
-
                     var acao = GameObject.Find(nome);
                     var controller = acao.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
@@ -673,10 +670,7 @@ public class Arquivo : MonoBehaviour
                     acao.GetComponent<BoxCollider>().enabled = true;
                     Global.addObject(acao);
                     adicionarEncaixe(acao, countAcoes);
-                    /*
-                    string numObjetoGrafico = controller.getNumeroSlotObjetoGrafico();
-                    GameObject ObjGrafSlot = GameObject.Find("ObjGraficoSlot" + numObjetoGrafico);
-                    */
+
                     string numObjetoGrafico = "";
                     if (countObjt > 0) numObjetoGrafico = countObjt.ToString();
                     GameObject ObjGrafSlot = GameObject.Find("ObjGraficoSlot" + numObjetoGrafico);

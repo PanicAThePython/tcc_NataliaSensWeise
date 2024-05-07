@@ -25,6 +25,7 @@ public class MeuObjetoGrafico : MeuModelo
 
     public string ConverterNomes(string nomePeca)
     {
+        print(nomePeca);
         if (nomePeca.Length > "ObjetoGraficoP".Length)
         {
             int num = int.Parse(nomePeca.Replace("ObjetoGraficoP", ""));

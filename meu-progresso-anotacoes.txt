@@ -152,8 +152,7 @@ Controller.OnMouseUp () (at Assets/Scripts/Controller.cs:687)
 	-> abri cada code modificado nos commits, não mexi em nada q fizesse o cubo do nada ficar só com uma ação por vez, ent acho q esse erro já tava
 
 -> a câmera n parece começar com a posição importada...
--> erro no nome e no slot hora de criar peças vermelhas
--> a luz vem preta às vezes qnd n seta uma cor
+-> a luz vem preta às vezes qnd n seta uma cor --> ainda n entendi como
 -> verificação na exportação de cena vazia  -> arquivo linha 142
 -> limpar cena na importação qnd n estiver vazia -> arquivo linha 948
 -> problema pra importar cenas q começam com "cubo1"... fazer alguma verificação pra contornar o erro na chave -> arquivo linha 327
