@@ -137,10 +137,25 @@ no tutorial, qnd sem querer vou mt pra baixo com a peça da luz:
 NullReferenceException: Object reference not set to an instance of an object
 Controller.OnMouseUp () (at Assets/Scripts/Controller.cs:687)
 
+
+// Verificar se o Objeto Gráfico pai está ativo para demonstrar o cubo.
+                            string goObjGraficoSlot = GameObject.Find(Global.listaEncaixes[gameObject.name]).transform.parent.name;
+
+-> as vezes as peças vao td pro primeiro slot de transf e as vezes o slot vai junto com elas pra algum lugar, sempre qnd peço pra abrir o painel de props
+	-> agr as peças vão tudo pro primeiro slot só, n dá erro
+	-> ou as peças ficam dançando pela tela ou ficam paradas numa posição q às vezes conhecide com um slot, e n abre props
+	-> ARRUMEI, MAS ACHO Q PODE DAR PROBLEMA NA CONTAGEM AINDA... TEM Q DAR UM JEITO DE ARRUMAR ISSO
+	-> o slot de ações n deixa adicionar maaaaaaaaaaais peças, mas tbm n precisaria num objt mais q uma de cada né...
+	
+-> achei um problema qnd eu crio uma cena com mais ações e vou clicando nas peças (tipo, trans rot esc trans rot...)... ele daí fica trocando a posição da peça (coisa q já tava implementada antes) e fica deixando aparecer apenas a props da vez no visualizador... ALÉM DE TROCAR NO NOME DOS SLOTS
+	-> esse problema ocorre qnd estou apenas criando a cena...
+	-> abri cada code modificado nos commits, não mexi em nada q fizesse o cubo do nada ficar só com uma ação por vez, ent acho q esse erro já tava
+
 -> a câmera n parece começar com a posição importada...
+-> erro no nome e no slot hora de criar peças vermelhas
+-> a luz vem preta às vezes qnd n seta uma cor
 -> verificação na exportação de cena vazia  -> arquivo linha 142
 -> limpar cena na importação qnd n estiver vazia -> arquivo linha 948
--> colocar grade de volta dps de acabar o tutorial
 -> problema pra importar cenas q começam com "cubo1"... fazer alguma verificação pra contornar o erro na chave -> arquivo linha 327
 	-> n dá mais erro, mas as props do cubo não são importadas (props tamanho e posicao)
 		-> se pegar outra peça q já tá na tela, dá ruim pq ficam as duas com "1" no nome, por exemplo
@@ -157,3 +172,85 @@ Controller.OnMouseUp () (at Assets/Scripts/Controller.cs:687)
 			-> mas nos outros é importante, só n vai dar erro se n repetir a peça em cena
 	-> e as props n aparecem no painel
 	-> aí as peças de ação n funcam, pq n tem tam e pos no cubo
+
+
+
+
+
+
+
+ var nome = "Rotacionar";
+                    var nomeSlot = "TransformacoesSlot";
+                    if (countAcoes > 0) nomeSlot += "_" + countAcoes;
+                    if (countRot > 0) nome += countRot;
+
+                    print(nomeSlot);
+                    var rotacionar = GameObject.Find(nome);
+                    var controller = rotacionar.GetComponent<Controller>();
+                    controller.GeraCopiaPeca();
+
+                    float y = GameObject.Find(nomeSlot).gameObject.transform.position.y;
+                    //pegar nome prefab + numero e mudar posicao
+                    rotacionar.transform.position = new Vector3(x, y, z); //TÁ COM PROBLEMAS NO Y!!!!!!!!!
+                    rotacionar.GetComponent<BoxCollider>().enabled = true;
+                    Global.addObject(rotacionar);
+
+                    Global.atualizaListaSlot();
+                    //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
+                    adicionarEncaixe(rotacionar);
+
+                    var slotNome = "ObjGraficoSlot";
+                    if (countObjt > 0) slotNome += countObjt;
+                    GameObject ObjGrafSlot = GameObject.Find(slotNome);
+
+                    //Retorna  de TransformacoesSlot
+                    string slot = "";
+
+                    for (int i = 0; i < ObjGrafSlot.transform.childCount; i++)
+                    {
+                        if (ObjGrafSlot.transform.GetChild(i).name.Contains("TransformacoesSlot"))
+                        {
+                            if (Global.listaEncaixes.ContainsValue(ObjGrafSlot.transform.GetChild(i).name))
+                            {
+                                slot = ObjGrafSlot.transform.GetChild(i).name;
+                            }
+                        }
+                    }
+
+                    int val = 0;
+                    string countTransformacoes = "";
+                    Int32.TryParse(slot.Substring(slot.IndexOf("_") + 1), out val);
+
+                    if (val > 0)
+                        countTransformacoes = Convert.ToString(val + 1);
+                    else
+                        countTransformacoes = "1";
+                    //-------------
+                    countAcoes++;
+                    print(nomeSlot);
+                    GameObject t = GameObject.Find(nomeSlot);
+                    GameObject cloneTrans = Instantiate(t, t.transform.position, t.transform.rotation, t.transform.parent);
+                    if (countAcoes > 0) cloneTrans.name = "TransformacoesSlot_" + countAcoes;
+                    else cloneTrans.name = "TransformacoesSlot_1";
+                    cloneTrans.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 3f, t.transform.position.z);
+
+                    controller.addTransformacoeSequenciaSlots(cloneTrans.name);
+
+                    controller.posicaoColliderDestino = t;
+
+                    if (controller.renderController == null)
+                        controller.renderController = new RenderController();
+
+                    controller.renderController.ResizeBases(t, Consts.Transladar, true); // o Segundo parâmetro pode ser qualquer tranformação 
+
+                    controller.addGameObjectTree("GameObjectAmb" + controller.getNumeroSlotObjetoGrafico(), "Amb", "CuboAmbiente" + controller.getNumeroSlotObjetoGrafico());
+                    controller.addGameObjectTree("CuboVisObject" + controller.getNumeroSlotObjetoGrafico(), "Vis", "CuboVis" + controller.getNumeroSlotObjetoGrafico());
+
+                    controller.configuraIluminacao("-");
+
+                    if (countObjt == 0) controller.reorganizaObjetos("");
+                    else controller.reorganizaObjetos(countObjt.ToString());
+
+                    setPropsAcoes(controller, value, countObjt, nome);
+                    Global.atualizaListaSlot();
+                    countRot++;

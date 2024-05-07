@@ -33,15 +33,15 @@ public class Arquivo : MonoBehaviour
 
     List<GameObject> ordenarCena(List<GameObject> lista)
     {
-		for (int j = lista.Count - 1; j > 0; j--)
-		{
-			for (int i = 0; i < j; i++)
-			{
-				if (lista[i].transform.position.y < lista[i + 1].transform.position.y)
-				    trocarPosicao(lista, i, i + 1);
+        for (int j = lista.Count - 1; j > 0; j--)
+        {
+            for (int i = 0; i < j; i++)
+            {
+                if (lista[i].transform.position.y < lista[i + 1].transform.position.y)
+                    trocarPosicao(lista, i, i + 1);
             }
-		}
-		return Global.listaObjetos;
+        }
+        return Global.listaObjetos;
     }
 
     List<GameObject> trocarPosicao(List<GameObject> array, int m, int n)
@@ -52,12 +52,12 @@ public class Arquivo : MonoBehaviour
         array[n] = temp;
         return array;
     }
-    
+
     JSONArray limpandoListaChildren()
     {
         return new JSONArray();
     }
-    
+
     void adicionarCameraNoJSON(int l, List<GameObject> listaOrdenada)
     {
         var camera = listaOrdenada[l].GetComponent<MinhaCamera>();
@@ -67,7 +67,8 @@ public class Arquivo : MonoBehaviour
 
     void adicionarObjetoGraficoNoJSON(int l, List<GameObject> listaOrdenada)
     {
-        if (nomeObjetoAtual.Length > 0) {
+        if (nomeObjetoAtual.Length > 0)
+        {
             cena.Add(nomeObjetoAtual, objetoAtual.getProps());
             objetoAtual.setChildren(limpandoListaChildren());
         }
@@ -139,7 +140,7 @@ public class Arquivo : MonoBehaviour
                 adicionarAcoesNoJSON(l, ordenada);
             }
         }
-        
+
         //remover chaves repetidas!!!!!!!!!!!!
         objetoAtual.setChildren(limpandoListaChildren());
 
@@ -154,7 +155,7 @@ public class Arquivo : MonoBehaviour
         //tentei salvar na �rea de trabalho, mas o path pela web fica "/home/web_user/Desktop/arquivoGRADE.json", da� d� erro
         //teria q ver como q ajeita o caminho qnd t� na web, mas por quest�es de tempo vou s� jogar o json na caixa de texto
         cenaJSON.text = cena.ToString();
-        
+
         //informando usu�rio do salvamento
         //mensagem.SetActive(true); --> essa mensagem s� era necess�ria qnd eu criava um arquivo de fato, pq agr eu clico em 
         //exportar e j� aparece na caixa de texto, ent o usu�rio tem o retorno visual
@@ -184,7 +185,7 @@ public class Arquivo : MonoBehaviour
         prPeca.NomeCuboVis = "CuboVis";
         prPeca.TipoLuz = 0;
         Global.propriedadePecas.Add(nome, prPeca);
-        
+
         controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
 
         controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["posicao"][0];
@@ -198,7 +199,7 @@ public class Arquivo : MonoBehaviour
         controller.abrePropriedade.transform.GetChild(3).GetChild(1).GetComponent<TMP_InputField>().text = values["fov"];
         controller.abrePropriedade.transform.GetChild(4).GetChild(1).GetComponent<TMP_InputField>().text = values["near"];
         controller.abrePropriedade.transform.GetChild(5).GetChild(1).GetComponent<TMP_InputField>().text = values["far"];
-        
+
         Global.propCameraGlobal.PosX = float.Parse(values["posicao"][0], CultureInfo.InvariantCulture.NumberFormat);
         Global.propCameraGlobal.PosY = float.Parse(values["posicao"][1], CultureInfo.InvariantCulture.NumberFormat);
         Global.propCameraGlobal.PosZ = float.Parse(values["posicao"][2], CultureInfo.InvariantCulture.NumberFormat);
@@ -266,7 +267,7 @@ public class Arquivo : MonoBehaviour
     }
 
     void setPropsCubo(Controller controller, JSONNode values, int countObjt, string nome)
-    {   
+    {
         PropriedadePeca prPeca = new PropriedadePeca();
         prPeca.Nome = values["nome"];
         prPeca.PodeAtualizar = true;
@@ -309,10 +310,9 @@ public class Arquivo : MonoBehaviour
             prPeca.Cor = new Color(colors[0], colors[1], colors[2], colors[3]);
 
             //seta a cor no cubo
-            print(prPeca.Cor);
             //print(Global.propriedadePecas[prPeca.Nome]);
         }
-        
+
         if (values["textura"])
         {
             for (int i = 0; i < texturas.Length; i++)
@@ -329,12 +329,12 @@ public class Arquivo : MonoBehaviour
             GameObject.Find(prPeca.NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].mainTexture = prPeca.Textura;
             GameObject.Find(prPeca.NomeCuboVis).GetComponent<MeshRenderer>().materials[0].mainTexture = prPeca.Textura;
         }
-        
+
         Global.propriedadePecas.Add(nome, prPeca);
 
         //por alguma razão, n tá sendo criado em cena com o nome certo... aí tem dois "CuboAmbiente" e "CuboVis"... n aparece o num qnd eu faço a conversão dos nomes
-        print(prPeca.NomeCuboAmbiente);
-        print(prPeca.NomeCuboVis);
+        //print(prPeca.NomeCuboAmbiente);
+        //print(prPeca.NomeCuboVis);
 
         GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].color = prPeca.Cor;
         GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboVis).GetComponent<MeshRenderer>().materials[0].color = prPeca.Cor;
@@ -353,10 +353,10 @@ public class Arquivo : MonoBehaviour
         PropriedadePeca prPeca = new PropriedadePeca();
         prPeca.Nome = values["nome"];
         prPeca.PodeAtualizar = true;
-        var nomeAmb = values["nome"]+"Amb";
+        var nomeAmb = values["nome"] + "Amb";
         if (countObjt > 0) nomeAmb += countObjt;
         prPeca.NomeCuboAmbiente = nomeAmb;
-        var nomeVis = values["nome"]+"Vis";
+        var nomeVis = values["nome"] + "Vis";
         if (countObjt > 0) nomeVis += countObjt;
         prPeca.NomeCuboVis = nomeVis;
         prPeca.TipoLuz = 0;
@@ -462,7 +462,7 @@ public class Arquivo : MonoBehaviour
 
         }
         else if (tipoLuz.Contains("Spot")) //2300x0
-        { 
+        {
             prPeca.Intensidade = float.Parse(values["intensidade"]);
             prPeca.Distancia = float.Parse(values["distancia"]);
             prPeca.Angulo = float.Parse(values["angulo"]);
@@ -476,7 +476,7 @@ public class Arquivo : MonoBehaviour
 
             prPeca.TipoLuz = 3;
         }
-        
+
         pecas[prPeca.TipoLuz] = prPeca;
         Global.propriedadeIluminacao.Add(nome, pecas);
         prPeca.JaInstanciou = true;
@@ -488,19 +488,28 @@ public class Arquivo : MonoBehaviour
 
     }
 
-    void adicionarEncaixe(GameObject peca)
+    void adicionarEncaixe(GameObject peca, int countAcoes = 0)
     {
+        Controller control = peca.GetComponent<Controller>();
         foreach (KeyValuePair<string, float> slot in Global.listaPosicaoSlot)  // Slot / posição no eixo y
         {
-            if (slot.Key.Contains(Global.GetSlot(GameObject.Find(peca.name).name)) && !Global.listaEncaixes.ContainsKey(GameObject.Find(peca.name).name))
+            string key = slot.Key;
+            if (countAcoes > 0) key += "_" + countAcoes;
+
+            if (slot.Key.Contains(Global.GetSlot(peca.name)) && !Global.listaEncaixes.ContainsKey(peca.name))
             {
                 if (GameObject.Find(slot.Key) != null)
-                    Global.listaEncaixes.Add(GameObject.Find(peca.name).name, slot.Key);
+                    Global.listaEncaixes.Add(GameObject.Find(peca.name).name, key);
+                else if (Global.listaEncaixes.ContainsKey(peca.name)
+                        && Global.listaEncaixes[peca.name] != key)
+                {
+                    control.reposicionaSlots(Global.listaEncaixes[peca.name], key);
+                }
             }
+
         }
     }
-
-    int[] adicionarCriancas(JSONArray children, int countObjt, int countCubo, int countTrans, int countRot, int countEsc, int countLuz)
+    int[] adicionarCriancas(JSONArray children, int countObjt, int countCubo, int countAcoes, int countTrans, int countRot, int countEsc, int countLuz)
     {
         foreach (KeyValuePair<string, JSONNode> son in children)
         {
@@ -531,7 +540,7 @@ public class Arquivo : MonoBehaviour
                     cubo.GetComponent<BoxCollider>().enabled = true;
                     Global.addObject(cubo);
 
-                    Global.atualizaListaSlot();
+                    //Global.atualizaListaSlot();
                     //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
                     adicionarEncaixe(cubo);
 
@@ -611,7 +620,7 @@ public class Arquivo : MonoBehaviour
                     luz.GetComponent<BoxCollider>().enabled = true;
                     Global.addObject(luz);
 
-                    Global.atualizaListaSlot();
+                    //Global.atualizaListaSlot();
                     //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
                     adicionarEncaixe(luz);
 
@@ -644,33 +653,33 @@ public class Arquivo : MonoBehaviour
                     setPropsIluminacao(controller, value, nome);
                     countLuz++;
                 }
-                if (key.Contains("Trans"))
+                if (key.Contains("Trans") || key.Contains("Rot") || key.Contains("Esc"))
                 {
-                    var nome = "Transladar";
+                    
+                    var nome = key;
                     var nomeSlot = "TransformacoesSlot";
-                    if (countTrans > 0)
-                    {
-                        nome += countTrans;
-                        nomeSlot += countTrans;
-                    }
-                    var transladar = GameObject.Find(nome);
-                    var controller = transladar.GetComponent<Controller>();
+                    if (countAcoes > 0) nomeSlot += "_" + countAcoes;
+
+                    //if (countRot > 0 && nome.Contains("Rot")) nome += countRot;
+                    //if (countTrans > 0 && nome.Contains("Trans")) nome += countTrans;
+                    //if (countEsc > 0 && nome.Contains("Esc")) nome += countEsc;
+
+                    var acao = GameObject.Find(nome);
+                    var controller = acao.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
 
                     float y = GameObject.Find(nomeSlot).gameObject.transform.position.y;
-                    //pegar nome prefab + numero e mudar posicao
-                    transladar.transform.position = new Vector3(x, y, z); //TÁ COM PROBLEMAS NO Y!!!!!!!!!
-                    transladar.GetComponent<BoxCollider>().enabled = true;
-                    Global.addObject(transladar);
-
-                    Global.atualizaListaSlot();
-                    //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
-                    adicionarEncaixe(transladar);
-
-                    var slotNome = "ObjGraficoSlot";
-                    if (countObjt > 0) slotNome += countObjt;
-                    GameObject ObjGrafSlot = GameObject.Find(slotNome);
-
+                    acao.transform.position = new Vector3(x, y, z);
+                    acao.GetComponent<BoxCollider>().enabled = true;
+                    Global.addObject(acao);
+                    adicionarEncaixe(acao, countAcoes);
+                    /*
+                    string numObjetoGrafico = controller.getNumeroSlotObjetoGrafico();
+                    GameObject ObjGrafSlot = GameObject.Find("ObjGraficoSlot" + numObjetoGrafico);
+                    */
+                    string numObjetoGrafico = "";
+                    if (countObjt > 0) numObjetoGrafico = countObjt.ToString();
+                    GameObject ObjGrafSlot = GameObject.Find("ObjGraficoSlot" + numObjetoGrafico);
                     //Retorna  de TransformacoesSlot
                     string slot = "";
 
@@ -685,69 +694,71 @@ public class Arquivo : MonoBehaviour
                         }
                     }
 
+                    if (Tutorial.estaExecutandoTutorial)
+                        slot = "TransformacoesSlot";
+
                     int val = 0;
                     string countTransformacoes = "";
                     Int32.TryParse(slot.Substring(slot.IndexOf("_") + 1), out val);
 
-                    if (val > 0)
-                        countTransformacoes = Convert.ToString(val + 1);
+                    if (countAcoes > 0)
+                        countTransformacoes = Convert.ToString(countAcoes + 1);
                     else
                         countTransformacoes = "1";
                     //-------------
 
-                    GameObject t = GameObject.Find(slot);
+                    GameObject t = GameObject.Find(nomeSlot);
                     GameObject cloneTrans = Instantiate(t, t.transform.position, t.transform.rotation, t.transform.parent);
-                    if (countObjt > 0) cloneTrans.name = "TransformacoesSlot" + countObjt + "_" + countTransformacoes;
-                    else cloneTrans.name = "TransformacoesSlot_" + countTransformacoes;
+                    cloneTrans.name = "TransformacoesSlot" + numObjetoGrafico + "_" + countTransformacoes;
                     cloneTrans.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 3f, t.transform.position.z);
 
                     controller.addTransformacoeSequenciaSlots(cloneTrans.name);
 
                     controller.posicaoColliderDestino = t;
+
+                    print(cloneTrans.name);
+
+                    GameObject.Find(cloneTrans.name).GetComponent<BoxCollider>().enabled = true;
 
                     if (controller.renderController == null)
                         controller.renderController = new RenderController();
 
                     controller.renderController.ResizeBases(t, Consts.Transladar, true); // o Segundo parâmetro pode ser qualquer tranformação 
 
-                    controller.addGameObjectTree("GameObjectAmb" + controller.getNumeroSlotObjetoGrafico(), "Amb", "CuboAmbiente" + controller.getNumeroSlotObjetoGrafico());
-                    controller.addGameObjectTree("CuboVisObject" + controller.getNumeroSlotObjetoGrafico(), "Vis", "CuboVis" + controller.getNumeroSlotObjetoGrafico());
+                    controller.concatNumber = numObjetoGrafico;
+
+                    if (!Tutorial.estaExecutandoTutorial)
+                    {
+                        controller.addGameObjectTree("GameObjectAmb" + numObjetoGrafico, "Amb", "CuboAmbiente" + numObjetoGrafico);
+                        controller.addGameObjectTree("CuboVisObject" + numObjetoGrafico, "Vis", "CuboVis" + numObjetoGrafico);
+                    }
 
                     controller.configuraIluminacao("-");
 
-                    if (countObjt == 0) controller.reorganizaObjetos("");
-                    else controller.reorganizaObjetos(countObjt.ToString());
-
+                    controller.reorganizaObjetos(numObjetoGrafico);
                     setPropsAcoes(controller, value, countObjt, nome);
-                    countTrans++;
-                }
-                if (key.Contains("Rotac"))
-                {
-                    var nome = "Rotacionar";
+                    countAcoes++;
+                    /*
+                    var nome = key;
                     var nomeSlot = "TransformacoesSlot";
-                    if (countRot > 0)
-                    {
-                        nome += countRot;
-                        nomeSlot += countRot;
-                    }
-
-                    var rotacionar = GameObject.Find(nome);
-                    var controller = rotacionar.GetComponent<Controller>();
+                    if (countAcoes > 0) nomeSlot += "_" + countAcoes;
+                    
+                    //if (countRot > 0 && nome.Contains("Rot")) nome += countRot;
+                    //if (countTrans > 0 && nome.Contains("Trans")) nome += countTrans;
+                    //if (countEsc > 0 && nome.Contains("Esc")) nome += countEsc;
+                    
+                    var acao = GameObject.Find(nome);
+                    var controller = acao.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
 
                     float y = GameObject.Find(nomeSlot).gameObject.transform.position.y;
-                    //pegar nome prefab + numero e mudar posicao
-                    rotacionar.transform.position = new Vector3(x, y, z); //TÁ COM PROBLEMAS NO Y!!!!!!!!!
-                    rotacionar.GetComponent<BoxCollider>().enabled = true;
-                    Global.addObject(rotacionar);
+                    acao.transform.position = new Vector3(x, y, z);
+                    acao.GetComponent<BoxCollider>().enabled = true;
 
-                    Global.atualizaListaSlot();
-                    //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
-                    adicionarEncaixe(rotacionar);
+                    string numObjetoGrafico = "";
+                    if (countObjt > 0) numObjetoGrafico = countObjt.ToString();
+                    GameObject ObjGrafSlot = GameObject.Find("ObjGraficoSlot" + numObjetoGrafico);
 
-                    var slotNome = "ObjGraficoSlot";
-                    if (countObjt > 0) slotNome += countObjt;
-                    GameObject ObjGrafSlot = GameObject.Find(slotNome);
 
                     //Retorna  de TransformacoesSlot
                     string slot = "";
@@ -767,124 +778,65 @@ public class Arquivo : MonoBehaviour
                     string countTransformacoes = "";
                     Int32.TryParse(slot.Substring(slot.IndexOf("_") + 1), out val);
 
-                    if (val > 0)
-                        countTransformacoes = Convert.ToString(val + 1);
+                    if (countAcoes > 0)
+                        countTransformacoes = Convert.ToString(countAcoes + 1);
                     else
                         countTransformacoes = "1";
                     //-------------
 
-                    GameObject t = GameObject.Find(slot);
+                    print(nomeSlot);
+                    GameObject t = GameObject.Find(nomeSlot);
                     GameObject cloneTrans = Instantiate(t, t.transform.position, t.transform.rotation, t.transform.parent);
-                    if (countObjt > 0) cloneTrans.name = "TransformacoesSlot" + countObjt + "_" + countTransformacoes;
-                    else cloneTrans.name = "TransformacoesSlot_" + countTransformacoes;
+                    cloneTrans.name = "TransformacoesSlot" + numObjetoGrafico + "_" + countTransformacoes;
                     cloneTrans.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 3f, t.transform.position.z);
 
+                    //Global.listaPosicaoSlot.Add(cloneTrans.name, cloneTrans.transform.position.y);
+
                     controller.addTransformacoeSequenciaSlots(cloneTrans.name);
+                    //Global.listaEncaixes.Add(nome, cloneTrans.name);
+                    adicionarEncaixe(acao);
 
                     controller.posicaoColliderDestino = t;
 
                     if (controller.renderController == null)
                         controller.renderController = new RenderController();
 
-                    controller.renderController.ResizeBases(t, Consts.Rotacionar, true); // o Segundo parâmetro pode ser qualquer tranformação 
 
-                    controller.addGameObjectTree("GameObjectAmb" + controller.getNumeroSlotObjetoGrafico(), "Amb", "CuboAmbiente" + controller.getNumeroSlotObjetoGrafico());
-                    controller.addGameObjectTree("CuboVisObject" + controller.getNumeroSlotObjetoGrafico(), "Vis", "CuboVis" + controller.getNumeroSlotObjetoGrafico());
+                    //aqui ó
+                    if (nome.Contains("Trans")) controller.renderController.ResizeBases(t, Consts.Transladar, true); // o Segundo parâmetro pode ser qualquer tranformação 
+                    else if (nome.Contains("Rot")) controller.renderController.ResizeBases(t, Consts.Rotacionar, true);
+                    else if (nome.Contains("Esc")) controller.renderController.ResizeBases(t, Consts.Escalar, true);
 
-                    controller.configuraIluminacao("-");
+                    controller.concatNumber = numObjetoGrafico;
 
-                    if (countObjt == 0) controller.reorganizaObjetos("");
-                    else controller.reorganizaObjetos(countObjt.ToString());
-
-                    setPropsAcoes(controller, value, countObjt, nome);
-                    countRot++;
-                }
-                if (key.Contains("Escal"))
-                {
-                    var nome = "Escalar";
-                    var nomeSlot = "TransformacoesSlot";
-                    if (countEsc > 0)
-                    {
-                        nome += countEsc;
-                        nomeSlot += countEsc;
-                    }
-                    var escalar = GameObject.Find(nome);
-                    var controller = escalar.GetComponent<Controller>();
-                    controller.GeraCopiaPeca();
-
-                    float y = GameObject.Find(nomeSlot).gameObject.transform.position.y;
-                    //pegar nome prefab + numero e mudar posicao
-                    escalar.transform.position = new Vector3(x, y, z); //TÁ COM PROBLEMAS NO Y!!!!!!!!!
-                    escalar.GetComponent<BoxCollider>().enabled = true;
-                    Global.addObject(escalar);
-
-                    Global.atualizaListaSlot();
-                    //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
-                    adicionarEncaixe(escalar);
-
-                    var slotNome = "ObjGraficoSlot";
-                    if (countObjt > 0) slotNome += countObjt;
-                    GameObject ObjGrafSlot = GameObject.Find(slotNome);
-
-                    //Retorna  de TransformacoesSlot
-                    string slot = "";
-
-                    for (int i = 0; i < ObjGrafSlot.transform.childCount; i++)
-                    {
-                        if (ObjGrafSlot.transform.GetChild(i).name.Contains("TransformacoesSlot"))
-                        {
-                            if (Global.listaEncaixes.ContainsValue(ObjGrafSlot.transform.GetChild(i).name))
-                            {
-                                slot = ObjGrafSlot.transform.GetChild(i).name;
-                            }
-                        }
-                    }
-
-                    int val = 0;
-                    string countTransformacoes = "";
-                    Int32.TryParse(slot.Substring(slot.IndexOf("_") + 1), out val);
-
-                    if (val > 0)
-                        countTransformacoes = Convert.ToString(val + 1);
-                    else
-                        countTransformacoes = "1";
-                    //-------------
-
-                    GameObject t = GameObject.Find(slot);
-                    GameObject cloneTrans = Instantiate(t, t.transform.position, t.transform.rotation, t.transform.parent);
-                    if (countObjt > 0) cloneTrans.name = "TransformacoesSlot" + countObjt + "_" + countTransformacoes;
-                    else cloneTrans.name = "TransformacoesSlot_" + countTransformacoes;
-                    cloneTrans.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 3f, t.transform.position.z);
-
-                    controller.addTransformacoeSequenciaSlots(cloneTrans.name);
-
-                    controller.posicaoColliderDestino = t;
-
-                    if (controller.renderController == null)
-                        controller.renderController = new RenderController();
-
-                    controller.renderController.ResizeBases(t, Consts.Escalar, true); // o Segundo parâmetro pode ser qualquer tranformação 
-
-                    controller.addGameObjectTree("GameObjectAmb" + controller.getNumeroSlotObjetoGrafico(), "Amb", "CuboAmbiente" + controller.getNumeroSlotObjetoGrafico());
-                    controller.addGameObjectTree("CuboVisObject" + controller.getNumeroSlotObjetoGrafico(), "Vis", "CuboVis" + controller.getNumeroSlotObjetoGrafico());
+                    controller.addGameObjectTree("GameObjectAmb" + numObjetoGrafico, "Amb", "CuboAmbiente" + numObjetoGrafico);
+                    controller.addGameObjectTree("CuboVisObject" + numObjetoGrafico, "Vis", "CuboVis" + numObjetoGrafico);
 
                     controller.configuraIluminacao("-");
 
-                    if (countObjt == 0) controller.reorganizaObjetos("");
-                    else controller.reorganizaObjetos(countObjt.ToString());
-
+                    controller.reorganizaObjetos(numObjetoGrafico);
                     setPropsAcoes(controller, value, countObjt, nome);
-                    countEsc++;
+                    //Global.atualizaListaSlot();
+                    countAcoes++;
+                   */
+                    /*
+                    if (nome.Contains("Rot")) countRot++;
+                    else if (nome.Contains("Trans")) countTrans++;
+                    else if (nome.Contains("Esc")) countEsc++;
+                    */
                 }
+                //Global.atualizaListaSlot();
             }
         }
 
-        int[] contadores = new int[5];
+        int[] contadores = new int[6];
         contadores[0] = countCubo;
         contadores[1] = countTrans;
         contadores[2] = countRot;
         contadores[3] = countEsc;
-        contadores[4] = countEsc;
+
+        contadores[4] = countAcoes;
+        contadores[5] = countLuz;
         return contadores;
     }
 
@@ -900,7 +852,8 @@ public class Arquivo : MonoBehaviour
         var countRot = 0;
         var countEsc = 0;
         var countLuz = 0;
-        JSONObject cenaImportada = (JSONObject) JSONObject.Parse(cenaJSON.text);
+        var countAcoes = 0;
+        JSONObject cenaImportada = (JSONObject)JSONObject.Parse(cenaJSON.text);
         var count = 0;
         //string chaves = Object.(cenaImportada);
         //fazer um foreach, pegar a key, e j� ir criando os objetos
@@ -916,17 +869,17 @@ public class Arquivo : MonoBehaviour
             //o certo é o contrário!!
             var key = entry.Key;
             var value = entry.Value;
-            
+
             float x = value["posPeca"][0];
             float z = value["posPeca"][2];
-            
+
             //var contr; //essa linha às vezes dá erro sla pq
             //MissingReferenceException: The object of type 'GameObject' has been destroyed but you are still trying to access it.
             //Your script should either check if it is null or you should not destroy the object.
             //isso acontece pq, msm dps de deletar o objeto, a aba de props deixa as props do bonito lá
 
             //QUANDO ROLA A TELA, ESSES FICAM NAS POSI��ES!!!!!!!!!!!!!!!!!!!!
-            if (key.Contains("CameraP")) 
+            if (key.Contains("CameraP"))
             {
                 //ele s� encaixa a pe�a, mas as funcs n v�o
                 //deu certo a ideia, mas parece q h� um problema com a prefab... ele t� vindo esticado e pequeno
@@ -1030,6 +983,7 @@ public class Arquivo : MonoBehaviour
 
                 Global.atualizaListaSlot();
 
+                /*
                 foreach (KeyValuePair<string, float> slot in Global.listaPosicaoSlot)  // Slot / posição no eixo y
                 {
                     if (slot.Key.Contains(Global.GetSlot(GameObject.Find(objeto.name).name)) && !Global.listaEncaixes.ContainsKey(GameObject.Find(objeto.name).name))
@@ -1038,18 +992,21 @@ public class Arquivo : MonoBehaviour
                             Global.listaEncaixes.Add(GameObject.Find(objeto.name).name, slot.Key);
                     }
                 }
+                */
+                adicionarEncaixe(objeto);
                 if (value["children"].Count > 0)
                 {
-                    int[] contadores = adicionarCriancas((JSONArray)value["children"], countObjt, countCubo, countTrans, countRot, countEsc, countLuz);
+                    int[] contadores = adicionarCriancas((JSONArray)value["children"], countObjt, countCubo, countAcoes, countTrans, countRot, countEsc, countLuz);
                     countCubo = contadores[0];
                     countTrans = contadores[1];
                     countRot = contadores[2];
                     countEsc = contadores[3];
-                    countLuz = contadores[4];
+                    countAcoes = contadores[4];
+                    countLuz = contadores[5];
                 }
-
                 setPropsObjetoGrafico(controller, value, countObjt, nome);
                 countObjt++;
+
             }
             count++;
         }

@@ -33,7 +33,7 @@ public class Controller : MonoBehaviour {
     private List<GameObject> listaObjZero;
     private List<string> listaProp;
     private Collider collPecas;
-    private string concatNumber = "";
+    public string concatNumber = "";
     private GameObject cloneFab;
     private bool podeDestruirObjeto;
     private float posColliderDestinoX, posColliderDestinoY, posColliderDestinoZ;
@@ -383,7 +383,7 @@ public class Controller : MonoBehaviour {
 
     void OnMouseDown()
     {
-        Global.atualizaListaSlot();
+        if (!Arquivo.importando) Global.atualizaListaSlot();
         Global.slotName = "";
 
         screenPoint = cam.WorldToScreenPoint(scanPos);
@@ -1146,11 +1146,12 @@ public class Controller : MonoBehaviour {
         return false;
     }
 
-    private void reposicionaSlots(string slotOrigem, string slotDestino)
+    public void reposicionaSlots(string slotOrigem, string slotDestino)
     {
         //Permite reposicionar o slot somente se for um 'TransformacoesSlot' e os slots estiverem dentro do mesmo Objeto Gráfico
         if (slotOrigem.Contains("TransformacoesSlot") && getNumObjeto(slotOrigem) == getNumObjeto(slotDestino)) 
         {
+            print("oiiiiiiiiiiiiii");
             float incX = 0;
             float incY = 0;
 
@@ -1161,6 +1162,8 @@ public class Controller : MonoBehaviour {
             transform.position = new Vector3(slot.transform.position.x + incX,
                                              slot.transform.position.y - incY,
                                              slot.transform.position.z);
+
+            print(transform.position);
 
             Destroy(GameObject.Find(slotOrigem));
 
@@ -1239,6 +1242,7 @@ public class Controller : MonoBehaviour {
         for (int i = 0; i < Global.listaSequenciaSlots.Count; i++)
         {
             isTransf = Global.listaSequenciaSlots[i].Contains("TransformacoesSlot" + numObj);
+            print(Global.listaSequenciaSlots[i]);
 
             if (Global.listaSequenciaSlots[i].Contains("TransformacoesSlot" + numObj))
             {
@@ -1275,33 +1279,6 @@ public class Controller : MonoBehaviour {
         cloneFab.name = objName + concatNum;
         cloneFab.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
     }
-
-    /*
-    public GameObject GeraCopiaPeca(float x = 0, float y = 0, float z = 0)
-    {
-        objName = getNomeObjeto(gameObject.name);
-        int ObjectValue = 1;
-
-        if (Global.listObjectCount.ContainsKey(objName))
-        {
-            ObjectValue = ++Global.listObjectCount[objName];
-            Global.listObjectCount.Remove(objName);
-            Global.listObjectCount.Add(objName, ObjectValue);
-        }
-        else
-            Global.listObjectCount.Add(objName, ObjectValue);
-
-        string concatNum = "1";
-
-        concatNum = ObjectValue == 1 ? concatNum : Convert.ToString(ObjectValue);
-
-        cloneFab = Instantiate(gameObject, gameObject.transform.position, gameObject.transform.rotation, gameObject.transform.parent);
-        cloneFab.name = objName + concatNum;
-        if (x == 0 && y == 0 && z == 0) cloneFab.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
-        else cloneFab.transform.position = new Vector3(x, y, z);
-        return cloneFab;
-    }
-    */
     public void processaExclusao()
     {     
         string slotOrigem = Global.listaEncaixes[gameObject.name];

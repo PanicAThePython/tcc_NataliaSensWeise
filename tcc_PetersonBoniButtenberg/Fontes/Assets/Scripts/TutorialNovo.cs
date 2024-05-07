@@ -56,6 +56,7 @@ public class TutorialNovo : MonoBehaviour
                 StartCoroutine(apagarTela(passosTutorial[passo]));
                 StartCoroutine(apagarTela(painelTutorial));
                 passo = 0;
+                grade.isOn = true;
                 break;
         }
     }

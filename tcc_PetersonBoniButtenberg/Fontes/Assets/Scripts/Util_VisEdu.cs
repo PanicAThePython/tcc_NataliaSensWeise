@@ -22,12 +22,12 @@ public class Util_VisEdu : MonoBehaviour {
         Global.posAmb = PosicaoAmb;
     }
 
-    public string getCuboByNomePeca(string nome)
+    public static string getCuboByNomePeca(string nome)
     {
         string cubo = "";
         Controller c = new Controller();
 
-        if (nome != string.Empty)
+        if (nome != string.Empty && Global.listaEncaixes.ContainsKey(nome))
         {
             for (int i = 0; i < GameObject.Find(Global.listaEncaixes[nome]).transform.parent.childCount; i++)
             {

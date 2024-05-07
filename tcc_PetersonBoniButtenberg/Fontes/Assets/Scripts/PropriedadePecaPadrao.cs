@@ -191,7 +191,7 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
                 }
             }
 
-            string forma = new Util_VisEdu().getCuboByNomePeca(Global.gameObjectName);
+            string forma = Util_VisEdu.getCuboByNomePeca(Global.gameObjectName);
 
             if (forma != System.String.Empty && Global.propriedadePecas.ContainsKey(forma)) //Se forma for vazio significa que não existe uma forma ainda.
             {
