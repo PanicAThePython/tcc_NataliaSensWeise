@@ -116,51 +116,61 @@ public class Arquivo : MonoBehaviour
 
     public void Exportar()
     {
-        List<GameObject> ordenada = ordenarCena(Global.listaObjetos);
-        for (int l = 0; l < ordenada.Count; l++)
+        if (Global.listaObjetos != null)
         {
-            print(ordenada[l].name);
-            if (ordenada[l].name.Contains("Camera"))
+            List<GameObject> ordenada = ordenarCena(Global.listaObjetos);
+
+            for (int l = 0; l < ordenada.Count; l++)
             {
-                adicionarCameraNoJSON(l, ordenada);
+                print(ordenada[l].name);
+                if (ordenada[l].name.Contains("Camera"))
+                {
+                    adicionarCameraNoJSON(l, ordenada);
+                }
+                else if (ordenada[l].name.Contains("Objeto"))
+                {
+                    adicionarObjetoGraficoNoJSON(l, ordenada);
+                }
+                else if (ordenada[l].name.Contains("Iluminacao"))
+                {
+                    adicionarIluminacaoNoJSON(l, ordenada);
+                }
+                else if (ordenada[l].name.Contains("Cubo"))
+                {
+                    adicionarCuboNoJSON(l, ordenada);
+                }
+                else
+                {
+                    adicionarAcoesNoJSON(l, ordenada);
+                }
             }
-            else if (ordenada[l].name.Contains("Objeto"))
-            {
-                adicionarObjetoGraficoNoJSON(l, ordenada);
-            }
-            else if (ordenada[l].name.Contains("Iluminacao"))
-            {
-                adicionarIluminacaoNoJSON(l, ordenada);
-            }
-            else if (ordenada[l].name.Contains("Cubo"))
-            {
-                adicionarCuboNoJSON(l, ordenada);
-            }
-            else
-            {
-                adicionarAcoesNoJSON(l, ordenada);
-            }
+
+            //remover chaves repetidas!!!!!!!!!!!!
+            objetoAtual.setChildren(limpandoListaChildren());
+
+            //come�ar novo ObjetoGr�fico
+            if (nomeObjetoAtual.Length > 0) cena.Add(nomeObjetoAtual, objetoAtual.getProps());
+
+            //salvando arquivo
+            //string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop), "arquivoGRADE.json");
+            //File.WriteAllText(GetPath("arquivoGRADE.json"), cena.ToString());
+
+            //ele salva sim o arquivo em json qnd t� buildado, mas com o GetPath, n consigo achar onde q foi salvo
+            //tentei salvar na �rea de trabalho, mas o path pela web fica "/home/web_user/Desktop/arquivoGRADE.json", da� d� erro
+            //teria q ver como q ajeita o caminho qnd t� na web, mas por quest�es de tempo vou s� jogar o json na caixa de texto
+            cenaJSON.text = cena.ToString();
+
+            //informando usu�rio do salvamento
+            //mensagem.SetActive(true); --> essa mensagem s� era necess�ria qnd eu criava um arquivo de fato, pq agr eu clico em 
+            //exportar e j� aparece na caixa de texto, ent o usu�rio tem o retorno visual
+            //StartCoroutine(TutorialNovo.apagarTela(mensagem));
+
         }
-
-        //remover chaves repetidas!!!!!!!!!!!!
-        objetoAtual.setChildren(limpandoListaChildren());
-
-        //come�ar novo ObjetoGr�fico
-        if (nomeObjetoAtual.Length > 0) cena.Add(nomeObjetoAtual, objetoAtual.getProps());
-
-        //salvando arquivo
-        //string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop), "arquivoGRADE.json");
-        //File.WriteAllText(GetPath("arquivoGRADE.json"), cena.ToString());
-
-        //ele salva sim o arquivo em json qnd t� buildado, mas com o GetPath, n consigo achar onde q foi salvo
-        //tentei salvar na �rea de trabalho, mas o path pela web fica "/home/web_user/Desktop/arquivoGRADE.json", da� d� erro
-        //teria q ver como q ajeita o caminho qnd t� na web, mas por quest�es de tempo vou s� jogar o json na caixa de texto
-        cenaJSON.text = cena.ToString();
-
-        //informando usu�rio do salvamento
-        //mensagem.SetActive(true); --> essa mensagem s� era necess�ria qnd eu criava um arquivo de fato, pq agr eu clico em 
-        //exportar e j� aparece na caixa de texto, ent o usu�rio tem o retorno visual
-        //StartCoroutine(TutorialNovo.apagarTela(mensagem));
+        else
+        {
+            mensagem.SetActive(true);
+            StartCoroutine(TutorialNovo.apagarTela(mensagem));
+        }
     }
 
     void limparListaObjetos()
@@ -316,6 +326,7 @@ public class Arquivo : MonoBehaviour
 
         if (values["textura"])
         {
+            print(values["textura"]);
             for (int i = 0; i < texturas.Length; i++)
             {
                 string novoNome = texturas[i].gameObject.GetComponent<MeshRenderer>().material.name;
@@ -334,11 +345,11 @@ public class Arquivo : MonoBehaviour
         Global.propriedadePecas.Add(nome, prPeca);
 
         //por alguma razão, n tá sendo criado em cena com o nome certo... aí tem dois "CuboAmbiente" e "CuboVis"... n aparece o num qnd eu faço a conversão dos nomes
-        //print(prPeca.NomeCuboAmbiente);
-        //print(prPeca.NomeCuboVis);
-
-        GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].color = prPeca.Cor;
-        GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboVis).GetComponent<MeshRenderer>().materials[0].color = prPeca.Cor;
+        print(prPeca.NomeCuboAmbiente);
+        print(prPeca.NomeCuboVis);
+        print(prPeca.Cor);
+        GameObject.Find(prPeca.NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].color = prPeca.Cor;
+        GameObject.Find(prPeca.NomeCuboVis).GetComponent<MeshRenderer>().materials[0].color = prPeca.Cor;
     }
 
     void setPropsAcoes(Controller controller, JSONNode values, int countObjt, string nome)
@@ -847,7 +858,8 @@ public class Arquivo : MonoBehaviour
         var countEsc = 0;
         var countLuz = 0;
         var countAcoes = 0;
-        JSONObject cenaImportada = (JSONObject)JSONObject.Parse(cenaJSON.text);
+        JSONObject cenaImportada = null;
+        if (cenaJSON.text.Length > 0) cenaImportada = (JSONObject)JSONObject.Parse(cenaJSON.text);
         var count = 0;
         //string chaves = Object.(cenaImportada);
         //fazer um foreach, pegar a key, e j� ir criando os objetos
@@ -857,157 +869,166 @@ public class Arquivo : MonoBehaviour
         //a partir delas
         //para instanciar as pe�as: Instantiate(nomePrefab, new Vector3(0,0,0), Quaternion.identity);
         //ir atualizando a lista Global.listObjectCount, pros nomes ficarem com os n�meros atualizados, pra n gerar conflito
-        foreach (KeyValuePair<string, JSONNode> entry in cenaImportada)
+        if (cenaImportada != null)
         {
-            //o problema da rolagem tá no fato de q: eu to colocando as peças 1 no render e deixando as 0 na fabrica
-            //o certo é o contrário!!
-            var key = entry.Key;
-            var value = entry.Value;
-
-            float x = value["posPeca"][0];
-            float z = value["posPeca"][2];
-
-            //var contr; //essa linha às vezes dá erro sla pq
-            //MissingReferenceException: The object of type 'GameObject' has been destroyed but you are still trying to access it.
-            //Your script should either check if it is null or you should not destroy the object.
-            //isso acontece pq, msm dps de deletar o objeto, a aba de props deixa as props do bonito lá
-
-            //QUANDO ROLA A TELA, ESSES FICAM NAS POSI��ES!!!!!!!!!!!!!!!!!!!!
-            if (key.Contains("CameraP"))
+            foreach (KeyValuePair<string, JSONNode> entry in cenaImportada)
             {
-                //ele s� encaixa a pe�a, mas as funcs n v�o
-                //deu certo a ideia, mas parece q h� um problema com a prefab... ele t� vindo esticado e pequeno
-                //acredito q seja culpa do Quaternion.identity, q � (0.00000, 0.00000, 0.00000, 1.00000)
-                //rota��o � 90, 0, -180
-                //cubo e escalar tem 180 positivo!!!
-                /*
-                var vetor = new Vector3(value["posPeca"][0], value["posPeca"][1], value["posPeca"][2]);
-                GameObject instance = GameObject.Instantiate(pecasPrefabs[0]);
-                instance.gameObject.transform.GetChild(0).transform.rotation = Quaternion.Euler(90, 0, -180);
-                instance.gameObject.transform.localScale = new Vector3(7.8f, 2f, 1f);
-                Instantiate(instance, vetor, Quaternion.identity);
-                Global.addObject(instance);
-                */
+                //o problema da rolagem tá no fato de q: eu to colocando as peças 1 no render e deixando as 0 na fabrica
+                //o certo é o contrário!!
+                var key = entry.Key;
+                var value = entry.Value;
 
-                //IDEIA: CHAMAR FUNC GERAR C�PIA E J� SETAR OS VALORES DA POSI��O, A� VAI SER UMA C�MERA Q FUNCIONA!!
-                //tem q acessar o prefab do objeto q qr gerar uma c�pia, acessar o controller e pegar a func de copiar
-                //FUNCIONOU
-                //FALTA O RETORNO VISUAL NO AMBIENTE GR�FICO E VISUALIZADOR(PROVAVELMENTE)!!
+                float x = value["posPeca"][0];
+                float z = value["posPeca"][2];
 
-                var nome = "CameraP";
-                if (countCam > 0) nome += countCam;
-                var cam = GameObject.Find(nome);
-                var controller = cam.GetComponent<Controller>();
-                controller.GeraCopiaPeca();
+                //var contr; //essa linha às vezes dá erro sla pq
+                //MissingReferenceException: The object of type 'GameObject' has been destroyed but you are still trying to access it.
+                //Your script should either check if it is null or you should not destroy the object.
+                //isso acontece pq, msm dps de deletar o objeto, a aba de props deixa as props do bonito lá
 
-                //DEU CERTO ASSIM!!! VEIO NO ENCAIXE!!
-                float y = GameObject.Find("CameraSlot").gameObject.transform.position.y;
-                //pegar nome prefab + numero e mudar posicao
-                cam.transform.position = new Vector3(x, y, z);
-                cam.GetComponent<BoxCollider>().enabled = true;
-                Global.addObject(cam);
-
-                GameObject.Find("CameraObjetoMain").transform.GetChild(0).gameObject.SetActive(true);
-                //faz o visualizador dar retorno!!
-                Global.cameraAtiva = true;
-                //if (Global.cameraAtiva)
-                //    GameObject.Find("CameraVisInferior").GetComponent<Camera>().cullingMask = 1 << LayerMask.NameToLayer("Formas");
-
-                Global.atualizaListaSlot();
-                //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
-                adicionarEncaixe(cam);
-                //pecasPrefabs[0] = GameObject.Find("CameraP1");
-                //--> ia solucionar o problema de varios objtsgrafcs, mas n deixou mais clicar na peca
-                setPropsCamera(controller, value, nome);
-                countCam++;
-            }
-            if (key.Contains("Objeto"))
-            {
-                //ATUALMENTE TÁ QUEBRANDO QND TEM MAIS DE UM OBJT!!!!!!!!!!!!!!!!!!
-                //qnd eu gero a copia pro primeiro, dá certo pq tá naqla posicao na fabrica
-                //mas dps ele pega a posição do renderer, aí complica
-                //talvez se eu armazenar a posicao do prefab ANTES de alterar ele, eu posso setar ela na copia
-                //acredito tbm q esteja dando problema por conta da rolagem
-
-
-                //PROS FILHOS:
-                //função separada de foreach numa lista children
-                //acessar o children dentro do value, e qnd tiver algo, chamar a func e acessar e criar os objts filho
-                var nome = "ObjetoGraficoP";
-                var nomeSlot = "ObjGraficoSlot";
-                if (countObjt > 0)
+                //QUANDO ROLA A TELA, ESSES FICAM NAS POSI��ES!!!!!!!!!!!!!!!!!!!!
+                if (key.Contains("CameraP"))
                 {
-                    nome += countObjt;
-                    nomeSlot += countObjt;
+                    //ele s� encaixa a pe�a, mas as funcs n v�o
+                    //deu certo a ideia, mas parece q h� um problema com a prefab... ele t� vindo esticado e pequeno
+                    //acredito q seja culpa do Quaternion.identity, q � (0.00000, 0.00000, 0.00000, 1.00000)
+                    //rota��o � 90, 0, -180
+                    //cubo e escalar tem 180 positivo!!!
+                    /*
+                    var vetor = new Vector3(value["posPeca"][0], value["posPeca"][1], value["posPeca"][2]);
+                    GameObject instance = GameObject.Instantiate(pecasPrefabs[0]);
+                    instance.gameObject.transform.GetChild(0).transform.rotation = Quaternion.Euler(90, 0, -180);
+                    instance.gameObject.transform.localScale = new Vector3(7.8f, 2f, 1f);
+                    Instantiate(instance, vetor, Quaternion.identity);
+                    Global.addObject(instance);
+                    */
+
+                    //IDEIA: CHAMAR FUNC GERAR C�PIA E J� SETAR OS VALORES DA POSI��O, A� VAI SER UMA C�MERA Q FUNCIONA!!
+                    //tem q acessar o prefab do objeto q qr gerar uma c�pia, acessar o controller e pegar a func de copiar
+                    //FUNCIONOU
+                    //FALTA O RETORNO VISUAL NO AMBIENTE GR�FICO E VISUALIZADOR(PROVAVELMENTE)!!
+
+                    var nome = "CameraP";
+                    if (countCam > 0) nome += countCam;
+                    var cam = GameObject.Find(nome);
+                    var controller = cam.GetComponent<Controller>();
+                    controller.GeraCopiaPeca();
+
+                    //DEU CERTO ASSIM!!! VEIO NO ENCAIXE!!
+                    float y = GameObject.Find("CameraSlot").gameObject.transform.position.y;
+                    //pegar nome prefab + numero e mudar posicao
+                    cam.transform.position = new Vector3(x, y, z);
+                    cam.GetComponent<BoxCollider>().enabled = true;
+                    Global.addObject(cam);
+
+                    GameObject.Find("CameraObjetoMain").transform.GetChild(0).gameObject.SetActive(true);
+                    //faz o visualizador dar retorno!!
+                    Global.cameraAtiva = true;
+                    //if (Global.cameraAtiva)
+                    //    GameObject.Find("CameraVisInferior").GetComponent<Camera>().cullingMask = 1 << LayerMask.NameToLayer("Formas");
+
+                    Global.atualizaListaSlot();
+                    //TEM Q ADICIONAR NA LISTA DE ENCAIXES!!!!!!!!!!!
+                    adicionarEncaixe(cam);
+                    //pecasPrefabs[0] = GameObject.Find("CameraP1");
+                    //--> ia solucionar o problema de varios objtsgrafcs, mas n deixou mais clicar na peca
+                    setPropsCamera(controller, value, nome);
+                    countCam++;
                 }
-                var objeto = GameObject.Find(nome);
-                var controller = objeto.GetComponent<Controller>();
-                controller.GeraCopiaPeca();
-
-                float y = GameObject.Find(nomeSlot).gameObject.transform.position.y;
-
-                objeto.transform.position = new Vector3(x, y, z);
-                objeto.GetComponent<BoxCollider>().enabled = true;
-                Global.addObject(objeto);
-
-                var criaFormas = new Util_VisEdu();
-                criaFormas.criaFormasVazias();
-
-                string countObjGrafico = "";
-                if (DropPeca.countObjetosGraficos > 0)
-                    countObjGrafico = Convert.ToString(DropPeca.countObjetosGraficos);
-
-                if (!Equals(countObjGrafico, string.Empty))
-                    objeto.GetComponent<Controller>().createGameObjectTree(DropPeca.countObjetosGraficos);
-
-                Global.iniciaListaSequenciaSlots(DropPeca.countObjetosGraficos);
-
-                GameObject t = GameObject.Find("ObjGraficoSlot" + countObjGrafico);
-
-                GameObject cloneObjGrafico = Instantiate(t, t.transform.position, t.transform.rotation, t.transform.parent);
-                cloneObjGrafico.name = "ObjGraficoSlot" + Convert.ToString(++DropPeca.countObjetosGraficos);
-                cloneObjGrafico.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 11f, t.transform.position.z);
-
-                objeto.GetComponent<Controller>().setActiveAndRenameGameObject(t, cloneObjGrafico);
-
-                var renderController = new RenderController();
-
-                renderController.ResizeBases(t, Consts.ObjetoGrafico, true);
-                objeto.GetComponent<Controller>().adicionaObjetoRender();
-
-                Global.atualizaListaSlot();
-
-                /*
-                foreach (KeyValuePair<string, float> slot in Global.listaPosicaoSlot)  // Slot / posição no eixo y
+                if (key.Contains("Objeto"))
                 {
-                    if (slot.Key.Contains(Global.GetSlot(GameObject.Find(objeto.name).name)) && !Global.listaEncaixes.ContainsKey(GameObject.Find(objeto.name).name))
+                    //ATUALMENTE TÁ QUEBRANDO QND TEM MAIS DE UM OBJT!!!!!!!!!!!!!!!!!!
+                    //qnd eu gero a copia pro primeiro, dá certo pq tá naqla posicao na fabrica
+                    //mas dps ele pega a posição do renderer, aí complica
+                    //talvez se eu armazenar a posicao do prefab ANTES de alterar ele, eu posso setar ela na copia
+                    //acredito tbm q esteja dando problema por conta da rolagem
+
+
+                    //PROS FILHOS:
+                    //função separada de foreach numa lista children
+                    //acessar o children dentro do value, e qnd tiver algo, chamar a func e acessar e criar os objts filho
+                    var nome = "ObjetoGraficoP";
+                    var nomeSlot = "ObjGraficoSlot";
+                    if (countObjt > 0)
                     {
-                        if (GameObject.Find(slot.Key) != null)
-                            Global.listaEncaixes.Add(GameObject.Find(objeto.name).name, slot.Key);
+                        nome += countObjt;
+                        nomeSlot += countObjt;
                     }
-                }
-                */
-                adicionarEncaixe(objeto);
-                if (value["children"].Count > 0)
-                {
-                    int[] contadores = adicionarCriancas((JSONArray)value["children"], countObjt, countCubo, countAcoes, countTrans, countRot, countEsc, countLuz);
-                    countCubo = contadores[0];
-                    countTrans = contadores[1];
-                    countRot = contadores[2];
-                    countEsc = contadores[3];
-                    countAcoes = contadores[4];
-                    countLuz = contadores[5];
-                }
-                setPropsObjetoGrafico(controller, value, countObjt, nome);
-                countObjt++;
+                    var objeto = GameObject.Find(nome);
+                    var controller = objeto.GetComponent<Controller>();
+                    controller.GeraCopiaPeca();
 
+                    float y = GameObject.Find(nomeSlot).gameObject.transform.position.y;
+
+                    objeto.transform.position = new Vector3(x, y, z);
+                    objeto.GetComponent<BoxCollider>().enabled = true;
+                    Global.addObject(objeto);
+
+                    var criaFormas = new Util_VisEdu();
+                    criaFormas.criaFormasVazias();
+
+                    string countObjGrafico = "";
+                    if (DropPeca.countObjetosGraficos > 0)
+                        countObjGrafico = Convert.ToString(DropPeca.countObjetosGraficos);
+
+                    if (!Equals(countObjGrafico, string.Empty))
+                        objeto.GetComponent<Controller>().createGameObjectTree(DropPeca.countObjetosGraficos);
+
+                    Global.iniciaListaSequenciaSlots(DropPeca.countObjetosGraficos);
+
+                    GameObject t = GameObject.Find("ObjGraficoSlot" + countObjGrafico);
+
+                    GameObject cloneObjGrafico = Instantiate(t, t.transform.position, t.transform.rotation, t.transform.parent);
+                    cloneObjGrafico.name = "ObjGraficoSlot" + Convert.ToString(++DropPeca.countObjetosGraficos);
+                    cloneObjGrafico.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 11f, t.transform.position.z);
+
+                    objeto.GetComponent<Controller>().setActiveAndRenameGameObject(t, cloneObjGrafico);
+
+                    var renderController = new RenderController();
+
+                    renderController.ResizeBases(t, Consts.ObjetoGrafico, true);
+                    objeto.GetComponent<Controller>().adicionaObjetoRender();
+
+                    Global.atualizaListaSlot();
+
+                    /*
+                    foreach (KeyValuePair<string, float> slot in Global.listaPosicaoSlot)  // Slot / posição no eixo y
+                    {
+                        if (slot.Key.Contains(Global.GetSlot(GameObject.Find(objeto.name).name)) && !Global.listaEncaixes.ContainsKey(GameObject.Find(objeto.name).name))
+                        {
+                            if (GameObject.Find(slot.Key) != null)
+                                Global.listaEncaixes.Add(GameObject.Find(objeto.name).name, slot.Key);
+                        }
+                    }
+                    */
+                    adicionarEncaixe(objeto);
+                    if (value["children"].Count > 0)
+                    {
+                        int[] contadores = adicionarCriancas((JSONArray)value["children"], countObjt, countCubo, countAcoes, countTrans, countRot, countEsc, countLuz);
+                        countCubo = contadores[0];
+                        countTrans = contadores[1];
+                        countRot = contadores[2];
+                        countEsc = contadores[3];
+                        countAcoes = contadores[4];
+                        countLuz = contadores[5];
+                    }
+                    setPropsObjetoGrafico(controller, value, countObjt, nome);
+                    countObjt++;
+
+                }
+                count++;
             }
-            count++;
+            cenaJSON.text = "";
+            //decompor objeto
+            //com base na chave, vou criar objetos 
+            //dentro deles, acessar o <Meu...> de cada um e setar as props
+            //vou ter que criar slots tbm
         }
-        cenaJSON.text = "";
-        //decompor objeto
-        //com base na chave, vou criar objetos 
-        //dentro deles, acessar o <Meu...> de cada um e setar as props
-        //vou ter que criar slots tbm
+        else
+        {
+            mensagem.SetActive(true);
+            StartCoroutine(TutorialNovo.apagarTela(mensagem));
+        }
+
     }
 }

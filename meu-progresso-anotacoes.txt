@@ -151,6 +151,9 @@ Controller.OnMouseUp () (at Assets/Scripts/Controller.cs:687)
 	-> esse problema ocorre qnd estou apenas criando a cena...
 	-> abri cada code modificado nos commits, não mexi em nada q fizesse o cubo do nada ficar só com uma ação por vez, ent acho q esse erro já tava
 
+-> dá ruim qnd importo mais de um cubo, o nome do cubovis e cuboamb n tá certo... tenho q descobrir pq
+	-> acho q faltou algo na hora de importar o cubo, aí n fez direito qnd repetia a peça
+
 -> a câmera n parece começar com a posição importada...
 -> a luz vem preta às vezes qnd n seta uma cor --> ainda n entendi como
 -> verificação na exportação de cena vazia  -> arquivo linha 142

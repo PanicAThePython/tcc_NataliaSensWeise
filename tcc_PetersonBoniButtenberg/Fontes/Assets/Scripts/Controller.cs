@@ -33,7 +33,7 @@ public class Controller : MonoBehaviour {
     private List<GameObject> listaObjZero;
     private List<string> listaProp;
     private Collider collPecas;
-    public string concatNumber = "";
+    public string concatNumber;
     private GameObject cloneFab;
     private bool podeDestruirObjeto;
     private float posColliderDestinoX, posColliderDestinoY, posColliderDestinoZ;
