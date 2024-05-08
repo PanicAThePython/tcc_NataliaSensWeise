@@ -24,9 +24,12 @@ public class RenderScript : MonoBehaviour {
         {
             foreach (GameObject go in Global.listaObjetos)
             {
-                Vector3 pos = go.transform.position;
-                pos.y -= Input.mouseScrollDelta.y * 0.5f;
-                go.transform.position = pos;
+                if (go != null)
+                {
+                    Vector3 pos = go.transform.position;
+                    pos.y -= Input.mouseScrollDelta.y * 0.5f;
+                    go.transform.position = pos;
+                }
             }
         }        
     }

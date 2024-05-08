@@ -39,7 +39,7 @@ public class Controller : MonoBehaviour {
     private float posColliderDestinoX, posColliderDestinoY, posColliderDestinoZ;
     private string objName;
     private string numObjetoGrafico;
-    private Util_VisEdu criaFormas;
+    public Util_VisEdu criaFormas;
     private Vector3 OBjGraficoPeca;
 
     private List<GameObject> listaAuxRender;
@@ -743,7 +743,15 @@ public class Controller : MonoBehaviour {
         else
         {
             bool podeDestruir = screenPoint.y > cam.pixelRect.height / 2;
-
+            /*
+            print(gameObject.name);
+            print(startPos);
+            print(cloneFab);
+            print(objName);
+            print(posColliderDestinoX);
+            print(posColliderDestinoY);
+            print(posColliderDestinoZ);
+            */
             if (podeDestruir && !Global.listaEncaixes.ContainsKey(gameObject.name))
             {
                 // aqui destroi a iluminação na raiz do render
@@ -1151,7 +1159,6 @@ public class Controller : MonoBehaviour {
         //Permite reposicionar o slot somente se for um 'TransformacoesSlot' e os slots estiverem dentro do mesmo Objeto Gráfico
         if (slotOrigem.Contains("TransformacoesSlot") && getNumObjeto(slotOrigem) == getNumObjeto(slotDestino)) 
         {
-            print("oiiiiiiiiiiiiii");
             float incX = 0;
             float incY = 0;
 
@@ -1162,8 +1169,6 @@ public class Controller : MonoBehaviour {
             transform.position = new Vector3(slot.transform.position.x + incX,
                                              slot.transform.position.y - incY,
                                              slot.transform.position.z);
-
-            print(transform.position);
 
             Destroy(GameObject.Find(slotOrigem));
 
@@ -1242,7 +1247,6 @@ public class Controller : MonoBehaviour {
         for (int i = 0; i < Global.listaSequenciaSlots.Count; i++)
         {
             isTransf = Global.listaSequenciaSlots[i].Contains("TransformacoesSlot" + numObj);
-            print(Global.listaSequenciaSlots[i]);
 
             if (Global.listaSequenciaSlots[i].Contains("TransformacoesSlot" + numObj))
             {
@@ -1279,16 +1283,20 @@ public class Controller : MonoBehaviour {
         cloneFab.name = objName + concatNum;
         cloneFab.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
     }
-    public void processaExclusao()
-    {     
-        string slotOrigem = Global.listaEncaixes[gameObject.name];
+    public void processaExclusao(string nomeAlternativo = "", GameObject objetoAlternativo = null)
+    {
+        var nomeObjeto = gameObject.name;
+        var objeto = gameObject;
+        if (nomeAlternativo.Length > 0) nomeObjeto = nomeAlternativo;
+        if (objetoAlternativo != null) objeto = objetoAlternativo;
+        string slotOrigem = Global.listaEncaixes[nomeObjeto];
 
         bool podeReposicionar = false;
 
-        if (Global.GetSlot(gameObject.name).Contains("TransformacoesSlot"))
+        if (Global.GetSlot(nomeObjeto).Contains("TransformacoesSlot"))
         {
             GameObject render = GameObject.Find("Render");
-            GameObject objGrafico = GameObject.Find(Global.listaEncaixes[gameObject.name]).transform.parent.gameObject;            
+            GameObject objGrafico = GameObject.Find(Global.listaEncaixes[nomeObjeto]).transform.parent.gameObject;            
 
             for (int i = 0; i < render.transform.childCount; i++)
             {
@@ -1359,17 +1367,17 @@ public class Controller : MonoBehaviour {
 
             excluiHierarquiaOuAlteraPropriedade(Slots.TransformacoesSlot);
 
-            Destroy(GameObject.Find(Global.listaEncaixes[gameObject.name]));
-            Destroy(GameObject.Find(gameObject.name));
-            Global.listaSequenciaSlots.Remove(Global.listaEncaixes[gameObject.name]);
-            Global.removeObject(gameObject);
-            AtualizaTrasformGameObjectAmb(gameObject.name);
-            Global.listaEncaixes.Remove(gameObject.name);
-            Global.propriedadePecas.Remove(gameObject.name);
+            Destroy(GameObject.Find(Global.listaEncaixes[nomeObjeto]));
+            Destroy(GameObject.Find(nomeObjeto));
+            Global.listaSequenciaSlots.Remove(Global.listaEncaixes[nomeObjeto]);
+            Global.removeObject(objeto);
+            AtualizaTrasformGameObjectAmb(nomeObjeto);
+            Global.listaEncaixes.Remove(nomeObjeto);
+            Global.propriedadePecas.Remove(nomeObjeto);
 
             configuraIluminacao("+");            
         }
-        else if (Global.GetSlot(gameObject.name).Contains("ObjGraficoSlot"))
+        else if (Global.GetSlot(nomeObjeto).Contains("ObjGraficoSlot"))
         {
             excluiHierarquiaOuAlteraPropriedade(Slots.ObjGrafSlot);
             exclusaoCompletaObjetos(Slots.ObjGrafSlot);
@@ -1379,43 +1387,43 @@ public class Controller : MonoBehaviour {
         }
         else
         {
-            Destroy(gameObject);
-            Global.listaSequenciaSlots.Remove(Global.listaEncaixes[gameObject.name]);
-            Global.removeObject(gameObject);            
+            Destroy(objeto);
+            Global.listaSequenciaSlots.Remove(Global.listaEncaixes[nomeObjeto]);
+            Global.removeObject(objeto);     
 
-            if (Global.GetSlot(gameObject.name).Contains("FormasSlot"))
+            if (Global.GetSlot(nomeObjeto).Contains("FormasSlot"))
             {
                 excluiHierarquiaOuAlteraPropriedade(Slots.FormasSlot);
-                Global.listaEncaixes.Remove(gameObject.name);
-                Global.propriedadePecas.Remove(gameObject.name);
+                Global.listaEncaixes.Remove(nomeObjeto);
+                Global.propriedadePecas.Remove(nomeObjeto);
             }
                 
-            else if (Global.GetSlot(gameObject.name).Contains("IluminacaoSlot"))
+            else if (Global.GetSlot(nomeObjeto).Contains("IluminacaoSlot"))
             {
                 excluiHierarquiaOuAlteraPropriedade(Slots.IluminacaoSlot);
 
-                Global.listaEncaixes.Remove(gameObject.name);                
+                Global.listaEncaixes.Remove(nomeObjeto);                
 
                 if (!new PropIluminacaoPadrao().existeIluminacao())
                     GameObject.Find("CameraVisInferior").GetComponent<Camera>().cullingMask = 1 << LayerMask.NameToLayer("Nothing");
 
-                Global.propriedadeIluminacao.Remove(gameObject.name);
+                Global.propriedadeIluminacao.Remove(nomeObjeto);
 
-                if (gameObject.name.Length > "Iluminacao".Length)
-                    Destroy(GameObject.Find("LightObjects" + gameObject.name));
+                if (nomeObjeto.Length > "Iluminacao".Length)
+                    Destroy(GameObject.Find("LightObjects" + nomeObjeto));
                 else
                 {
-                    if (Global.propriedadePecas.ContainsKey(gameObject.name))
+                    if (Global.propriedadePecas.ContainsKey(nomeObjeto))
                     {
                         PropIluminacaoPadrao luz = new PropIluminacaoPadrao();
-                        luz.AtivaIluminacao(luz.GetTipoLuzPorExtenso(Global.propriedadePecas[gameObject.name].TipoLuz) + gameObject.name, false);
-                        Global.propriedadePecas[gameObject.name].JaInstanciou = false;
+                        luz.AtivaIluminacao(luz.GetTipoLuzPorExtenso(Global.propriedadePecas[nomeObjeto].TipoLuz) + nomeObjeto, false);
+                        Global.propriedadePecas[nomeObjeto].JaInstanciou = false;
                     }                        
                 }
 
-                Global.propriedadePecas.Remove(gameObject.name);
+                Global.propriedadePecas.Remove(nomeObjeto);
             }                
-            else if (Global.GetSlot(gameObject.name).Contains("CameraSlot"))
+            else if (Global.GetSlot(nomeObjeto).Contains("CameraSlot"))
             {
                 //Global.propCameraGlobal.JaIniciouValores = false; // seta 'false' para que quando incluir outra câmera preencha os campos de propriedade com valores padrões.
                 Global.propCameraGlobal.ExisteCamera = false; // seta 'false' para que não atualize as propriedades.
@@ -1430,8 +1438,8 @@ public class Controller : MonoBehaviour {
                     //GameObject.Find(nomeCubiVis).GetComponent<MeshRenderer>().enabled = false;
                 }
 
-                Global.listaEncaixes.Remove(gameObject.name);
-                Global.propriedadePecas.Remove(gameObject.name);
+                Global.listaEncaixes.Remove(nomeObjeto);
+                Global.propriedadePecas.Remove(nomeObjeto);
             }            
         }
 
@@ -1679,7 +1687,8 @@ public class Controller : MonoBehaviour {
                 if (Global.propriedadePecas.ContainsKey(key))
                     luz.AtivaIluminacao(luz.GetTipoLuzPorExtenso(Global.propriedadePecas[key].TipoLuz) + key, false);
 
-                Global.propriedadePecas[Global.gameObjectName].JaInstanciou = false;
+                Global.propriedadePecas[key].JaInstanciou = false;
+                Global.propriedadePecas.Remove(key);
             }
                 
         }        
