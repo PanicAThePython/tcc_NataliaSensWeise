@@ -127,6 +127,8 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
                 TamY = gameObject.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>();
                 TamZ = gameObject.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>();
 
+                if (prPeca.Tam == null) prPeca.Tam = new Tamanho();
+
                 prPeca.Tam.X = float.Parse(validaVazio(TamX.text), CultureInfo.InvariantCulture.NumberFormat);
                 prPeca.Tam.Y = float.Parse(validaVazio(TamY.text), CultureInfo.InvariantCulture.NumberFormat);
                 prPeca.Tam.Z = float.Parse(validaVazio(TamZ.text), CultureInfo.InvariantCulture.NumberFormat);
@@ -146,10 +148,13 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
                 PosY = gameObject.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>();
                 PosZ = gameObject.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>();
 
+                //fica dando ruim aqui sem motivo, pq existe validação!!!!!!!
+                if (prPeca.Pos == null) prPeca.Pos = new Posicao();
+               
                 prPeca.Pos.X = float.Parse(validaVazio(PosX.text), CultureInfo.InvariantCulture.NumberFormat);
                 prPeca.Pos.Y = float.Parse(validaVazio(PosY.text), CultureInfo.InvariantCulture.NumberFormat);
                 prPeca.Pos.Z = float.Parse(validaVazio(PosZ.text), CultureInfo.InvariantCulture.NumberFormat);
-
+                
                 /*
                 if (tipoTransformacao == typeTransformacao.Rotacionar)
                 {

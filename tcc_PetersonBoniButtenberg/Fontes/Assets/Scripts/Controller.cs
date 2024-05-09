@@ -1137,7 +1137,9 @@ public class Controller : MonoBehaviour {
                     else if (Global.listaEncaixes.ContainsKey(gameObject.transform.name) 
                         && Global.listaEncaixes[gameObject.name] != slot.Key)
                     {
-                        reposicionaSlots(Global.listaEncaixes[gameObject.name], slot.Key);  
+                        //essa função fazia os slots de ação trocarem de nome e dava erro!!
+                        //removê-la não prejudicou o funcionamento da cena
+                        //reposicionaSlots(Global.listaEncaixes[gameObject.name], slot.Key);
                         return false;
                     }
                     else
@@ -1493,6 +1495,8 @@ public class Controller : MonoBehaviour {
                     {
                         if (Equals(getNumObjeto(encaixe.Value), getNumObjeto(goRender.transform.GetChild(i).name)))
                         {
+                            print(encaixe.Key);
+                            print(encaixe.Value);
                             GameObject goPeca = GameObject.Find(encaixe.Key);
                             pos = goPeca.transform.position;
                             pos.y -= 3;

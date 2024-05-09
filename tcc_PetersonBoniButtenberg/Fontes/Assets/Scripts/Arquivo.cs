@@ -119,7 +119,7 @@ public class Arquivo : MonoBehaviour
 
     public void Exportar()
     {
-        if (Global.listaObjetos != null)
+        if (Global.listaObjetos != null && Global.listaObjetos.Count > 0)
         {
             List<GameObject> ordenada = ordenarCena(Global.listaObjetos);
 
@@ -168,22 +168,10 @@ public class Arquivo : MonoBehaviour
             //StartCoroutine(TutorialNovo.apagarTela(mensagem));
 
         }
-        else
+        else if (Global.listaObjetos == null || Global.listaObjetos.Count == 0)
         {
             mensagens[0].SetActive(true);
             StartCoroutine(TutorialNovo.apagarTela(mensagens[0]));
-        }
-    }
-
-    void limparListaObjetos()
-    {
-        if (Global.listaObjetos != null)
-        {
-            for (int l = 0; l < Global.listaObjetos.Count;)
-            {
-                Global.removeObject(Global.listaObjetos[l]);
-            }
-
         }
     }
 
@@ -327,9 +315,11 @@ public class Arquivo : MonoBehaviour
         {
             for (int i = 0; i < texturas.Length; i++)
             {
-                string novoNome = texturas[i].gameObject.GetComponent<MeshRenderer>().material.name;
+                string textura = texturas[i].gameObject.GetComponent<MeshRenderer>().material.name;
+                //aparentemente, nem sempre o material e a textura vão ter o mesmo nome... preciso renomear algumas coisas pra funcionar
+                //grass vs grama
 
-                if (novoNome.Contains(values["textura"]))
+                if (textura.Contains(values["textura"]))
                 {
                     prPeca.Textura = texturas[i].gameObject.GetComponent<MeshRenderer>().material.mainTexture;
                 }
@@ -338,22 +328,22 @@ public class Arquivo : MonoBehaviour
 
         Global.propriedadePecas.Add(nome, prPeca);
 
-        //por alguma razão, n tá sendo criado em cena com o nome certo... aí tem dois "CuboAmbiente" e "CuboVis"... n aparece o num qnd eu faço a conversão dos nomes
-
-        if (prPeca.Textura)
-        {
-            GameObject.Find(prPeca.NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].mainTexture = prPeca.Textura;
-            GameObject.Find(prPeca.NomeCuboVis).GetComponent<MeshRenderer>().materials[0].mainTexture = prPeca.Textura;
-        }
         GameObject.Find(prPeca.NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].color = prPeca.Cor;
         GameObject.Find(prPeca.NomeCuboVis).GetComponent<MeshRenderer>().materials[0].color = prPeca.Cor;
 
+        if (prPeca.Textura) //PAROU DE FUNCIONAR PQ?!
+        {
+            //Texturiza os cubos
+            GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].mainTexture = prPeca.Textura;
+            GameObject.Find(Global.propriedadePecas[prPeca.Nome].NomeCuboVis).GetComponent<MeshRenderer>().materials[0].mainTexture = prPeca.Textura;
+        }
+        /*
         GameObject.Find(prPeca.NomeCuboAmbiente).transform.position = new Vector3(prPeca.Pos.X, prPeca.Pos.Y, prPeca.Pos.Z);
         GameObject.Find(prPeca.NomeCuboVis).transform.position = new Vector3(prPeca.Pos.X, prPeca.Pos.Y, prPeca.Pos.Z);
 
         GameObject.Find(prPeca.NomeCuboAmbiente).transform.localScale = new Vector3(prPeca.Tam.X, prPeca.Tam.Y, prPeca.Tam.Z);
         GameObject.Find(prPeca.NomeCuboVis).transform.localScale = new Vector3(prPeca.Tam.X, prPeca.Tam.Y, prPeca.Tam.Z);
-
+        */
     }
 
     void setPropsAcoes(Controller controller, JSONNode values, int countObjt, string nome)
@@ -706,7 +696,6 @@ public class Arquivo : MonoBehaviour
                     acao.transform.position = new Vector3(x, y, z);
                     acao.GetComponent<BoxCollider>().enabled = true;
                     Global.addObject(acao);
-
                     adicionarEncaixe(acao, countAcoes);
 
                     //Retorna  de TransformacoesSlot
@@ -740,7 +729,7 @@ public class Arquivo : MonoBehaviour
                     cloneTrans.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 3f, t.transform.position.z);
 
                     controller.addTransformacoeSequenciaSlots(cloneTrans.name);
-
+                    Global.atualizaListaSlot();
                     controller.posicaoColliderDestino = t;
 
                     GameObject.Find(cloneTrans.name).GetComponent<BoxCollider>().enabled = true;
@@ -941,7 +930,7 @@ public class Arquivo : MonoBehaviour
                         controller.renderController = new RenderController();
 
                     controller.renderController.ResizeBases(t, Consts.ObjetoGrafico, true);
-                    //controller.adicionaObjetoRender();
+
                     objeto.GetComponent<Controller>().adicionaObjetoRender();
                     Global.atualizaListaSlot();
 
