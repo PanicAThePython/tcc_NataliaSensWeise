@@ -18,6 +18,8 @@ public class ThemeChange : MonoBehaviour
     public Material claro;
     public Material escuro;
 
+    public Material corLetras;
+
     public void themeChanging()
     {
         if (!control)
@@ -46,6 +48,7 @@ public class ThemeChange : MonoBehaviour
             {
                 objetos[i].GetComponent<MeshRenderer>().material = escuro;
             }
+            //corLetras.color = claro.color;
         }
         else
         {
@@ -53,6 +56,7 @@ public class ThemeChange : MonoBehaviour
             {
                 objetos[i].GetComponent<MeshRenderer>().material = claro;
             }
+            //corLetras.color = escuro.color;
         }
     }
 

@@ -132,3 +132,49 @@ hmmm mas se eu n mudei as props, ent ele vai entrar no if q seta os valores padr
 tá, ent é checar se aquela chave existe e daí setar, blz -> deu certo!!
 
 resolvido
+
+OFF: ACHEI UM MATERIAL CHAMADO COR LETRAS E ACHO Q É CULPA DELE Q A TROCA DE TEMA N ROLOU!!
+	- dps vou testar
+
+
+MONTANDO HIERARQUIA OBJETO PAI E FILHO
+
+- arrumei a estrutura visual das peças
+- próximo passo: qnd um objeto for encaixado como filho, mandar o slot de objeto q estava abaixo (no render) pra mais abaixo
+- PROBLEMA: arrumar distância qnd cria slot acao
+- tem q deixar o encaixe de luz com outra cor pra diferenciar do objeto filho 
+	--> não rolou, usam o msm prefab, o msm encaixe e parece q n tem como mudar o material SÓ DE UM
+- arrumar a colisão no slot objtson, acho q ele n está na lista de slots, por isso n deixou encaixar
+	- ele n encaixa pq o GetSlot devolve o nome do slot pra encaixar, aí n rola
+	- vou ter q fazer umas mudanças... se for objeto pega o nome da peça pra comparar, senão faz do jeito q tava
+	- funciona até, mas a lateral e peças ficam lá no outro encaixe de objeto... ele parece dar preferência pra lá
+	- n consigo encaixar pq o son fica dps na lista de encaixes, aí ele pega o primeiro encaixe com nome objeto q aparece na lista... como q resolvo?
+		- será q eu tenho como obrigar ele primeiro checar o son e dps o pai?
+		- se eu fizesse através de colisão, e na colisão passar o nome do slot direto, ia adicionar ali acho
+		- talvez tentar fazer como um bubble sort... armazena num canto o nome do slot e espera pra ver se tem outro q tá mais perto da peça, q tenha a distância menor... se tiver, aí troca o nome do slot, senão coloca na lista de encaixe
+
+		- minha ideia tá indo bem..., mas eu n to conseguindo alterar uma variável global dentro de uma func...
+		- vou tentar passar como param... (NÃO ROLOU), será q preciso retornar com o novo valor?
+			- n rolou e retornar o valor n vai rolar pq simplesmente ele taca o foda-se e adiciona na primeira ocorrência
+			- agr tá guardando o valor, mas ainda ignora o son...
+			- talvez mudar o nome do slot dnv pra ele ser levado em consideração?
+			- ... vou forçar o collision estar ativo, acho q é algo assim
+
+		- CONSEGUI ADICIONAR O FILHOOO
+
+- agr falta arrumar a lateral do render --> ARRUMADO
+- arrumar a distância da peça qnd um son é add --> ARRUMADO
+	- tentar n add novo slot de objt qnd add um son, assim só fica um slot de objt pra arrumar a posição --> ARRUMADO
+- tenho q ajeitar a contagem de objetos pra parar os conflitos nos nomes --> ARRUMADO
+- arrumar encaixes qnd add ação --> ARRUMADO
+- tá criando um clone do slot filho e tá me atrapalhando... fazer com q n crie o clone -> a culpa n é do clone, é só a peça q n desce com o slot --> ARRUMADO
+	-> a peça n tá descendo junto pq o valor da posição do slot n foi atualizado na lista global!!!
+- por causa do droppeca count, a base do objeto 2 tá vindo com 3 no lugar, aí tanto o child quanto o raiz tem o msm nome de base --> ARRUMADO
+- e qnd cria um novo objt, vem com o num 5, isso tbm é um problema --> ARRUMADO
+- arrumar o "pode encaixar" dnv (pq agr ele dá preferência ao filho msm q esteja longe dele)
+- arrumar slots do filho (n encaixa)
+	-> n existe os slots na lista
+	-> acho q tenho q criar mais um for no atualizaListaSlot pra conseguir pos os slots na lista
+		-> slots na lista, mas ainda n consigo encaixar nada
+'		-> ele encaixa só na lista, visualmente n!!
+		-> ele coloca os cubos no msm lugar!!! como mudar pro de baixo? --> é um problema só no child

@@ -46,6 +46,10 @@ public class Controller : MonoBehaviour {
 
     public RenderController renderController;
 
+    //para poder adicionar peça no slot objt filho
+    string nomeSlotObjtAtual = "";
+    float posicaoSlotObjtAtual = 0f;
+
     private void Start()
     {
         scanPos = startPos = gameObject.transform.position;
@@ -462,7 +466,7 @@ public class Controller : MonoBehaviour {
     }
 
     private void OnMouseUp()
-    {    
+    {
         //if (Global.podeExcruiObjeto)
         if (podeExcluirObjeto())
         {
@@ -543,8 +547,12 @@ public class Controller : MonoBehaviour {
 
                 }
                 else if ((Tutorial.estaExecutandoTutorial && Tutorial.passoTutorial == Tutorial.Passo.PrimeiroPasso) || (!Tutorial.estaExecutandoTutorial && gameObject.name.Contains("ObjetoGrafico")))
-                {  
-                    if (DropPeca.countObjetosGraficos == 0)
+                {
+                    string numObjt = nomeSlotObjtAtual[nomeSlotObjtAtual.Length - 1].ToString();
+                    if (numObjt == "t") numObjt = "0";
+                    int numero = int.Parse(numObjt);
+
+                    if (numero == 0)
                     {
                         if (criaFormas == null)
                             criaFormas = new Util_VisEdu();
@@ -553,29 +561,44 @@ public class Controller : MonoBehaviour {
                     }                        
 
                     string countObjGrafico = "";
-                    if (DropPeca.countObjetosGraficos > 0)
-                        countObjGrafico = Convert.ToString(DropPeca.countObjetosGraficos);
+                    if (numero > 0)
+                        countObjGrafico = Convert.ToString(numero);
 
                     if (!Equals(countObjGrafico, string.Empty))
-                        createGameObjectTree(DropPeca.countObjetosGraficos);
+                        createGameObjectTree(numero);
 
-                    Global.iniciaListaSequenciaSlots(DropPeca.countObjetosGraficos);
+                    Global.iniciaListaSequenciaSlots(numero);
 
-                    GameObject t = GameObject.Find("ObjGraficoSlot" + countObjGrafico);
+                    //isso aqui n funciona pq ele pega o último slot criado (q foi um son, ent n tá visível)
+                    //mudei pro slot atual pra consegui encaixar
+                    GameObject t = GameObject.Find(nomeSlotObjtAtual);
 
                     GameObject cloneObjGrafico = Instantiate(t, t.transform.position, t.transform.rotation, t.transform.parent);
-                    cloneObjGrafico.name = "ObjGraficoSlot" + Convert.ToString(++DropPeca.countObjetosGraficos);
-                    cloneObjGrafico.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 11f, t.transform.position.z);
+
+                    DropPeca.countObjetosGraficos = numero;
+                    if (numero % 2 == 0) // os pares são sempre PAIS e os ímpares são sempre FILHOS
+                    {
+                        DropPeca.countObjetosGraficos += 1;
+                        /*
+                        t.name = GameObject.Find("ObjGraficoSlot" + Convert.ToString(DropPeca.countObjetosGraficos)).name;
+                        posicaoColliderDestino = t;
+                        setActiveAndRenameGameObject(t, cloneObjGrafico);
+                        */
+                        DropPeca.countObjetosGraficos += 1;
+
+                        cloneObjGrafico.name = "ObjGraficoSlot" + Convert.ToString(DropPeca.countObjetosGraficos);
+                        cloneObjGrafico.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 14f, t.transform.position.z);
+                    }
 
                     posicaoColliderDestino = t;
-
+                    Global.atualizaListaSlot();
                     setActiveAndRenameGameObject(t, cloneObjGrafico);
 
                     if (renderController == null)
                         renderController = new RenderController();
 
                     renderController.ResizeBases(t, Consts.ObjetoGrafico, true);
-                    adicionaObjetoRender();                    
+                    adicionaObjetoRender();
                 }
                 else if ((Tutorial.estaExecutandoTutorial && Tutorial.passoTutorial == Tutorial.Passo.SegundoPasso) || (!Tutorial.estaExecutandoTutorial && gameObject.name.Contains("Cubo")))
                 {      
@@ -1052,22 +1075,49 @@ public class Controller : MonoBehaviour {
                 goActive.transform.GetChild(i).gameObject.SetActive(true);
 
                 if (goActive.transform.GetChild(i).name.Contains("Slot"))
+                {
                     goRename.transform.GetChild(i).name =
-                        goRename.transform.GetChild(i).name.Substring(0, goRename.transform.GetChild(i).name.IndexOf("Slot") + 4) + Convert.ToString(DropPeca.countObjetosGraficos);                
+                        goRename.transform.GetChild(i).name.Substring(0, goRename.transform.GetChild(i).name.IndexOf("Slot") + 4) + Convert.ToString(DropPeca.countObjetosGraficos);
+
+                    //print(goRename.transform.GetChild(i).name);
+
+                    if (goActive.transform.GetChild(i).name.Contains("Grafico"))
+                    {
+                        goRename.transform.GetChild(i).name =
+                           goRename.transform.GetChild(i).name.Substring(0, goRename.transform.GetChild(i).name.IndexOf("Slot") + 4) + Convert.ToString(DropPeca.countObjetosGraficos + 1);
+                        
+                        //print(goRename.transform.GetChild(i).name);
+
+                        for (int j = 0; j < goRename.transform.GetChild(i).childCount; j++)
+                        {
+                            if (goRename.transform.GetChild(i).GetChild(j).name.Contains("Slot"))
+                            {
+                                goRename.transform.GetChild(i).GetChild(j).name =
+                                goRename.transform.GetChild(i).GetChild(j).name.Substring(0, goRename.transform.GetChild(i).GetChild(j).name.IndexOf("Slot") + 4) + Convert.ToString(DropPeca.countObjetosGraficos + 1);
+                            }
+                            else
+                            {
+                                goRename.transform.GetChild(i).GetChild(j).name = goRename.transform.GetChild(i).GetChild(j).name.Substring(0, goRename.transform.GetChild(i).GetChild(j).name.IndexOf("GO") + 2) + Convert.ToString(DropPeca.countObjetosGraficos + 1);
+                            }
+                        }
+                        
+                    }
+                       
+                }
                 else
-                {                    
+                {
                     goRename.transform.GetChild(i).name = goRename.transform.GetChild(i).name.Substring(0, goRename.transform.GetChild(i).name.IndexOf("GO") + 2) + Convert.ToString(DropPeca.countObjetosGraficos);
 
-                    for(int j = 0; j < goRename.transform.GetChild(i).childCount; j++)
+                    for (int j = 0; j < goRename.transform.GetChild(i).childCount; j++)
                     {
                         int value = 0;
-                        Int32.TryParse(goRename.transform.GetChild(i).GetChild(j).name.Substring(goRename.transform.GetChild(i).GetChild(j).name.Length -1, 1), out value);
+                        Int32.TryParse(goRename.transform.GetChild(i).GetChild(j).name.Substring(goRename.transform.GetChild(i).GetChild(j).name.Length - 1, 1), out value);
 
                         if (value > 0)
                             goRename.transform.GetChild(i).GetChild(j).name = goRename.transform.GetChild(i).GetChild(j).name.Substring(0, goRename.transform.GetChild(i).GetChild(j).name.Length - 1) + Convert.ToString(DropPeca.countObjetosGraficos);
                         else
                             goRename.transform.GetChild(i).GetChild(j).name += Convert.ToString(DropPeca.countObjetosGraficos);
-                    }                        
+                    }
                 }                    
             }
             else
@@ -1111,17 +1161,21 @@ public class Controller : MonoBehaviour {
     {
         const float VALOR_APROXIMADO = 9;
 
-        float pecaY = transform.position.y;        
+        float pecaY = transform.position.y;
 
         foreach (KeyValuePair<string, float> slot in Global.listaPosicaoSlot)  // Slot / posição no eixo y
         {
+            string nomeSlot = Global.GetSlot(gameObject.name);
+            if (slot.Key.Contains("Objeto")) nomeSlot = "Grafico";
+
             //Verifica se o encaixe existe na lista 
-            if (slot.Key.Contains(Global.GetSlot(gameObject.name)))
+            if (slot.Key.Contains(nomeSlot))
             {
                 //Verifica se a peça está próxima do encaixe e se o Slot ainda não está na lista de encaixes.
-                if (slot.Value + VALOR_APROXIMADO > pecaY && slot.Value - VALOR_APROXIMADO < pecaY 
+                if ((slot.Value + VALOR_APROXIMADO > pecaY) && (slot.Value - VALOR_APROXIMADO < pecaY) 
                     && !Global.listaEncaixes.ContainsValue(slot.Key))
                 {
+                    print("entrei");
                     //print(!Global.listaEncaixes.ContainsKey(gameObject.transform.name));
                     if (!Global.listaEncaixes.ContainsKey(gameObject.transform.name))
                     {
@@ -1131,8 +1185,36 @@ public class Controller : MonoBehaviour {
                         // tem q criar o IluminacaoSlot lá na cena, mas qnd tentei criar deu mt errado, dentro do GO_Render
                         // tem q criar uma outra peça só pra iluminar a cena, com outro conector e outro nome pra n bugar o code
                         // será q vale a pena?
-                        if (GameObject.Find(slot.Key) != null)
-                            Global.listaEncaixes.Add(gameObject.transform.name, slot.Key);
+
+                        if (slot.Key.Contains("Grafico"))
+                        {
+                            if (nomeSlotObjtAtual.Length == 0)
+                            {
+                                nomeSlotObjtAtual = slot.Key;
+                                posicaoSlotObjtAtual = slot.Value;
+                            }
+                            else
+                            {
+                                /*
+                                print(posicaoSlotObjtAtual);
+                                print(pecaY);
+                                print(slot.Value);
+                                print(((posicaoSlotObjtAtual - pecaY) * (-1)) > ((slot.Value - pecaY) * (-1)));
+                                */
+                                //622 - 623 > 619 - 623
+                                // -1 > -4 --> aqui ele coloca o slot certo, mas na tela n
+                                if(((posicaoSlotObjtAtual - pecaY)*(-1)) > ((slot.Value - pecaY)*(-1)))
+                                {
+                                    nomeSlotObjtAtual = slot.Key;
+                                    posicaoSlotObjtAtual = slot.Value;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (GameObject.Find(slot.Key) != null)
+                                Global.listaEncaixes.Add(gameObject.transform.name, slot.Key);
+                        }
                     }                        
                     else if (Global.listaEncaixes.ContainsKey(gameObject.transform.name) 
                         && Global.listaEncaixes[gameObject.name] != slot.Key)
@@ -1145,12 +1227,21 @@ public class Controller : MonoBehaviour {
                     else
                         return false;
 
-                    if (GameObject.Find(slot.Key) != null)
+                    if (GameObject.Find(slot.Key) != null && !slot.Key.Contains("Grafico"))
+                    {
                         return true;
+                    }
+                    else if (slot.Key.Contains("Grafico")) continue;
                     else
                         return false;
                 }
             }
+        }
+
+        if (nomeSlotObjtAtual.Length > 0 && !Global.listaEncaixes.ContainsKey(gameObject.transform.name))
+        {
+            Global.listaEncaixes.Add(gameObject.transform.name, nomeSlotObjtAtual);
+            return true;
         }
 
         return false;
@@ -1201,6 +1292,7 @@ public class Controller : MonoBehaviour {
                 {
                     if (Global.listaSequenciaSlots[i].Contains("TransformacoesSlot" + getNumeroSlotObjetoGrafico()) && getNumObjeto(Global.listaSequenciaSlots[i]) == getNumeroSlotObjetoGrafico())
                     {
+                        print(Global.listaSequenciaSlots[i]);
                         if (Global.listaSequenciaSlots[i] == slotOrigem)
                         {
                             podeReposicionar = true;
@@ -1495,13 +1587,21 @@ public class Controller : MonoBehaviour {
                     {
                         if (Equals(getNumObjeto(encaixe.Value), getNumObjeto(goRender.transform.GetChild(i).name)))
                         {
-                            print(encaixe.Key);
-                            print(encaixe.Value);
                             GameObject goPeca = GameObject.Find(encaixe.Key);
                             pos = goPeca.transform.position;
                             pos.y -= 3;
                             goPeca.transform.position = pos;
                         }
+                        /*
+                        else if (numObjeto == "") numObjeto = "0";
+                        else if (Equals(int.Parse(numObjeto) + 1), int.Parse(getNomeObjeto(encaixe.Value)))
+                        {
+                            GameObject goPeca = GameObject.Find(encaixe.Key);
+                            pos = goPeca.transform.position;
+                            pos.y -= 3;
+                            goPeca.transform.position = pos;
+                        }
+                       */
                     }
                 }
 

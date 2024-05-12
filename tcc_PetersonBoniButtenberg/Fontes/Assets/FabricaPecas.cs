@@ -5,10 +5,14 @@ using UnityEngine;
 
 public class FabricaPecas : MonoBehaviour {
 
-    private Util_VisEdu visEdu = new Util_VisEdu();
+    private Util_VisEdu visEdu = null;
     private static bool fabrica, render = false;
     private bool podeAlterar = true;
 
+    private void Start()
+    {
+        visEdu = new Util_VisEdu();
+    }
     void LateUpdate () {
         Vector3 screenPoint = GameObject.Find("Main Camera").GetComponent<Camera>().WorldToScreenPoint(gameObject.transform.position);
 

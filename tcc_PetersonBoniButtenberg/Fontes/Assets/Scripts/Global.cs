@@ -127,6 +127,8 @@ public class Global : MonoBehaviour {
 
         for(int i = 0; i < render.transform.childCount; i++)
         {
+            //print(render.transform.GetChild(i));
+
             if (render.transform.GetChild(i).name.Contains("Slot"))
             {
                 listaPosicaoSlot.Add(render.transform.GetChild(i).name, render.transform.GetChild(i).position.y);
@@ -137,9 +139,24 @@ public class Global : MonoBehaviour {
 
                     for (int j = 0; j < objGrafico.transform.childCount; j++)
                     {
-                        if (objGrafico.transform.GetChild(j).name.Contains("Slot"))
+                        //print(objGrafico.transform.GetChild(j));
+
+                        if (objGrafico.transform.GetChild(j).name.Contains("Slot") && !Global.listaPosicaoSlot.ContainsKey(objGrafico.transform.GetChild(j).name))
                         {
                             listaPosicaoSlot.Add(objGrafico.transform.GetChild(j).name, objGrafico.transform.GetChild(j).position.y);
+
+                            if (objGrafico.transform.GetChild(j).name.Contains("Obj"))
+                            {
+                                for (int k = 0; k < objGrafico.transform.GetChild(j).childCount; k++)
+                                {
+                                    //print(objGrafico.transform.GetChild(j).GetChild(k));
+
+                                    if (objGrafico.transform.GetChild(j).GetChild(k).name.Contains("Slot") && !Global.listaPosicaoSlot.ContainsKey(objGrafico.transform.GetChild(j).GetChild(k).name))
+                                    {
+                                        listaPosicaoSlot.Add(objGrafico.transform.GetChild(j).GetChild(k).name, objGrafico.transform.GetChild(j).GetChild(k).position.y);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -156,11 +173,10 @@ public class Global : MonoBehaviour {
             listaSequenciaSlots.Add("CameraSlot");
             numObjStr = "";
         }      
-
-        listaSequenciaSlots.Add("ObjGraficoSlot" + numObjStr);
+        if (numObjeto % 2 == 0) listaSequenciaSlots.Add("ObjGraficoSlot" + numObjStr);
         listaSequenciaSlots.Add("FormasSlot" + numObjStr);
         listaSequenciaSlots.Add("TransformacoesSlot" + numObjStr);
-        listaSequenciaSlots.Add("IluminacaoSlot" + numObjStr);        
+        listaSequenciaSlots.Add("IluminacaoSlot" + numObjStr);
     }
 
     public static string Tsadas(string tranf)
