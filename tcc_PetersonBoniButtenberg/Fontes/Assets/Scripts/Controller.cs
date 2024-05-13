@@ -608,6 +608,7 @@ public class Controller : MonoBehaviour {
                         GameObject t;
 
                         numFormas = getNumeroSlotObjetoGrafico();
+                        print(numFormas);
 
                         t = GameObject.Find("FormasSlot" + numFormas);
 
@@ -1550,6 +1551,23 @@ public class Controller : MonoBehaviour {
         {
             if (render.transform.GetChild(i).name.Contains("ObjGraficoSlot"))
             {
+                for (int j = 0; j < render.transform.GetChild(i).childCount; j++)
+                {
+                    if (render.transform.GetChild(i).GetChild(j).name.Contains("ObjGraficoSlot"))
+                    {
+                        if (Global.listaPosicaoSlot.ContainsKey(render.transform.GetChild(i).GetChild(j).name))
+                        {
+                            if (Global.listaPosicaoSlot.TryGetValue(render.transform.GetChild(i).GetChild(j).name, out value))
+                            {
+                                if (transform.position.y < value)
+                                {
+                                    if (render.transform.GetChild(i).GetChild(j).name.Length > "ObjGraficoSlot".Length)
+                                        numSlotObjGrafico = render.transform.GetChild(i).GetChild(j).name.Substring(render.transform.GetChild(i).GetChild(j).name.IndexOf("Slot") + 4, 1);
+                                }
+                            }
+                        }
+                    }
+                }
                 if (Global.listaPosicaoSlot.ContainsKey(render.transform.GetChild(i).name))
                 {
                     if (Global.listaPosicaoSlot.TryGetValue(render.transform.GetChild(i).name, out value))
@@ -1592,16 +1610,6 @@ public class Controller : MonoBehaviour {
                             pos.y -= 3;
                             goPeca.transform.position = pos;
                         }
-                        /*
-                        else if (numObjeto == "") numObjeto = "0";
-                        else if (Equals(int.Parse(numObjeto) + 1), int.Parse(getNomeObjeto(encaixe.Value)))
-                        {
-                            GameObject goPeca = GameObject.Find(encaixe.Key);
-                            pos = goPeca.transform.position;
-                            pos.y -= 3;
-                            goPeca.transform.position = pos;
-                        }
-                       */
                     }
                 }
 

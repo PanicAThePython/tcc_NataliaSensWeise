@@ -10,6 +10,12 @@ public class RenderController : MonoBehaviour {
     const float INC_BASE_CINZA = 1.4f;  // Valor alcançado através de testes visuais.
     private int mudaSinal;
 
+    private void destroyExtraObject(int num)
+    {
+        //ObjGraficoSlot1(Clone)
+        GameObject clone = GameObject.Find("ObjGraficoSlot" + (num + 1) + "(Clone)");
+        if (clone != null) Destroy(clone);
+    }
     public void ResizeBases(GameObject baseRender, string tipoPeca, bool incrementa)
     {
         string numObj = "";
@@ -33,7 +39,6 @@ public class RenderController : MonoBehaviour {
 
             // Redimensiona base cinza pra pais e filhos
             if (numObj == "") numObj = "0";
-
             int num = int.Parse(numObj);
 
             if (num % 2 != 0)
@@ -48,12 +53,10 @@ public class RenderController : MonoBehaviour {
 
                 //arruma posição do slot de objt q tá sobrando
                 GameObject objt = GameObject.Find("ObjGraficoSlot" + (num + 2));
-                objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - (3.9f * 2), objt.transform.position.z);
+                objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - (3.9f * 1.5f), objt.transform.position.z);
             }
             else if (num == 0) otherBase = GameObject.Find("BaseRenderLateralGO");
             else otherBase = GameObject.Find("BaseRenderLateralGO" + numObj);
-            //por causa do droppeca count, a base do objeto 2 tá vindo com 3 no lugar, aí tanto o child quanto o raiz tem o msm nome de base
-            //e qnd cria um novo objt, vem com o num 5, isso tbm é um problema
             otherBase.transform.GetChild(0).gameObject.SetActive(true); //Base lateral cinza
 
             //redimensiona a base verde do objeto da vez
@@ -70,9 +73,7 @@ public class RenderController : MonoBehaviour {
             otherBase = GameObject.Find("BaseObjetoGraficoGO" + numObj);
             otherBase.transform.GetChild(0).gameObject.SetActive(true); //Base objeto gráfico verde
 
-            //ObjGraficoSlot1(Clone)
-            GameObject clone = GameObject.Find("ObjGraficoSlot" + (num + 1) + "(Clone)");
-            if (clone != null) Destroy(clone);
+            destroyExtraObject(num);
         }
         else if (Consts.IsTransformacao(tipoPeca))
         {
@@ -90,39 +91,81 @@ public class RenderController : MonoBehaviour {
             otherBase = GameObject.Find("BaseObjetoGraficoGO" + numObj);
             float ScaleY = otherBase.transform.localScale.y;
             otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + (INC_BASE_VERDE * mudaSinal), otherBase.transform.localScale.z);
-            otherBase.transform.position = new Vector3(otherBase.transform.position.x, otherBase.transform.position.y - ScaleY, otherBase.transform.position.z);
 
-            //arruma posição do slot child
-            
             if (numObj == "") numObj = "0";
             int num = int.Parse(numObj);
 
-            //ObjGraficoSlot1(Clone)
-            GameObject clone = GameObject.Find("ObjGraficoSlot" + (num + 1) + "(Clone)");
-            if (clone != null) Destroy(clone);
+            //arruma posicionamento da lateral verde conforme tipo de objeto (pai ou filho)
+            if (num % 2 == 0) otherBase.transform.position = new Vector3(otherBase.transform.position.x, otherBase.transform.position.y - 1.4f, otherBase.transform.position.z);
+            else otherBase.transform.position = new Vector3(otherBase.transform.position.x, otherBase.transform.position.y, otherBase.transform.position.z);
 
+            //arruma posição do slot de objt q tá sobrando
+            if (num % 2 == 0)
+            {
+                GameObject objt = GameObject.Find("ObjGraficoSlot" + (num + 2));
+                objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - INC_BASE_CINZA, objt.transform.position.z);
+                
+                if (num > 0) otherBase = GameObject.Find("BaseRenderLateralGO" + num);
+                else otherBase = GameObject.Find("BaseRenderLateralGO");
+
+                ScaleY = otherBase.transform.localScale.y;
+                otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + INC_BASE_CINZA, otherBase.transform.localScale.z);
+            }
+            else
+            {
+                GameObject objt = GameObject.Find("ObjGraficoSlot" + (num + 1));
+                objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - INC_BASE_CINZA, objt.transform.position.z);
+
+                if (num - 1 == 0) otherBase = GameObject.Find("BaseRenderLateralGO");
+                else otherBase = GameObject.Find("BaseRenderLateralGO" + (num - 1));
+                ScaleY = otherBase.transform.localScale.y;
+                otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + INC_BASE_CINZA, otherBase.transform.localScale.z);
+            }
+
+            //ObjGraficoSlot1(Clone)
+            destroyExtraObject(num);
+
+            //arruma posição do próximo slot
             GameObject objt1 = GameObject.Find("ObjGraficoSlot" + (num + 1));
             Vector3 pos = objt1.transform.position;
             pos.y -= 3;
             objt1.transform.position = pos;
 
             if (numObj == "0") numObj = "";
-            GameObject peca1 = GameObject.Find("ObjetoGraficoP" + (num + 1));
-            pos = peca1.transform.position;
-            pos.y -= 3;
-            peca1.transform.position = pos;
-            Global.listaPosicaoSlot[Global.listaEncaixes["ObjetoGraficoP" + numObj]] = pos.y;
 
-            //objt1.transform.position = new Vector3(objt1.transform.position.x, objt1.transform.position.y - 3f, objt1.transform.position.z);
-            
-            //Global.listaPosicaoSlot[objt1.name] = objt1.transform.position.y - 3f; //n funcionou
-            Global.atualizaListaSlot(); //n funcou
-            //a peça n tá descendo junto pq o valor da posição do slot n foi atualizado na lista global!!!
-
-            otherBase = GameObject.Find("BaseRenderLateralGO" + numObj);
-
-            ScaleY = otherBase.transform.localScale.y;
-            otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + (INC_BASE_CINZA * mudaSinal), otherBase.transform.localScale.z);            
+            //se eu estiver mexendo com objeto pai e ele tá com o filho funcionando, ele vai arrumar a posição das peças do filho
+            GameObject forma1 = GameObject.Find("FormaSlot" + (num + 1));
+            GameObject trans1 = GameObject.Find("TransformacoesSlot" + (num + 1));
+            GameObject ilu1 = GameObject.Find("IluminacaoSlot" + (num + 1));
+            if (num % 2 == 0 && (forma1 != null || trans1 != null || ilu1 != null))
+            {
+                GameObject peca1 = GameObject.Find("ObjetoGraficoP" + (num + 1));
+                pos = peca1.transform.position;
+                pos.y -= 3;
+                peca1.transform.position = pos;
+                Global.listaPosicaoSlot[Global.listaEncaixes["ObjetoGraficoP" + numObj]] = pos.y;
+                for (int i = 0; i < objt1.transform.childCount; i++)
+                {
+                    pos = objt1.transform.GetChild(i).position;
+                    //pos.y -= 3;
+                    objt1.transform.GetChild(i).position = pos;
+                    if (Global.listaPosicaoSlot.ContainsKey(objt1.transform.GetChild(i).name))
+                    {
+                        foreach (KeyValuePair<string, string> encaixe in Global.listaEncaixes)
+                        {
+                           if (encaixe.Value == objt1.transform.GetChild(i).name)
+                            {
+                                GameObject teste = GameObject.Find(encaixe.Key);
+                                pos = teste.transform.position;
+                                pos.y -= 3;
+                                teste.transform.position = pos;
+                            }
+                        }
+                    }
+                }
+            }
+           
+            Global.atualizaListaSlot();       
         }
     }
 }

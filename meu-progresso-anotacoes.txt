@@ -171,10 +171,12 @@ MONTANDO HIERARQUIA OBJETO PAI E FILHO
 	-> a peça n tá descendo junto pq o valor da posição do slot n foi atualizado na lista global!!!
 - por causa do droppeca count, a base do objeto 2 tá vindo com 3 no lugar, aí tanto o child quanto o raiz tem o msm nome de base --> ARRUMADO
 - e qnd cria um novo objt, vem com o num 5, isso tbm é um problema --> ARRUMADO
-- arrumar o "pode encaixar" dnv (pq agr ele dá preferência ao filho msm q esteja longe dele)
-- arrumar slots do filho (n encaixa)
+- arrumar slots do filho (n encaixa) --> ARRUMADO
 	-> n existe os slots na lista
 	-> acho q tenho q criar mais um for no atualizaListaSlot pra conseguir pos os slots na lista
 		-> slots na lista, mas ainda n consigo encaixar nada
 '		-> ele encaixa só na lista, visualmente n!!
 		-> ele coloca os cubos no msm lugar!!! como mudar pro de baixo? --> é um problema só no child
+- arrumar lateral renderer e objeto qnd é adicionado ação no filho --> ARRUMADO
+- arrumar peça objeto da fábrica, q desce qnd eu add uma ação no filho --> ARRUMADO
+- arrumar o "pode encaixar" dnv (pq agr ele dá preferência ao filho msm q esteja longe dele)
