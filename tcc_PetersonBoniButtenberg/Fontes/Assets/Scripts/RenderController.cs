@@ -51,9 +51,15 @@ public class RenderController : MonoBehaviour {
                 float ScaleY = otherBase.transform.localScale.y;
                 otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + (INC_BASE_CINZA * 2), otherBase.transform.localScale.z);
 
-                //arruma posição do slot de objt q tá sobrando
+
+                //arruma posição próximo slot
                 GameObject objt = GameObject.Find("ObjGraficoSlot" + (num + 2));
-                objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - (3.9f * 1.5f), objt.transform.position.z);
+                objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - (INC_BASE_CINZA * 5.5f), objt.transform.position.z);
+                //arrumando o slot q sobra
+                int filhos = GameObject.Find("Render").transform.childCount;
+                GameObject ultimo = GameObject.Find("Render").transform.GetChild(filhos-1).gameObject;
+                ultimo.transform.position = new Vector3(ultimo.transform.position.x, ultimo.transform.position.y - (INC_BASE_CINZA * 3.5f), ultimo.transform.position.z);
+
             }
             else if (num == 0) otherBase = GameObject.Find("BaseRenderLateralGO");
             else otherBase = GameObject.Find("BaseRenderLateralGO" + numObj);
@@ -101,9 +107,9 @@ public class RenderController : MonoBehaviour {
 
             //arruma posição do slot de objt q tá sobrando
             if (num % 2 == 0)
-            {
+            {   
                 GameObject objt = GameObject.Find("ObjGraficoSlot" + (num + 2));
-                objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - INC_BASE_CINZA, objt.transform.position.z);
+                objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - INC_BASE_VERDE, objt.transform.position.z);
                 
                 if (num > 0) otherBase = GameObject.Find("BaseRenderLateralGO" + num);
                 else otherBase = GameObject.Find("BaseRenderLateralGO");
@@ -113,8 +119,17 @@ public class RenderController : MonoBehaviour {
             }
             else
             {
+                
                 GameObject objt = GameObject.Find("ObjGraficoSlot" + (num + 1));
-                objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - INC_BASE_CINZA, objt.transform.position.z);
+                objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - INC_BASE_VERDE, objt.transform.position.z);
+
+                /*
+                //arrumando o slot q sobra
+                int filhos = GameObject.Find("Render").transform.childCount;
+                GameObject ultimo = GameObject.Find("Render").transform.GetChild(filhos).gameObject;
+                print(ultimo.name);
+                ultimo.transform.position = new Vector3(ultimo.transform.position.x, ultimo.transform.position.y - (INC_BASE_CINZA * 5f), ultimo.transform.position.z);
+                */
 
                 if (num - 1 == 0) otherBase = GameObject.Find("BaseRenderLateralGO");
                 else otherBase = GameObject.Find("BaseRenderLateralGO" + (num - 1));
@@ -125,11 +140,13 @@ public class RenderController : MonoBehaviour {
             //ObjGraficoSlot1(Clone)
             destroyExtraObject(num);
 
-            //arruma posição do próximo slot
             GameObject objt1 = GameObject.Find("ObjGraficoSlot" + (num + 1));
             Vector3 pos = objt1.transform.position;
             pos.y -= 3;
             objt1.transform.position = pos;
+            //arruma posição do próximo slot
+            /*
+           
 
             if (numObj == "0") numObj = "";
 
@@ -164,7 +181,7 @@ public class RenderController : MonoBehaviour {
                     }
                 }
             }
-           
+           */
             Global.atualizaListaSlot();       
         }
     }

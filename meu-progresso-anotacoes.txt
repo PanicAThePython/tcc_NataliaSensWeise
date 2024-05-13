@@ -175,8 +175,20 @@ MONTANDO HIERARQUIA OBJETO PAI E FILHO
 	-> n existe os slots na lista
 	-> acho q tenho q criar mais um for no atualizaListaSlot pra conseguir pos os slots na lista
 		-> slots na lista, mas ainda n consigo encaixar nada
-'		-> ele encaixa só na lista, visualmente n!!
+		-> ele encaixa só na lista, visualmente n!!
 		-> ele coloca os cubos no msm lugar!!! como mudar pro de baixo? --> é um problema só no child
 - arrumar lateral renderer e objeto qnd é adicionado ação no filho --> ARRUMADO
 - arrumar peça objeto da fábrica, q desce qnd eu add uma ação no filho --> ARRUMADO
-- arrumar o "pode encaixar" dnv (pq agr ele dá preferência ao filho msm q esteja longe dele)
+- arrumar o "pode encaixar" dnv (pq agr ele dá preferência ao filho msm q esteja longe dele) --> ARRUMADO
+- ajustar posição slot sobrando --> ARRUMADO
+- ele só deixa encaixar o cubo (às vezes) SE o objetevo tiver filho (aconteceu com o pai2) --> checar "pode encaixar" --> ARRUMADO
+	-> eu tenho q adicionar um child no 2 e tentar encaixar o cubo no child pra daí o cubo ir pro pai 2
+- ele n deleta o child qnd eu arrasto só ele (sem o pai junto) pra lixeira - controller 1737 --> ARRUMADO
+
+- a lateral verde dá uns bug qnd deleta o child --> o slot2 vai pra posição do child --> ARRUMADO
+	- bom, ele usa o 2 pra substituir o child deletado (já q o slot foi junto)... e se eu NÃO DELETAR O SLOT DO CHILD? SÓ A PEÇA??
+	- talvez percorrer os slots desse slot acima e inativar eles, aí qnd encaixar dnv, ativa visualmente
+          	- pq deletar vai dar mt problema
+                - aí tem q dar um jeito de subir oq tá embaixo no renderer, pra dar a impressão que deletou
+- qnd faço o tutorial, ele n apaga o child junto, aí fica o slotchild na posição do pai e o 2 fica voando por aí --> deveria ser só o 2 --> ARRUMADO
+	- sobre o tutorial, será q consigo fazer ele recomeçar no gerar copia ou, qnd tá na fase de tutorial, gerar com um número q dificilmente estaria na tela?

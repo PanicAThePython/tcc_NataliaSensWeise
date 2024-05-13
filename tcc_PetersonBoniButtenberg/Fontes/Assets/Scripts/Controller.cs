@@ -558,7 +558,7 @@ public class Controller : MonoBehaviour {
                             criaFormas = new Util_VisEdu();
 
                         criaFormas.criaFormasVazias();
-                    }                        
+                    }
 
                     string countObjGrafico = "";
                     if (numero > 0)
@@ -591,7 +591,7 @@ public class Controller : MonoBehaviour {
                     }
 
                     posicaoColliderDestino = t;
-                    Global.atualizaListaSlot();
+                    //Global.atualizaListaSlot();
                     setActiveAndRenameGameObject(t, cloneObjGrafico);
 
                     if (renderController == null)
@@ -599,6 +599,7 @@ public class Controller : MonoBehaviour {
 
                     renderController.ResizeBases(t, Consts.ObjetoGrafico, true);
                     adicionaObjetoRender();
+                    if (numero % 2 != 0) reorganizaObjetos((numero + 1).ToString());
                 }
                 else if ((Tutorial.estaExecutandoTutorial && Tutorial.passoTutorial == Tutorial.Passo.SegundoPasso) || (!Tutorial.estaExecutandoTutorial && gameObject.name.Contains("Cubo")))
                 {      
@@ -608,7 +609,6 @@ public class Controller : MonoBehaviour {
                         GameObject t;
 
                         numFormas = getNumeroSlotObjetoGrafico();
-                        print(numFormas);
 
                         t = GameObject.Find("FormasSlot" + numFormas);
 
@@ -1169,6 +1169,8 @@ public class Controller : MonoBehaviour {
             string nomeSlot = Global.GetSlot(gameObject.name);
             if (slot.Key.Contains("Objeto")) nomeSlot = "Grafico";
 
+            //print(slot.Key);
+            //print(nomeSlotObjtAtual);
             //Verifica se o encaixe existe na lista 
             if (slot.Key.Contains(nomeSlot))
             {
@@ -1176,12 +1178,15 @@ public class Controller : MonoBehaviour {
                 if ((slot.Value + VALOR_APROXIMADO > pecaY) && (slot.Value - VALOR_APROXIMADO < pecaY) 
                     && !Global.listaEncaixes.ContainsValue(slot.Key))
                 {
-                    print("entrei");
                     //print(!Global.listaEncaixes.ContainsKey(gameObject.transform.name));
                     if (!Global.listaEncaixes.ContainsKey(gameObject.transform.name))
                     {
                        // print("entrei");
-                        //print(slot.Key);
+                       /*
+                        print(slot.Key);
+                        print(gameObject.transform.name);
+                        print(GameObject.Find(slot.Key));
+                       */
                         //print(GameObject.Find(slot.Key));
                         // tem q criar o IluminacaoSlot lá na cena, mas qnd tentei criar deu mt errado, dentro do GO_Render
                         // tem q criar uma outra peça só pra iluminar a cena, com outro conector e outro nome pra n bugar o code
@@ -1196,15 +1201,7 @@ public class Controller : MonoBehaviour {
                             }
                             else
                             {
-                                /*
-                                print(posicaoSlotObjtAtual);
-                                print(pecaY);
-                                print(slot.Value);
-                                print(((posicaoSlotObjtAtual - pecaY) * (-1)) > ((slot.Value - pecaY) * (-1)));
-                                */
-                                //622 - 623 > 619 - 623
-                                // -1 > -4 --> aqui ele coloca o slot certo, mas na tela n
-                                if(((posicaoSlotObjtAtual - pecaY)*(-1)) > ((slot.Value - pecaY)*(-1)))
+                                if(((posicaoSlotObjtAtual - pecaY)) > ((slot.Value - pecaY)*(-1)))
                                 {
                                     nomeSlotObjtAtual = slot.Key;
                                     posicaoSlotObjtAtual = slot.Value;
@@ -1213,6 +1210,7 @@ public class Controller : MonoBehaviour {
                         }
                         else
                         {
+                            //print(Global.listaEncaixes[gameObject.name]);
                             if (GameObject.Find(slot.Key) != null)
                                 Global.listaEncaixes.Add(gameObject.transform.name, slot.Key);
                         }
@@ -1233,8 +1231,7 @@ public class Controller : MonoBehaviour {
                         return true;
                     }
                     else if (slot.Key.Contains("Grafico")) continue;
-                    else
-                        return false;
+                    else continue; //aí ele checa o restante dos slots e se n rolar, ele retorna false qnd sair do for
                 }
             }
         }
@@ -1593,6 +1590,7 @@ public class Controller : MonoBehaviour {
 
         for(int i = 0; i < goRender.transform.childCount; i++)
         {
+            print(goRender.transform.GetChild(i).name);
             if(goRender.transform.GetChild(i).name.Contains(ObjGrafico))
             {
                 if (podeOrganizarProximoObjeto)
@@ -1603,8 +1601,16 @@ public class Controller : MonoBehaviour {
 
                     foreach (KeyValuePair<string, string> encaixe in Global.listaEncaixes)
                     {
-                        if (Equals(getNumObjeto(encaixe.Value), getNumObjeto(goRender.transform.GetChild(i).name)))
+                        string numObjetoEncaixe = getNumObjeto(encaixe.Value);
+                        if (numObjetoEncaixe == "") numObjetoEncaixe = "0";
+                        int convertendo = int.Parse(numObjetoEncaixe) + 1;
+                        string proxNum = convertendo.ToString();
+                        print(getNumObjeto(encaixe.Value));
+                        print(getNumObjeto(goRender.transform.GetChild(i).name));
+
+                        if (Equals(getNumObjeto(encaixe.Value), getNumObjeto(goRender.transform.GetChild(i).name)) || (Equals(proxNum, getNumObjeto(goRender.transform.GetChild(i).name))))
                         {
+                            print(encaixe.Key);
                             GameObject goPeca = GameObject.Find(encaixe.Key);
                             pos = goPeca.transform.position;
                             pos.y -= 3;
@@ -1657,7 +1663,20 @@ public class Controller : MonoBehaviour {
                 for (int i = 0; i < render.transform.childCount; i++)
                 {
                     if (render.transform.GetChild(i).name.Contains("ObjGraficoSlot"))
+                    {
+                        //print(render.transform.GetChild(i).name);
                         listaNomeObjGrafico.Add(render.transform.GetChild(i).name);
+
+                        for (int j = 0; j < render.transform.GetChild(i).childCount; j++)
+                        {
+                            if (render.transform.GetChild(i).GetChild(j).name.Contains("ObjGraficoSlot") && GameObject.Find(render.transform.GetChild(i).GetChild(j).name) != null)
+                            {
+                                listaNomeObjGrafico.Add(render.transform.GetChild(i).GetChild(j).name);
+                                //print(render.transform.GetChild(i).GetChild(j).name);
+                            }
+                        }
+                    }
+                        
                 }
 
                 Vector3 posGO = Vector3.zero;
@@ -1670,7 +1689,7 @@ public class Controller : MonoBehaviour {
                     // Verifica os objetos graficos da lista até chegar o objeto selecionado
                     if (!Equals((string)listaNomeObjGrafico[i], Global.listaEncaixes[gameObject.name]))
                         continue;
-                    
+
                     // Pega a posição do objeto após o objeto a ser excluído
                     posGO = GameObject.Find((string)listaNomeObjGrafico[i+1]).transform.position;                   
 
@@ -1712,7 +1731,7 @@ public class Controller : MonoBehaviour {
 
                     // Incrementa 'i' para pegar a partir do próximo objeto da lista
                     i++;
-
+                    
                     for (int j = i; j < listaNomeObjGrafico.Count; j++)
                     {
                         // Instancia os próximos objetos da lista e coloca o GameObjet vazio como pai deles
@@ -1727,8 +1746,7 @@ public class Controller : MonoBehaviour {
                     }
                     break;
                 }
-                // Atualiza a posição do GameObject com todos objetos para a posição do objeto excluído.
-                go.transform.position = posGO;
+               
                 
                 foreach (string peca in listaPecas) 
                 {
@@ -1763,13 +1781,49 @@ public class Controller : MonoBehaviour {
                    listaGO_Pecas[i].transform.parent = fabricaPecas.transform;
                 Destroy(GO_Pecas);
 
-                Destroy(GameObject.Find(Global.listaEncaixes[gameObject.name]));
-                Destroy(GameObject.Find(gameObject.name));
-                Global.listaSequenciaSlots.Remove(Global.listaEncaixes[gameObject.name]);
-                Global.removeObject(gameObject);
-                Global.listaEncaixes.Remove(gameObject.name);
-                Global.propriedadePecas.Remove(gameObject.name);
-                break;
+
+                string nomeExluido = Global.listaEncaixes[gameObject.name];
+                string numstr = nomeExluido[nomeExluido.Length - 1].ToString();
+                if (numstr == "t") numstr = "0";
+                int numEx = int.Parse(numstr);
+                if (numEx % 2 == 0)
+                {
+                    Destroy(GameObject.Find(Global.listaEncaixes[gameObject.name]));
+                    Destroy(GameObject.Find(gameObject.name));
+                    Destroy(GameObject.Find("ObjGraficoSlot" + (numEx + 1)));
+                    Global.listaSequenciaSlots.Remove(Global.listaEncaixes[gameObject.name]);
+                    Global.removeObject(gameObject);
+                    Global.listaEncaixes.Remove(gameObject.name);
+                    Global.propriedadePecas.Remove(gameObject.name);
+
+                    // Atualiza a posição do GameObject com todos objetos para a posição do objeto excluído.  
+                    //go.transform.position = posGO;
+                    GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform.position = posGO;
+
+                    break;
+                }
+                else
+                {
+                    GameObject slot1 = GameObject.Find(Global.listaEncaixes[gameObject.name]);
+                    //talvez percorrer os slots desse slot acima e inativar eles, aí qnd encaixar dnv, ativa visualmente
+                    //pq deletar vai dar mt problema
+                    //aí tem q dar um jeito de subir oq tá embaixo no renderer, pra dar a impressão que deletou
+                    for ( int k = 1; k < slot1.transform.childCount; k++)
+                    {
+                        slot1.transform.GetChild(k).gameObject.SetActive(false);
+                    }
+
+                    Destroy(GameObject.Find(gameObject.name));
+                    Global.listaSequenciaSlots.Remove(Global.listaEncaixes[gameObject.name]);
+                    Global.removeObject(gameObject);
+                    Global.listaEncaixes.Remove(gameObject.name);
+                    Global.propriedadePecas.Remove(gameObject.name);
+
+                    Vector3 newPos = new Vector3(posGO.x - 1.5f, posGO.y - 4f, posGO.z);
+                    GameObject.Find("ObjGraficoSlot" + (numEx + 1)).transform.position = newPos;
+                    break;
+                }
+
 
             case Slots.TransformacoesSlot:
                 Destroy(GameObject.Find(Global.listaEncaixes[gameObject.name]));
