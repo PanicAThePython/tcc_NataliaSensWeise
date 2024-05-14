@@ -1080,15 +1080,11 @@ public class Controller : MonoBehaviour {
                     goRename.transform.GetChild(i).name =
                         goRename.transform.GetChild(i).name.Substring(0, goRename.transform.GetChild(i).name.IndexOf("Slot") + 4) + Convert.ToString(DropPeca.countObjetosGraficos);
 
-                    //print(goRename.transform.GetChild(i).name);
-
                     if (goActive.transform.GetChild(i).name.Contains("Grafico"))
                     {
                         goRename.transform.GetChild(i).name =
                            goRename.transform.GetChild(i).name.Substring(0, goRename.transform.GetChild(i).name.IndexOf("Slot") + 4) + Convert.ToString(DropPeca.countObjetosGraficos + 1);
                         
-                        //print(goRename.transform.GetChild(i).name);
-
                         for (int j = 0; j < goRename.transform.GetChild(i).childCount; j++)
                         {
                             if (goRename.transform.GetChild(i).GetChild(j).name.Contains("Slot"))
@@ -1169,25 +1165,14 @@ public class Controller : MonoBehaviour {
             string nomeSlot = Global.GetSlot(gameObject.name);
             if (slot.Key.Contains("Objeto")) nomeSlot = "Grafico";
 
-            //print(slot.Key);
-            //print(nomeSlotObjtAtual);
-            //Verifica se o encaixe existe na lista 
             if (slot.Key.Contains(nomeSlot))
             {
                 //Verifica se a peça está próxima do encaixe e se o Slot ainda não está na lista de encaixes.
                 if ((slot.Value + VALOR_APROXIMADO > pecaY) && (slot.Value - VALOR_APROXIMADO < pecaY) 
                     && !Global.listaEncaixes.ContainsValue(slot.Key))
                 {
-                    //print(!Global.listaEncaixes.ContainsKey(gameObject.transform.name));
                     if (!Global.listaEncaixes.ContainsKey(gameObject.transform.name))
                     {
-                       // print("entrei");
-                       /*
-                        print(slot.Key);
-                        print(gameObject.transform.name);
-                        print(GameObject.Find(slot.Key));
-                       */
-                        //print(GameObject.Find(slot.Key));
                         // tem q criar o IluminacaoSlot lá na cena, mas qnd tentei criar deu mt errado, dentro do GO_Render
                         // tem q criar uma outra peça só pra iluminar a cena, com outro conector e outro nome pra n bugar o code
                         // será q vale a pena?
@@ -1210,7 +1195,6 @@ public class Controller : MonoBehaviour {
                         }
                         else
                         {
-                            //print(Global.listaEncaixes[gameObject.name]);
                             if (GameObject.Find(slot.Key) != null)
                                 Global.listaEncaixes.Add(gameObject.transform.name, slot.Key);
                         }
@@ -1590,7 +1574,7 @@ public class Controller : MonoBehaviour {
 
         for(int i = 0; i < goRender.transform.childCount; i++)
         {
-            print(goRender.transform.GetChild(i).name);
+            //print(goRender.transform.GetChild(i).name);
             if(goRender.transform.GetChild(i).name.Contains(ObjGrafico))
             {
                 if (podeOrganizarProximoObjeto)
@@ -1605,12 +1589,12 @@ public class Controller : MonoBehaviour {
                         if (numObjetoEncaixe == "") numObjetoEncaixe = "0";
                         int convertendo = int.Parse(numObjetoEncaixe) + 1;
                         string proxNum = convertendo.ToString();
-                        print(getNumObjeto(encaixe.Value));
-                        print(getNumObjeto(goRender.transform.GetChild(i).name));
+                        //print(getNumObjeto(encaixe.Value));
+                        //print(getNumObjeto(goRender.transform.GetChild(i).name));
 
                         if (Equals(getNumObjeto(encaixe.Value), getNumObjeto(goRender.transform.GetChild(i).name)) || (Equals(proxNum, getNumObjeto(goRender.transform.GetChild(i).name))))
                         {
-                            print(encaixe.Key);
+                            //print(encaixe.Key);
                             GameObject goPeca = GameObject.Find(encaixe.Key);
                             pos = goPeca.transform.position;
                             pos.y -= 3;

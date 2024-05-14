@@ -192,3 +192,6 @@ MONTANDO HIERARQUIA OBJETO PAI E FILHO
                 - aí tem q dar um jeito de subir oq tá embaixo no renderer, pra dar a impressão que deletou
 - qnd faço o tutorial, ele n apaga o child junto, aí fica o slotchild na posição do pai e o 2 fica voando por aí --> deveria ser só o 2 --> ARRUMADO
 	- sobre o tutorial, será q consigo fazer ele recomeçar no gerar copia ou, qnd tá na fase de tutorial, gerar com um número q dificilmente estaria na tela?
+
+- não herda o ativo do objeto pai - func AtualizaCubo --> ARRUMADO
+	- ele some com o pai, agr tem q aparecer devolta

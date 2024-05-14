@@ -17,9 +17,11 @@ public class PropTipoLuz : MonoBehaviour {
     public GameObject Directional;
     public GameObject Point;
     public GameObject Spot;
-    private PropIluminacaoPadrao propIluminacao = new PropIluminacaoPadrao();
+    private PropIluminacaoPadrao propIluminacao = null;
 
     void Start () {
+        propIluminacao = new PropIluminacaoPadrao();
+
         if (mainDropdown != null)
             mainDropdown.onValueChanged.AddListener(delegate { AdicionaValorPropriedade(); });
     }

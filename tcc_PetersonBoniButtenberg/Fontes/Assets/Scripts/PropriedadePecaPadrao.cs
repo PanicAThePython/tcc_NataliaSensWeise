@@ -13,7 +13,7 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
     public TMP_InputField PosX, TamX;
     public TMP_InputField PosY, TamY;
     public TMP_InputField PosZ, TamZ;
-    protected float x, y, z;
+    protected float x, y, z, x1, y1, z1;
     protected bool ativo = true;
     public PropriedadePeca prPeca = new PropriedadePeca();
     public typeTransformacao tipoTransformacao;
@@ -119,6 +119,14 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
         //qnd clica em apagar, o valor some da visualização, mas continua na peça
         //dá pra por qqr valor q o cubo vai responder, mas n terá retorno visual
 
+        string slot = Global.listaEncaixes[prPeca.Nome];
+        string num = slot[slot.Length - 1].ToString();
+        if (num == "t") num = "0";
+        int number = int.Parse(num) + 1;
+
+        GameObject otherCubeAmb = GameObject.Find("CuboAmbiente" + number);
+        GameObject otherCubeVis = GameObject.Find("CuboVis" + number);
+
         if (Global.propriedadePecas.ContainsKey(prPeca.Nome))
         {
             if (tipoTransformacao == typeTransformacao.Escalar)
@@ -141,6 +149,26 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
                     y = prPeca.Tam.Y;
                     z = prPeca.Tam.Z;
                 }
+                //se o slot existir e for slot filho...
+                /*
+                if (Global.propriedadePecas.ContainsKey(proxSlot) && (number % 2 != 0))
+                {
+                    PropriedadePeca pp = Global.propriedadePecas[proxSlot];
+
+                    if (pp.Tam == null) pp.Tam = new Tamanho();
+
+                    pp.Tam.X = float.Parse(validaVazio(TamX.text), CultureInfo.InvariantCulture.NumberFormat);
+                    pp.Tam.Y = float.Parse(validaVazio(TamY.text), CultureInfo.InvariantCulture.NumberFormat);
+                    pp.Tam.Z = float.Parse(validaVazio(TamZ.text), CultureInfo.InvariantCulture.NumberFormat);
+
+                    if (pp.Ativo && prPeca.Ativo)
+                    {
+                        x1 = pp.Tam.X;
+                        y1 = pp.Tam.Y;
+                        z1 = pp.Tam.Z;
+                    }
+                }
+                */
             }
             else
             {
@@ -172,30 +200,124 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
                     y = prPeca.Pos.Y;
                     z = prPeca.Pos.Z;
                 }
+                //se o slot existir e for slot filho...
+                /*
+                if (Global.propriedadePecas.ContainsKey(proxSlot) && (number % 2 != 0))
+                {
+                    PropriedadePeca pp = Global.propriedadePecas[proxSlot];
+
+                    if (pp.Pos == null) pp.Pos = new Posicao();
+
+                    pp.Pos.X = float.Parse(validaVazio(PosX.text), CultureInfo.InvariantCulture.NumberFormat);
+                    pp.Pos.Y = float.Parse(validaVazio(PosY.text), CultureInfo.InvariantCulture.NumberFormat);
+                    pp.Pos.Z = float.Parse(validaVazio(PosZ.text), CultureInfo.InvariantCulture.NumberFormat);
+
+                    if (pp.Ativo && prPeca.Ativo)
+                    {
+                        x1 = pp.Pos.X;
+                        y1 = pp.Pos.Y;
+                        z1 = pp.Pos.Z;
+                    }
+                }
+                */
             }              
 
             GameObject goTransformacaoAmb = GameObject.Find(prPeca.Nome + "Amb");
             GameObject goTransformacaoVis = GameObject.Find(prPeca.Nome + "Vis");
 
+            //tentando pegar a forma amb e vis do filho
+            /*
+            GameObject goTransformacaoAmb1 = null;
+            GameObject goTransformacaoVis1 = null;
+
+            if (GameObject.Find(proxSlot) != null && (number % 2 != 0))
+            {
+                foreach(KeyValuePair<string, string> encaixe in Global.listaEncaixes)
+                {
+                    if (Equals(encaixe.Value, proxSlot))
+                    {
+                        
+                        print(encaixe.Value);
+                        print(proxSlot);
+                        print(encaixe.Key);
+                        
+                        
+                        goTransformacaoAmb1 = GameObject.Find(encaixe.Key + "Amb");
+                        goTransformacaoVis1 = GameObject.Find(encaixe.Key + "Vis");
+                        
+                        Controller control = GameObject.Find(encaixe.Key).GetComponent<Controller>();
+
+                        //n rolou, deu um erro infinito
+                        //o erro cria infinitos TransladarAmb, ent oq eu tenho q fazer é criar um rotacionar no filho (exemplo)
+                        control.addGameObjectTree("GameObjectAmb" + control.getNumeroSlotObjetoGrafico(), "Amb", "CuboAmbiente" + control.getNumeroSlotObjetoGrafico());
+                        control.addGameObjectTree("CuboVisObject" + control.getNumeroSlotObjetoGrafico(), "Vis", "CuboVis" + control.getNumeroSlotObjetoGrafico());
+                        
+                        break;
+                    }
+                }
+                
+            }
+            */
             if (goTransformacaoAmb != null /*&& goTransformacaoVis != null*/)
             {
                 if (tipoTransformacao == typeTransformacao.Transladar)
                 {
                     goTransformacaoAmb.transform.localPosition = new Vector3(x * -1, y, z);
                     goTransformacaoVis.transform.localPosition = new Vector3(x, y, z);
+
+                    //pra refletir no filho
+                    if (otherCubeAmb != null)
+                    {
+                        otherCubeAmb.transform.localPosition = new Vector3(x * -1, y, z);
+                        otherCubeVis.transform.localPosition = new Vector3(x, y, z);
+                    }
                 }
                 else if (tipoTransformacao == typeTransformacao.Rotacionar)
                 {
                     goTransformacaoAmb.transform.localRotation = Quaternion.Euler(x, y*-1, z*-1);
                     goTransformacaoVis.transform.localRotation = Quaternion.Euler(x, y, z);
+
+                    //pra refletir no filho
+                    if (otherCubeAmb != null)
+                    {
+                        otherCubeAmb.transform.localRotation = Quaternion.Euler(x, y * -1, z * -1);
+                        otherCubeVis.transform.localRotation = Quaternion.Euler(x, y, z);
+                    }
                 }
                 else
                 {
                     goTransformacaoAmb.transform.localScale = new Vector3(x, y, z);
                     goTransformacaoVis.transform.localScale = new Vector3(x, y, z);
+
+                    //pra refletir no filho
+                    if (otherCubeAmb != null)
+                    {
+                        otherCubeAmb.transform.localScale = new Vector3(x, y, z);
+                        otherCubeVis.transform.localScale = new Vector3(x, y, z);
+                    }
                 }
             }
-
+            /*
+            //refletir no filho
+            if (goTransformacaoAmb1 != null) 
+            {
+                if (tipoTransformacao == typeTransformacao.Transladar)
+                {
+                    goTransformacaoAmb1.transform.localPosition = new Vector3(x1 * -1, y1, z1);
+                    goTransformacaoVis1.transform.localPosition = new Vector3(x1, y1, z1);
+                }
+                else if (tipoTransformacao == typeTransformacao.Rotacionar)
+                {
+                    goTransformacaoAmb1.transform.localRotation = Quaternion.Euler(x1, y1 * -1, z1 * -1);
+                    goTransformacaoVis1.transform.localRotation = Quaternion.Euler(x1, y1, z1);
+                }
+                else
+                {
+                    goTransformacaoAmb1.transform.localScale = new Vector3(x1, y1, z1);
+                    goTransformacaoVis1.transform.localScale = new Vector3(x1, y1, z1);
+                }
+            }
+            */
             string forma = Util_VisEdu.getCuboByNomePeca(Global.gameObjectName);
 
             if (forma != System.String.Empty && Global.propriedadePecas.ContainsKey(forma)) //Se forma for vazio significa que não existe uma forma ainda.

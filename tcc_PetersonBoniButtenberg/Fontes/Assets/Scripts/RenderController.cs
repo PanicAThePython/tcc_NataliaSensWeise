@@ -53,12 +53,12 @@ public class RenderController : MonoBehaviour {
 
 
                 //arruma posição próximo slot
-                GameObject objt = GameObject.Find("ObjGraficoSlot" + (num + 2));
-                objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - (INC_BASE_CINZA * 5.5f), objt.transform.position.z);
+                //GameObject objt = GameObject.Find("ObjGraficoSlot" + (num + 2));
+                //objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - (INC_BASE_CINZA * 4f), objt.transform.position.z);
                 //arrumando o slot q sobra
                 int filhos = GameObject.Find("Render").transform.childCount;
                 GameObject ultimo = GameObject.Find("Render").transform.GetChild(filhos-1).gameObject;
-                ultimo.transform.position = new Vector3(ultimo.transform.position.x, ultimo.transform.position.y - (INC_BASE_CINZA * 3.5f), ultimo.transform.position.z);
+                ultimo.transform.position = new Vector3(ultimo.transform.position.x, ultimo.transform.position.y - (INC_BASE_CINZA * 5.5f), ultimo.transform.position.z);
 
             }
             else if (num == 0) otherBase = GameObject.Find("BaseRenderLateralGO");
@@ -144,44 +144,7 @@ public class RenderController : MonoBehaviour {
             Vector3 pos = objt1.transform.position;
             pos.y -= 3;
             objt1.transform.position = pos;
-            //arruma posição do próximo slot
-            /*
-           
-
-            if (numObj == "0") numObj = "";
-
-            //se eu estiver mexendo com objeto pai e ele tá com o filho funcionando, ele vai arrumar a posição das peças do filho
-            GameObject forma1 = GameObject.Find("FormaSlot" + (num + 1));
-            GameObject trans1 = GameObject.Find("TransformacoesSlot" + (num + 1));
-            GameObject ilu1 = GameObject.Find("IluminacaoSlot" + (num + 1));
-            if (num % 2 == 0 && (forma1 != null || trans1 != null || ilu1 != null))
-            {
-                GameObject peca1 = GameObject.Find("ObjetoGraficoP" + (num + 1));
-                pos = peca1.transform.position;
-                pos.y -= 3;
-                peca1.transform.position = pos;
-                Global.listaPosicaoSlot[Global.listaEncaixes["ObjetoGraficoP" + numObj]] = pos.y;
-                for (int i = 0; i < objt1.transform.childCount; i++)
-                {
-                    pos = objt1.transform.GetChild(i).position;
-                    //pos.y -= 3;
-                    objt1.transform.GetChild(i).position = pos;
-                    if (Global.listaPosicaoSlot.ContainsKey(objt1.transform.GetChild(i).name))
-                    {
-                        foreach (KeyValuePair<string, string> encaixe in Global.listaEncaixes)
-                        {
-                           if (encaixe.Value == objt1.transform.GetChild(i).name)
-                            {
-                                GameObject teste = GameObject.Find(encaixe.Key);
-                                pos = teste.transform.position;
-                                pos.y -= 3;
-                                teste.transform.position = pos;
-                            }
-                        }
-                    }
-                }
-            }
-           */
+            
             Global.atualizaListaSlot();       
         }
     }
