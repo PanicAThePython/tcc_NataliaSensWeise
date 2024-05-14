@@ -27,7 +27,9 @@ public class Arquivo : MonoBehaviour
     private int numObjetoAtual = 0;
 
     MeuObjetoGrafico objetoAtual;
+    MeuObjetoGrafico objetoPai = null;
     string nomeObjetoAtual = "";
+    string nomeObjetoPai = "";
 
     void setImportando(bool val)
     {
@@ -70,14 +72,23 @@ public class Arquivo : MonoBehaviour
 
     void adicionarObjetoGraficoNoJSON(int l, List<GameObject> listaOrdenada)
     {
-        if (nomeObjetoAtual.Length > 0)
+        if (numObjetoAtual % 2 == 0 && objetoPai != null)
         {
-            cena.Add(nomeObjetoAtual, objetoAtual.getProps());
-            objetoAtual.setChildren(limpandoListaChildren());
+            JSONObject filho = new JSONObject();
+            filho.Add(nomeObjetoAtual, objetoAtual.getProps());
+            objetoPai.addChildren(filho);
+            cena.Add(nomeObjetoPai, objetoPai.getProps());
+            objetoPai.setChildren(limpandoListaChildren());
         }
+
         listaOrdenada[l].GetComponent<MeuObjetoGrafico>().addProps(listaOrdenada[l].name);
         objetoAtual = listaOrdenada[l].GetComponent<MeuObjetoGrafico>();
         nomeObjetoAtual = listaOrdenada[l].name;
+        if (numObjetoAtual % 2 == 0)
+        {
+            nomeObjetoPai = nomeObjetoAtual;
+            objetoPai = objetoAtual;
+        }
     }
 
     void adicionarIluminacaoNoJSON(int l, List<GameObject> listaOrdenada)
@@ -132,6 +143,7 @@ public class Arquivo : MonoBehaviour
                 else if (ordenada[l].name.Contains("Objeto"))
                 {
                     adicionarObjetoGraficoNoJSON(l, ordenada);
+                    numObjetoAtual++;
                 }
                 else if (ordenada[l].name.Contains("Iluminacao"))
                 {
@@ -147,11 +159,22 @@ public class Arquivo : MonoBehaviour
                 }
             }
 
+            if (numObjetoAtual % 2 == 0 && objetoPai != null)
+            {
+                JSONObject filho = new JSONObject();
+                filho.Add(nomeObjetoAtual, objetoAtual.getProps());
+                objetoPai.addChildren(filho);
+            }
             //remover chaves repetidas!!!!!!!!!!!!
             objetoAtual.setChildren(limpandoListaChildren());
 
             //come�ar novo ObjetoGr�fico
-            if (nomeObjetoAtual.Length > 0) cena.Add(nomeObjetoAtual, objetoAtual.getProps());
+            if (nomeObjetoPai.Length > 0)
+            {
+                cena.Add(nomeObjetoPai, objetoPai.getProps());
+                objetoPai.setChildren(limpandoListaChildren());
+            }
+            //if (nomeObjetoAtual.Length > 0) cena.Add(nomeObjetoAtual, objetoAtual.getProps());
 
             //salvando arquivo
             //string path = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop), "arquivoGRADE.json");

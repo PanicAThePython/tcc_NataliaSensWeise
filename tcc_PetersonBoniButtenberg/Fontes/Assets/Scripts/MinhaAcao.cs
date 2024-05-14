@@ -20,8 +20,6 @@ public class MinhaAcao : MeuModelo
         else if (nomePeca.Contains("Trans")) nomeOriginal = "Transladar";
         else nomeOriginal = "Rotacionar";
 
-        print(nomeOriginal);
-
         if (nomePeca.Length > nomeOriginal.Length)
         {
             int num = int.Parse(nomePeca.Replace(nomeOriginal, ""));

@@ -195,3 +195,10 @@ MONTANDO HIERARQUIA OBJETO PAI E FILHO
 
 - não herda o ativo do objeto pai - func AtualizaCubo --> ARRUMADO
 	- ele some com o pai, agr tem q aparecer devolta
+
+- fazer exportar o objeto ímpar como filho --> ARRUMADO
+	-> ele tá agr colocando TUDO num objeto só na importação...
+	-> talvez n seja um problema... se na importação eu admitir q a partir da forma...
+	-> ah mas vai dar problema, pq eu PRECISO criar o objeto filho...
+- dá problema na hora de importar pq o slot1 acaba repetindo
+	- ele ainda tá criando os nomes de 1 em 1 na importação, tem q arrumar

@@ -53,7 +53,7 @@ public class MeuObjetoGrafico : MeuModelo
         if (Global.propriedadePecas.ContainsKey(nomePeca))
         {
             var objeto = Global.propriedadePecas[nomePeca];
-            nomePeca = ConverterNomes(nomePeca);
+            //nomePeca = ConverterNomes(nomePeca);
             props.Add("nome", nomePeca);
             props.Add("ativo", objeto.Ativo);
             props.Add("children", children);
@@ -66,7 +66,7 @@ public class MeuObjetoGrafico : MeuModelo
         }
         else
         {
-            nomePeca = ConverterNomes(nomePeca);
+            //nomePeca = ConverterNomes(nomePeca);
             props.Add("nome", nomePeca);
             props.Add("ativo", true);
             props.Add("children", children);
