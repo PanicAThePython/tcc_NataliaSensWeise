@@ -121,6 +121,8 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
 
         string slot = Global.listaEncaixes[prPeca.Nome];
         string num = slot[slot.Length - 1].ToString();
+        string espaco = slot[slot.Length - 2].ToString();
+        if (espaco == "_") num = slot[slot.Length - 3].ToString();
         if (num == "t") num = "0";
         int number = int.Parse(num) + 1;
 
