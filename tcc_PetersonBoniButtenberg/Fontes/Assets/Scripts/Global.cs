@@ -173,10 +173,20 @@ public class Global : MonoBehaviour {
             listaSequenciaSlots.Add("CameraSlot");
             numObjStr = "";
         }      
-        if (numObjeto % 2 == 0) listaSequenciaSlots.Add("ObjGraficoSlot" + numObjStr);
-        listaSequenciaSlots.Add("FormasSlot" + numObjStr);
-        listaSequenciaSlots.Add("TransformacoesSlot" + numObjStr);
-        listaSequenciaSlots.Add("IluminacaoSlot" + numObjStr);
+        if (numObjeto % 2 == 0) listaSequenciaSlots.Add("ObjGraficoSlot" + numObjStr + 1);
+
+        if (numObjeto > 0)
+        {
+            listaSequenciaSlots.Add("FormasSlot" + numObjStr);
+            listaSequenciaSlots.Add("TransformacoesSlot" + numObjStr);
+            listaSequenciaSlots.Add("IluminacaoSlot" + numObjStr);
+        }
+        else
+        {
+            listaSequenciaSlots.Add("FormasSlot");
+            listaSequenciaSlots.Add("TransformacoesSlot");
+            listaSequenciaSlots.Add("IluminacaoSlot");
+        }
     }
 
     public static string Tsadas(string tranf)

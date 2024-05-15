@@ -200,8 +200,12 @@ MONTANDO HIERARQUIA OBJETO PAI E FILHO
 	-> ele tá agr colocando TUDO num objeto só na importação...
 	-> talvez n seja um problema... se na importação eu admitir q a partir da forma...
 	-> ah mas vai dar problema, pq eu PRECISO criar o objeto filho...
-- dá problema na hora de importar pq o slot1 acaba repetindo
+- dá problema na hora de importar pq o slot1 acaba repetindo --> ARRUMADO
 	- ele ainda tá criando os nomes de 1 em 1 na importação, tem q arrumar
+- a opção "objeto" deve ser adicionada na func de addcriança!! --> ARRUMADO
+- o slot sobrando tá mt perto --> ARRUMADO
+- qnd eu clico nas peças pra ativar as props, elas são ativadas, mas as peças voam tudo pra primeira ocorrência de slot e as props de aparência do cubo vão td pro primeiro tbm
+	- o problema ent pode estar no "addencaixe"
 
 
 ARTIGO

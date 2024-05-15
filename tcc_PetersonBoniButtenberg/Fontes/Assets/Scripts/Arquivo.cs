@@ -552,17 +552,19 @@ public class Arquivo : MonoBehaviour
 
                 if (key.Contains("Cubo"))
                 {
-                    var nome = key;
+                    var nome = "Cubo";
+                    if (DropPeca.countObjetosGraficos > 0) nome += DropPeca.countObjetosGraficos;
                     var cubo = GameObject.Find(nome);
                     var controller = cubo.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
                     var nomeSlot = "FormasSlot";
 
-                    string numObjetoGrafico = controller.getNumeroSlotObjetoGrafico();
+                    string numObjetoGrafico = countObjt.ToString();
+                    if (numObjetoGrafico == "0") numObjetoGrafico = "";
                     if (countObjt > 0)
                     {
                         nomeSlot += countObjt;
-                        if (numObjetoGrafico == "") numObjetoGrafico = countObjt.ToString();
+                        //if (numObjetoGrafico == "") numObjetoGrafico = countObjt.ToString();
                     }
 
                     if (GameObject.Find("CuboAmbiente" + numObjetoGrafico) != null)
@@ -650,7 +652,8 @@ public class Arquivo : MonoBehaviour
                 }
                 if (key.Contains("Ilumi"))
                 {
-                    var nome = key;
+                    var nome = "Iluminacao";
+                    if (DropPeca.countObjetosGraficos - 2 > 0) nome += DropPeca.countObjetosGraficos - 2;
                     var nomeSlot = "IluminacaoSlot";
                     if (countObjt > 0)
                     {
@@ -697,7 +700,10 @@ public class Arquivo : MonoBehaviour
                 }
                 if (key.Contains("Trans") || key.Contains("Rot") || key.Contains("Esc"))
                 {
-                    var acao = GameObject.Find(key);
+                    var nome = key;
+                    //if (DropPeca.countObjetosGraficos - 2 > 0) nome += DropPeca.countObjetosGraficos - 2;
+                    //if (countAcoes > 0) nome += "_" + countAcoes;
+                    var acao = GameObject.Find(nome);
                     var controller = acao.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
 
@@ -710,7 +716,6 @@ public class Arquivo : MonoBehaviour
                     }
 
                     string slot = "";
-                    var nome = key;
                     var nomeSlot = "TransformacoesSlot";
                     if (countObjt > 0) nomeSlot += countObjt;
                     if (countAcoes > 0) nomeSlot += "_" + countAcoes;
@@ -774,6 +779,85 @@ public class Arquivo : MonoBehaviour
 
                     controller.reorganizaObjetos(numObjetoGrafico);
                     setPropsAcoes(controller, value, countObjt, nome);
+                }
+                if (key.Contains("Objeto"))
+                {
+                    countObjt++;
+                    var nome = key;
+                    var nomeSlot = "ObjGraficoSlot";
+                    if (countObjt > 0) nomeSlot += countObjt;
+                    if (limpou) //tá chamando a aba lateral do render do objeto 2 ????
+                    {
+                        nomeSlot = GameObject.Find("Render").transform.GetChild(1).gameObject.name;
+                        if (countObjt > 0)
+                        {
+                            string nomeFilho = GameObject.Find("Render").transform.GetChild(1).gameObject.name;
+                            int num = int.Parse(nomeFilho[-1].ToString());
+                            if (num != countObjt) nomeSlot = "ObjGraficoSlot" + countObjt;
+                        }
+                    }
+                    var objeto = GameObject.Find(nome);
+                    var controller = objeto.GetComponent<Controller>();
+                    controller.GeraCopiaPeca();
+
+                    float y = GameObject.Find(nomeSlot).gameObject.transform.position.y;
+
+                    objeto.transform.position = new Vector3(x, y, z);
+                    objeto.GetComponent<BoxCollider>().enabled = true;
+                    if (objeto != null) Global.addObject(objeto);
+
+                    DropPeca.countObjetosGraficos = countObjt;
+                    if (DropPeca.countObjetosGraficos == 0)
+                    {
+                        if (controller.criaFormas == null)
+                            controller.criaFormas = new Util_VisEdu();
+
+                        controller.criaFormas.criaFormasVazias();
+                    }
+
+                    string countObjGrafico = "";
+                    if (DropPeca.countObjetosGraficos > 0)
+                        countObjGrafico = Convert.ToString(DropPeca.countObjetosGraficos);
+
+                    if (!Equals(countObjGrafico, string.Empty))
+                        controller.createGameObjectTree(DropPeca.countObjetosGraficos);
+
+                    Global.iniciaListaSequenciaSlots(DropPeca.countObjetosGraficos);
+
+                    GameObject t;
+                    if (limpou) t = GameObject.Find("Render").transform.GetChild(1).gameObject;
+                    else t = GameObject.Find("ObjGraficoSlot" + countObjGrafico);
+                    //qnd estiver importando dps da limpeza, pegar o filho index 1 do render para slot
+
+                    DropPeca.countObjetosGraficos++;
+                    GameObject cloneObjGrafico = GameObject.Find("ObjGraficoSlot" + DropPeca.countObjetosGraficos);
+                   // DropPeca.countObjetosGraficos += 2;
+                   // cloneObjGrafico.name = "ObjGraficoSlot" + Convert.ToString(DropPeca.countObjetosGraficos);
+                   // cloneObjGrafico.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 14f, t.transform.position.z);
+
+
+                    objeto.GetComponent<Controller>().setActiveAndRenameGameObject(t, cloneObjGrafico);
+                    controller.posicaoColliderDestino = t;
+
+                    if (controller.renderController == null)
+                        controller.renderController = new RenderController();
+
+                    controller.renderController.ResizeBases(t, Consts.ObjetoGrafico, true);
+
+                    objeto.GetComponent<Controller>().adicionaObjetoRender();
+                    Global.atualizaListaSlot();
+
+                    adicionarEncaixe(objeto);
+                    DropPeca.countObjetosGraficos -= 1;
+                    if (value["children"].Count > 0)
+                    {
+                        if (countObjt == numObjetoAtual) countAcoes = 0;
+                        countAcoes = adicionarCriancas((JSONArray)value["children"], countObjt, countAcoes);
+
+                        numObjetoAtual++;
+                    }
+
+                    setPropsObjetoGrafico(controller, value, countObjt, nome);
                 }
             }
         }
@@ -942,8 +1026,9 @@ public class Arquivo : MonoBehaviour
                     //qnd estiver importando dps da limpeza, pegar o filho index 1 do render para slot
 
                     GameObject cloneObjGrafico = Instantiate(t, t.transform.position, t.transform.rotation, t.transform.parent);
-                    cloneObjGrafico.name = "ObjGraficoSlot" + Convert.ToString(++DropPeca.countObjetosGraficos);
-                    cloneObjGrafico.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 11f, t.transform.position.z);
+                    DropPeca.countObjetosGraficos += 2;
+                    cloneObjGrafico.name = "ObjGraficoSlot" + Convert.ToString(DropPeca.countObjetosGraficos);
+                    cloneObjGrafico.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 14f, t.transform.position.z);
 
 
                     objeto.GetComponent<Controller>().setActiveAndRenameGameObject(t, cloneObjGrafico);
@@ -958,6 +1043,7 @@ public class Arquivo : MonoBehaviour
                     Global.atualizaListaSlot();
 
                     adicionarEncaixe(objeto);
+                    DropPeca.countObjetosGraficos = countObjt;
                     if (value["children"].Count > 0)
                     {
                         if (countObjt == numObjetoAtual) countAcoes = 0;
