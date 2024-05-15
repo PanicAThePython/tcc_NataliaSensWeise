@@ -1,0 +1,3 @@
+Segui resolvendo os problemas na importação/exportação de arquivo até o dia 08/05 (dia 07/05 não teve reunião, pois o prof não podia). No dia seguinte, comecei a implementar outra funcionalidade mencionada pelo prof, a hierarquia de objeto pai e objeto filho. Hoje (14/05), tive reunião com o prof. Ele deu feedback sobre meu artigo e me orientou sobre os próximos passos do projeto. Atualmente estou nos ajustes finais da hierarquia (essa funcionalidade afeta a de importar/exportar, então estou arrumando o que quebrou) e, assim que acabar, darei seguimento ao artigo e à funcionalidade de exercícios pré-definidos.
+
+Horas da quinzena: 70h

@@ -80212,7 +80212,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -132, y: 422.87}
+  m_AnchoredPosition: {x: -155.7, y: 422.87}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1346574597
@@ -80248,9 +80248,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Ajuda
-
-'
+  m_Text: "Configura\xE7\xF5es"
 --- !u!222 &1346574598
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -87658,6 +87656,7 @@ MonoBehaviour:
   - {fileID: 945669632}
   claro: {fileID: 2100000, guid: 55bf6cbb9a621ab4eb6efce4b0926022, type: 2}
   escuro: {fileID: 2100000, guid: 42615300c86499848adde3b69b1d6168, type: 2}
+  corLetras: {fileID: 0}
 --- !u!1 &1450378882 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7754920703168552671, guid: 211b977cf04d4e649b69f32d99978bb3,
@@ -119457,7 +119456,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -328.92004, y: -96.73999}
+  m_AnchoredPosition: {x: -328.92, y: -96.73999}
   m_SizeDelta: {x: -1167.52, y: -756.41}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1991055355

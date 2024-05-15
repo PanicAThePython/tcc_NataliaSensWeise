@@ -202,3 +202,14 @@ MONTANDO HIERARQUIA OBJETO PAI E FILHO
 	-> ah mas vai dar problema, pq eu PRECISO criar o objeto filho...
 - dá problema na hora de importar pq o slot1 acaba repetindo
 	- ele ainda tá criando os nomes de 1 em 1 na importação, tem q arrumar
+
+
+ARTIGO
+
+- os requisitos precisam ser em quadros??
+- na IMPLEMENTAÇÃO, falar:
+	- unity + versão, vscode + versão
+	- ferramenta q usei pra desenhar as telas
+	- ferramenta pra diagramar
+	- falar oq foi gratuito e oq n foi
+- usar os reqs de guia pra explicar a implementação
