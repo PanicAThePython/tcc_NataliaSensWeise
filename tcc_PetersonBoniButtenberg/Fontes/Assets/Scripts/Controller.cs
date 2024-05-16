@@ -767,15 +767,6 @@ public class Controller : MonoBehaviour {
         else
         {
             bool podeDestruir = screenPoint.y > cam.pixelRect.height / 2;
-            /*
-            print(gameObject.name);
-            print(startPos);
-            print(cloneFab);
-            print(objName);
-            print(posColliderDestinoX);
-            print(posColliderDestinoY);
-            print(posColliderDestinoZ);
-            */
             if (podeDestruir && !Global.listaEncaixes.ContainsKey(gameObject.name))
             {
                 // aqui destroi a iluminação na raiz do render
@@ -1274,7 +1265,6 @@ public class Controller : MonoBehaviour {
                 {
                     if (Global.listaSequenciaSlots[i].Contains("TransformacoesSlot" + getNumeroSlotObjetoGrafico()) && getNumObjeto(Global.listaSequenciaSlots[i]) == getNumeroSlotObjetoGrafico())
                     {
-                        print(Global.listaSequenciaSlots[i]);
                         if (Global.listaSequenciaSlots[i] == slotOrigem)
                         {
                             podeReposicionar = true;

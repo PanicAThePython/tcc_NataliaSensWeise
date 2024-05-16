@@ -204,8 +204,11 @@ MONTANDO HIERARQUIA OBJETO PAI E FILHO
 	- ele ainda tá criando os nomes de 1 em 1 na importação, tem q arrumar
 - a opção "objeto" deve ser adicionada na func de addcriança!! --> ARRUMADO
 - o slot sobrando tá mt perto --> ARRUMADO
-- qnd eu clico nas peças pra ativar as props, elas são ativadas, mas as peças voam tudo pra primeira ocorrência de slot e as props de aparência do cubo vão td pro primeiro tbm
+- qnd eu clico nas peças pra ativar as props, elas são ativadas, mas as peças voam tudo pra primeira ocorrência de slot e as props de aparência do cubo vão td pro primeiro tbm --> ARRUMADO
 	- o problema ent pode estar no "addencaixe"
+- camera n tava vindo com a posição certa --> ARRUMADO
+- look at foi arrumado
+
 
 
 ARTIGO

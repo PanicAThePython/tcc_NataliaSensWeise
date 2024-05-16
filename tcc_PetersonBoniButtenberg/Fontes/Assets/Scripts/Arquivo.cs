@@ -224,13 +224,16 @@ public class Arquivo : MonoBehaviour
         controller.abrePropriedade.transform.GetChild(4).GetChild(1).GetComponent<TMP_InputField>().text = values["near"];
         controller.abrePropriedade.transform.GetChild(5).GetChild(1).GetComponent<TMP_InputField>().text = values["far"];
 
-        Global.propCameraGlobal.PosX = float.Parse(values["posicao"][0], CultureInfo.InvariantCulture.NumberFormat);
+        Global.propCameraGlobal.PosX = -float.Parse(values["posicao"][0], CultureInfo.InvariantCulture.NumberFormat);
         Global.propCameraGlobal.PosY = float.Parse(values["posicao"][1], CultureInfo.InvariantCulture.NumberFormat);
         Global.propCameraGlobal.PosZ = float.Parse(values["posicao"][2], CultureInfo.InvariantCulture.NumberFormat);
+
         Global.propCameraGlobal.FOV = new Vector2(float.Parse(values["fov"], CultureInfo.InvariantCulture.NumberFormat), float.Parse(values["fov"], CultureInfo.InvariantCulture.NumberFormat));
-        Global.propCameraGlobal.LookAtX = float.Parse(values["lookAt"][0], CultureInfo.InvariantCulture.NumberFormat);
+        
+        Global.propCameraGlobal.LookAtX = -float.Parse(values["lookAt"][0], CultureInfo.InvariantCulture.NumberFormat);
         Global.propCameraGlobal.LookAtY = float.Parse(values["lookAt"][1], CultureInfo.InvariantCulture.NumberFormat);
         Global.propCameraGlobal.LookAtZ = float.Parse(values["lookAt"][2], CultureInfo.InvariantCulture.NumberFormat);
+        
         Global.propCameraGlobal.Near = float.Parse(values["near"], CultureInfo.InvariantCulture.NumberFormat);
         Global.propCameraGlobal.Far = float.Parse(values["far"], CultureInfo.InvariantCulture.NumberFormat);
 
@@ -293,7 +296,7 @@ public class Arquivo : MonoBehaviour
     void setPropsCubo(Controller controller, JSONNode values, int countObjt, string nome)
     {
         PropriedadePeca prPeca = new PropriedadePeca();
-        prPeca.Nome = values["nome"];
+        prPeca.Nome = nome;
         prPeca.PodeAtualizar = true;
         var cuboAmb = "CuboAmbiente";
         if (countObjt > 0) cuboAmb += countObjt;
@@ -525,18 +528,28 @@ public class Arquivo : MonoBehaviour
             string key = slot.Key;
             if (numObjetoAtual > 0) key += numObjetoAtual;
             if (countAcoes > 0) key += "_" + countAcoes;
-           
+
+            List<string> preenchidos = new List<string>();
+
+            foreach (KeyValuePair<string, string> enc in Global.listaEncaixes) //peça /slot
+            {
+                if (Equals(enc.Value, slot.Key)) {
+                    preenchidos.Add(slot.Key); //se o slot é igual ao valor, ent já tem peça no slot
+                }
+            }
+
+            //se o slot contem parte do nome padrão daqla peça e a peça ainda não foi encaixada
             if (slot.Key.Contains(Global.GetSlot(peca.name)) && !Global.listaEncaixes.ContainsKey(peca.name))
             {
-                if (GameObject.Find(slot.Key) != null)
+                //se o slot tá visível, adiciona no encaixe
+                if (GameObject.Find(slot.Key) != null && !preenchidos.Contains(slot.Key))
                     Global.listaEncaixes.Add(GameObject.Find(peca.name).name, key);
-                else if (Global.listaEncaixes.ContainsKey(peca.name)
+                else if (Global.listaEncaixes.ContainsKey(peca.name) //se já contém a peça, mas o slot armazenado é diferente do atual, reposiciona slots
                         && Global.listaEncaixes[peca.name] != key)
                 {
                     control.reposicionaSlots(Global.listaEncaixes[peca.name], key);
                 }
             }
-
         }
     }
     int adicionarCriancas(JSONArray children, int countObjt, int countAcoes)
@@ -887,7 +900,6 @@ public class Arquivo : MonoBehaviour
 
         if (Global.listaObjetos != null)
         {
-            print(Global.listaObjetos.Count);
             mensagens[1].SetActive(true);
             StartCoroutine(TutorialNovo.apagarTela(mensagens[1]));
         }

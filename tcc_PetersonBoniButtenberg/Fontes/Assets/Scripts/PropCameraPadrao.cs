@@ -39,7 +39,7 @@ public class PropCameraPadrao : MonoBehaviour {
         Global.cameraAtiva = demonstra;
     } 
 
-    protected void preencheCampos()
+    public void preencheCampos()
     {
         Global.propCameraGlobal.JaIniciouValores = true;
 
@@ -130,7 +130,7 @@ public class PropCameraPadrao : MonoBehaviour {
         }
         if (inputSelected == InputSelected.InputLookAtX)
         {
-            Global.propCameraGlobal.LookAtX = float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
+            Global.propCameraGlobal.LookAtX = -float.Parse(validaVazio(inputValue), CultureInfo.InvariantCulture.NumberFormat);
         }
         else if (inputSelected == InputSelected.InputLookAtY)
         {
