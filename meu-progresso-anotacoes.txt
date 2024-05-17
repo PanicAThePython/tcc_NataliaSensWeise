@@ -208,7 +208,8 @@ MONTANDO HIERARQUIA OBJETO PAI E FILHO
 	- o problema ent pode estar no "addencaixe"
 - camera n tava vindo com a posição certa --> ARRUMADO
 - look at foi arrumado
-
+- a peça forma n fica no slot certo --> ARRUMADO
+- problemas com nome na importação --> ARRUMADO
 
 
 ARTIGO

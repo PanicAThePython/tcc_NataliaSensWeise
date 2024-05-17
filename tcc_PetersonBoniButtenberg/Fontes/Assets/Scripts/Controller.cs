@@ -501,9 +501,24 @@ public class Controller : MonoBehaviour {
                         {
                             if (Global.listaEncaixes.ContainsValue(ObjGrafSlot.transform.GetChild(i).name))
                             {
-                                slot = ObjGrafSlot.transform.GetChild(i).name;                                
-                            }                                
+                                slot = ObjGrafSlot.transform.GetChild(i).name;
+                            }
                         }
+                        /*
+                        else if (ObjGrafSlot.transform.GetChild(i).name.Contains("ObjGraficoSlot"))
+                        {
+                            for (int k = 0; k < ObjGrafSlot.transform.childCount; k++)
+                            {
+                                if (ObjGrafSlot.transform.GetChild(i).GetChild(k).name.Contains("TransformacoesSlot"))
+                                {
+                                    if (Global.listaEncaixes.ContainsValue(ObjGrafSlot.transform.GetChild(i).GetChild(k).name))
+                                    {
+                                        slot = ObjGrafSlot.transform.GetChild(i).GetChild(k).name;
+                                    }
+                                }
+                            }
+                        }
+                        */
                     }
 
                     if (Tutorial.estaExecutandoTutorial)
@@ -516,7 +531,7 @@ public class Controller : MonoBehaviour {
                     if (val > 0)
                         countTransformacoes = Convert.ToString(val + 1);
                     else                    
-                        countTransformacoes = "1";                     
+                        countTransformacoes = "1";
                     //-------------
 
                     GameObject t = GameObject.Find(slot);  
@@ -609,7 +624,6 @@ public class Controller : MonoBehaviour {
                         GameObject t;
 
                         numFormas = getNumeroSlotObjetoGrafico();
-
                         t = GameObject.Find("FormasSlot" + numFormas);
 
                         posicaoColliderDestino = t;
@@ -1516,7 +1530,9 @@ public class Controller : MonoBehaviour {
     {        
         GameObject render = GameObject.Find("Render");
         float value = 0f;
+        float value2 = 0f;
         string numSlotObjGrafico = "";
+        float posicaoAtual = 0f;
 
         for (int i = 0; i < render.transform.childCount; i++)
         {
@@ -1528,28 +1544,53 @@ public class Controller : MonoBehaviour {
                     {
                         if (Global.listaPosicaoSlot.ContainsKey(render.transform.GetChild(i).GetChild(j).name))
                         {
-                            if (Global.listaPosicaoSlot.TryGetValue(render.transform.GetChild(i).GetChild(j).name, out value))
+                            if (Global.listaPosicaoSlot.TryGetValue(render.transform.GetChild(i).GetChild(j).name, out value2))
                             {
-                                if (transform.position.y < value)
+                                if (transform.position.y < value2 && render.transform.GetChild(i).GetChild(j).GetChild(1).gameObject.activeSelf)
                                 {
                                     if (render.transform.GetChild(i).GetChild(j).name.Length > "ObjGraficoSlot".Length)
+                                    {
                                         numSlotObjGrafico = render.transform.GetChild(i).GetChild(j).name.Substring(render.transform.GetChild(i).GetChild(j).name.IndexOf("Slot") + 4, 1);
+                                        posicaoAtual = value2;
+                                    }
                                 }
                             }
                         }
                     }
                 }
-                if (Global.listaPosicaoSlot.ContainsKey(render.transform.GetChild(i).name))
+                if (numSlotObjGrafico == "")
                 {
-                    if (Global.listaPosicaoSlot.TryGetValue(render.transform.GetChild(i).name, out value))
+                    if (Global.listaPosicaoSlot.ContainsKey(render.transform.GetChild(i).name))
                     {
-                        if (transform.position.y < value)
+                        if (Global.listaPosicaoSlot.TryGetValue(render.transform.GetChild(i).name, out value))
                         {
-                            if (render.transform.GetChild(i).name.Length > "ObjGraficoSlot".Length)
-                                numSlotObjGrafico = render.transform.GetChild(i).name.Substring(render.transform.GetChild(i).name.IndexOf("Slot") + 4, 1);
+                            if (transform.position.y < value)
+                            {
+                                if (render.transform.GetChild(i).name.Length > "ObjGraficoSlot".Length)
+                                    numSlotObjGrafico = render.transform.GetChild(i).name.Substring(render.transform.GetChild(i).name.IndexOf("Slot") + 4, 1);
+                            }
                         }
                     }
                 }
+
+                else // if(((posicaoSlotObjtAtual - pecaY)) > ((slot.Value - pecaY)*(-1)))
+                {
+                    if (Global.listaPosicaoSlot.ContainsKey(render.transform.GetChild(i).name))
+                    {
+                        if (Global.listaPosicaoSlot.TryGetValue(render.transform.GetChild(i).name, out value))
+                        {
+                            if ((posicaoAtual - transform.position.y > (value - transform.position.y)) && render.transform.GetChild(i).GetChild(1).gameObject.activeSelf)
+                            {
+                                if (render.transform.GetChild(i).name.Length > "ObjGraficoSlot".Length)
+                                {
+                                    numSlotObjGrafico = render.transform.GetChild(i).name.Substring(render.transform.GetChild(i).name.IndexOf("Slot") + 4, 1);
+                                    posicaoAtual = value;
+                                }
+                            }
+                        }
+                    }
+                }
+                
             }
         }        
 
@@ -1564,7 +1605,6 @@ public class Controller : MonoBehaviour {
 
         for(int i = 0; i < goRender.transform.childCount; i++)
         {
-            //print(goRender.transform.GetChild(i).name);
             if(goRender.transform.GetChild(i).name.Contains(ObjGrafico))
             {
                 if (podeOrganizarProximoObjeto)
@@ -1579,12 +1619,9 @@ public class Controller : MonoBehaviour {
                         if (numObjetoEncaixe == "") numObjetoEncaixe = "0";
                         int convertendo = int.Parse(numObjetoEncaixe) + 1;
                         string proxNum = convertendo.ToString();
-                        //print(getNumObjeto(encaixe.Value));
-                        //print(getNumObjeto(goRender.transform.GetChild(i).name));
 
                         if (Equals(getNumObjeto(encaixe.Value), getNumObjeto(goRender.transform.GetChild(i).name)) || (Equals(proxNum, getNumObjeto(goRender.transform.GetChild(i).name))))
                         {
-                            //print(encaixe.Key);
                             GameObject goPeca = GameObject.Find(encaixe.Key);
                             pos = goPeca.transform.position;
                             pos.y -= 3;
@@ -1638,7 +1675,6 @@ public class Controller : MonoBehaviour {
                 {
                     if (render.transform.GetChild(i).name.Contains("ObjGraficoSlot"))
                     {
-                        //print(render.transform.GetChild(i).name);
                         listaNomeObjGrafico.Add(render.transform.GetChild(i).name);
 
                         for (int j = 0; j < render.transform.GetChild(i).childCount; j++)
@@ -1646,7 +1682,6 @@ public class Controller : MonoBehaviour {
                             if (render.transform.GetChild(i).GetChild(j).name.Contains("ObjGraficoSlot") && GameObject.Find(render.transform.GetChild(i).GetChild(j).name) != null)
                             {
                                 listaNomeObjGrafico.Add(render.transform.GetChild(i).GetChild(j).name);
-                                //print(render.transform.GetChild(i).GetChild(j).name);
                             }
                         }
                     }

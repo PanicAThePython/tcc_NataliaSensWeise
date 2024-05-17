@@ -374,21 +374,19 @@ public class Arquivo : MonoBehaviour
 
     void setPropsAcoes(Controller controller, JSONNode values, int countObjt, string nome)
     {
-        controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
+        controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = nome;
 
-        controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][0];
-        controller.abrePropriedade.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][1];
-        controller.abrePropriedade.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = values["valores"][2];
+        
 
         controller.abrePropriedade.transform.GetChild(3).GetComponent<Toggle>().isOn = values["ativo"];
 
         PropriedadePeca prPeca = new PropriedadePeca();
-        prPeca.Nome = values["nome"];
+        prPeca.Nome = nome;
         prPeca.PodeAtualizar = true;
-        var nomeAmb = values["nome"] + "Amb";
+        var nomeAmb = nome + "Amb";
         if (countObjt > 0) nomeAmb += countObjt;
         prPeca.NomeCuboAmbiente = nomeAmb;
-        var nomeVis = values["nome"] + "Vis";
+        var nomeVis = nome + "Vis";
         if (countObjt > 0) nomeVis += countObjt;
         prPeca.NomeCuboVis = nomeVis;
         prPeca.TipoLuz = 0;
@@ -401,6 +399,9 @@ public class Arquivo : MonoBehaviour
             prPeca.Tam.X = float.Parse(values["valores"][0]);
             prPeca.Tam.Y = float.Parse(values["valores"][1]);
             prPeca.Tam.Z = float.Parse(values["valores"][2]);
+            controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = prPeca.Tam.X.ToString();
+            controller.abrePropriedade.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = prPeca.Tam.Y.ToString();
+            controller.abrePropriedade.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = prPeca.Tam.Z.ToString();
         }
         else
         {
@@ -408,7 +409,9 @@ public class Arquivo : MonoBehaviour
             prPeca.Pos.X = float.Parse(values["valores"][0]);
             prPeca.Pos.Y = float.Parse(values["valores"][1]);
             prPeca.Pos.Z = float.Parse(values["valores"][2]);
-
+            controller.abrePropriedade.transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = prPeca.Pos.X.ToString();
+            controller.abrePropriedade.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = prPeca.Pos.Y.ToString();
+            controller.abrePropriedade.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = prPeca.Pos.Z.ToString();
         }
         Global.propriedadePecas.Add(nome, prPeca);
     }
@@ -441,7 +444,7 @@ public class Arquivo : MonoBehaviour
         }
 
         PropriedadePeca prPeca = new PropriedadePeca();
-        prPeca.Nome = values["nome"];
+        prPeca.Nome = nome;
         prPeca.PodeAtualizar = true;
         var nomeAmb = values["nome"] + "Amb";
         prPeca.NomeCuboAmbiente = nomeAmb;
@@ -527,7 +530,6 @@ public class Arquivo : MonoBehaviour
         {
             string key = slot.Key;
             if (numObjetoAtual > 0) key += numObjetoAtual;
-            if (countAcoes > 0) key += "_" + countAcoes;
 
             List<string> preenchidos = new List<string>();
 
@@ -552,7 +554,7 @@ public class Arquivo : MonoBehaviour
             }
         }
     }
-    int adicionarCriancas(JSONArray children, int countObjt, int countAcoes)
+    int[] adicionarCriancas(JSONArray children, int countObjt, int countTrans, int countRot, int countEsc, int countAcoes)
     {
         foreach (KeyValuePair<string, JSONNode> son in children)
         {
@@ -697,10 +699,12 @@ public class Arquivo : MonoBehaviour
                     PropriedadePeca prPeca = new PropriedadePeca();
                     prPeca.Nome = gameObject.name;
                     prPeca.PodeAtualizar = true;
+                    prPeca.NomeCuboAmbiente = "CuboAmbiente";
+                    prPeca.NomeCuboVis = "CuboVis";
                     if (countObjt > 0)
                     {
-                        prPeca.NomeCuboAmbiente = "CuboAmbiente" + Controller.getNumObjeto(countObjt.ToString());
-                        prPeca.NomeCuboVis = "CuboVis" + Controller.getNumObjeto(countObjt.ToString());
+                        prPeca.NomeCuboAmbiente += countObjt;
+                        prPeca.NomeCuboVis += countObjt;
                     }
 
                     prPeca.TipoLuz = 0;
@@ -713,9 +717,16 @@ public class Arquivo : MonoBehaviour
                 }
                 if (key.Contains("Trans") || key.Contains("Rot") || key.Contains("Esc"))
                 {
-                    var nome = key;
-                    //if (DropPeca.countObjetosGraficos - 2 > 0) nome += DropPeca.countObjetosGraficos - 2;
-                    //if (countAcoes > 0) nome += "_" + countAcoes;
+                    var nome = "";
+
+                    if (key.Contains("Trans")) nome += "Transladar";
+                    if (key.Contains("Rot")) nome += "Rotacionar";
+                    if (key.Contains("Esc")) nome += "Escalar";
+
+                    if (countTrans > 0 && key.Contains("Trans")) nome += countTrans;
+                    if (countRot > 0 && key.Contains("Rot")) nome += countRot;
+                    if (countEsc > 0 && key.Contains("Esc")) nome += countEsc;
+
                     var acao = GameObject.Find(nome);
                     var controller = acao.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
@@ -791,24 +802,24 @@ public class Arquivo : MonoBehaviour
                     controller.configuraIluminacao("-");
 
                     controller.reorganizaObjetos(numObjetoGrafico);
+                    if (key.Contains("Trans")) countTrans++;
+                    if (key.Contains("Rot")) countRot++;
+                    if (key.Contains("Esc")) countEsc++;
                     setPropsAcoes(controller, value, countObjt, nome);
+                    countAcoes++;
                 }
                 if (key.Contains("Objeto"))
                 {
                     countObjt++;
-                    var nome = key;
+                    countAcoes = 0;
+                    var nome = "ObjetoGraficoP";
                     var nomeSlot = "ObjGraficoSlot";
-                    if (countObjt > 0) nomeSlot += countObjt;
-                    if (limpou) //tá chamando a aba lateral do render do objeto 2 ????
+                    if (countObjt > 0)
                     {
-                        nomeSlot = GameObject.Find("Render").transform.GetChild(1).gameObject.name;
-                        if (countObjt > 0)
-                        {
-                            string nomeFilho = GameObject.Find("Render").transform.GetChild(1).gameObject.name;
-                            int num = int.Parse(nomeFilho[-1].ToString());
-                            if (num != countObjt) nomeSlot = "ObjGraficoSlot" + countObjt;
-                        }
+                        nomeSlot += countObjt;
+                        nome += countObjt;
                     }
+                    
                     var objeto = GameObject.Find(nome);
                     var controller = objeto.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
@@ -865,8 +876,11 @@ public class Arquivo : MonoBehaviour
                     if (value["children"].Count > 0)
                     {
                         if (countObjt == numObjetoAtual) countAcoes = 0;
-                        countAcoes = adicionarCriancas((JSONArray)value["children"], countObjt, countAcoes);
-
+                        int[] valores = adicionarCriancas((JSONArray)value["children"], countObjt, countTrans, countRot, countEsc, countAcoes);
+                        countTrans = valores[0];
+                        countRot = valores[1];
+                        countEsc = valores[2];
+                        countAcoes = valores[3];
                         numObjetoAtual++;
                     }
 
@@ -875,7 +889,13 @@ public class Arquivo : MonoBehaviour
             }
         }
 
-        return countAcoes;
+        int[] vals = new int[4];
+        vals[0] = countTrans;
+        vals[1] = countRot;
+        vals[2] = countEsc;
+        vals[3] = countAcoes;
+
+        return vals;
     }
 
     public void Importar()
@@ -905,6 +925,9 @@ public class Arquivo : MonoBehaviour
         }
        
         var countObjt = 0;
+        var countTrans = 0;
+        var countRot = 0;
+        var countEsc = 0;
         var countAcoes = 0;
         JSONObject cenaImportada = null;
         if (cenaJSON.text.Length > 0) cenaImportada = (JSONObject)JSONObject.Parse(cenaJSON.text);
@@ -958,7 +981,7 @@ public class Arquivo : MonoBehaviour
                     //FUNCIONOU
                     //FALTA O RETORNO VISUAL NO AMBIENTE GR�FICO E VISUALIZADOR(PROVAVELMENTE)!!
 
-                    var nome = key; //problema para importar cena dps de deletar uma... pq a key já foi usada e deletada, ent n existe mais uma "CameraP" em cena...
+                    var nome = "CameraP"; //problema para importar cena dps de deletar uma... pq a key já foi usada e deletada, ent n existe mais uma "CameraP" em cena...
                     var cam = GameObject.Find(nome);
                     var controller = cam.GetComponent<Controller>();
                     controller.GeraCopiaPeca();
@@ -992,9 +1015,13 @@ public class Arquivo : MonoBehaviour
                     //PROS FILHOS:
                     //função separada de foreach numa lista children
                     //acessar o children dentro do value, e qnd tiver algo, chamar a func e acessar e criar os objts filho
-                    var nome = key;
+                    var nome = "ObjetoGraficoP";
                     var nomeSlot = "ObjGraficoSlot";
-                    if (countObjt > 0) nomeSlot += countObjt;
+                    if (countObjt > 0)
+                    { 
+                        nomeSlot += countObjt;
+                        nome += countObjt;
+                    }
                     if (limpou) //tá chamando a aba lateral do render do objeto 2 ????
                     {
                         nomeSlot = GameObject.Find("Render").transform.GetChild(1).gameObject.name;
@@ -1059,8 +1086,12 @@ public class Arquivo : MonoBehaviour
                     if (value["children"].Count > 0)
                     {
                         if (countObjt == numObjetoAtual) countAcoes = 0;
-                        countAcoes = adicionarCriancas((JSONArray)value["children"], countObjt, countAcoes);
-                       
+                        int[] valores = adicionarCriancas((JSONArray)value["children"], countObjt, countTrans, countRot, countEsc, countAcoes);
+
+                        countTrans = valores[0];
+                        countRot = valores[1];
+                        countEsc = valores[2];
+                        countAcoes = valores[3];
                         numObjetoAtual++;
                     }
 
