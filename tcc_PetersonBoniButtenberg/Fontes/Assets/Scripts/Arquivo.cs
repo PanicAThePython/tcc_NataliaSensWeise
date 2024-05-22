@@ -36,7 +36,7 @@ public class Arquivo : MonoBehaviour
         importando = val;
     }
 
-    List<GameObject> ordenarCena(List<GameObject> lista)
+    public List<GameObject> ordenarCena(List<GameObject> lista)
     {
         for (int j = lista.Count - 1; j > 0; j--)
         {
@@ -49,7 +49,7 @@ public class Arquivo : MonoBehaviour
         return Global.listaObjetos;
     }
 
-    List<GameObject> trocarPosicao(List<GameObject> array, int m, int n)
+    public List<GameObject> trocarPosicao(List<GameObject> array, int m, int n)
     {
         GameObject temp;
         temp = array[m];
