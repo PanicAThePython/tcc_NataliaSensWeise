@@ -504,21 +504,6 @@ public class Controller : MonoBehaviour {
                                 slot = ObjGrafSlot.transform.GetChild(i).name;
                             }
                         }
-                        /*
-                        else if (ObjGrafSlot.transform.GetChild(i).name.Contains("ObjGraficoSlot"))
-                        {
-                            for (int k = 0; k < ObjGrafSlot.transform.childCount; k++)
-                            {
-                                if (ObjGrafSlot.transform.GetChild(i).GetChild(k).name.Contains("TransformacoesSlot"))
-                                {
-                                    if (Global.listaEncaixes.ContainsValue(ObjGrafSlot.transform.GetChild(i).GetChild(k).name))
-                                    {
-                                        slot = ObjGrafSlot.transform.GetChild(i).GetChild(k).name;
-                                    }
-                                }
-                            }
-                        }
-                        */
                     }
 
                     if (Tutorial.estaExecutandoTutorial)
@@ -617,7 +602,7 @@ public class Controller : MonoBehaviour {
                     if (numero % 2 != 0) reorganizaObjetos((numero + 1).ToString());
                 }
                 else if ((Tutorial.estaExecutandoTutorial && Tutorial.passoTutorial == Tutorial.Passo.SegundoPasso) || (!Tutorial.estaExecutandoTutorial && gameObject.name.Contains("Cubo")))
-                {      
+                {
                     if (GameObject.Find("CuboAmbiente" + getNumeroSlotObjetoGrafico()) != null)
                     {
                         string numFormas = "";
@@ -1425,7 +1410,6 @@ public class Controller : MonoBehaviour {
                     {
                         GameObject GO_Slot = GameObject.Find(objGrafico.transform.GetChild(j).name);
                         GameObject GO_Peca;
-
                         foreach (KeyValuePair<string, string> pair in Global.listaEncaixes)
                         {
                             if (pair.Value == objGrafico.transform.GetChild(j).name)
@@ -1435,9 +1419,14 @@ public class Controller : MonoBehaviour {
                                 break;
                             }
                         }
-
                         if (!GO_Slot.name.Contains("Base") && !GO_Slot.name.Contains("IluminacaoSlot"))
-                            GO_Slot.transform.position = new Vector3(GO_Slot.transform.position.x, GO_Slot.transform.position.y + 3f, GO_Slot.transform.position.z);  
+                        {
+                            if (GO_Slot.name.Contains("Obj"))
+                            {
+                                GO_Slot.gameObject.transform.position = new Vector3(GO_Slot.gameObject.transform.position.x, GO_Slot.gameObject.transform.position.y + 6f, GO_Slot.gameObject.transform.position.z);
+                            }
+                            else GO_Slot.transform.position = new Vector3(GO_Slot.transform.position.x, GO_Slot.transform.position.y + 3f, GO_Slot.transform.position.z);
+                        }
                     }
                 }                 
                 
@@ -1567,19 +1556,21 @@ public class Controller : MonoBehaviour {
                             if (transform.position.y < value)
                             {
                                 if (render.transform.GetChild(i).name.Length > "ObjGraficoSlot".Length)
+                                {
                                     numSlotObjGrafico = render.transform.GetChild(i).name.Substring(render.transform.GetChild(i).name.IndexOf("Slot") + 4, 1);
+                                    posicaoAtual = value;
+                                }
                             }
                         }
                     }
                 }
-
                 else // if(((posicaoSlotObjtAtual - pecaY)) > ((slot.Value - pecaY)*(-1)))
                 {
                     if (Global.listaPosicaoSlot.ContainsKey(render.transform.GetChild(i).name))
                     {
                         if (Global.listaPosicaoSlot.TryGetValue(render.transform.GetChild(i).name, out value))
                         {
-                            if ((posicaoAtual - transform.position.y > (value - transform.position.y)) && render.transform.GetChild(i).GetChild(1).gameObject.activeSelf)
+                            if (((posicaoAtual - transform.position.y > (value - transform.position.y)) && render.transform.GetChild(i).GetChild(1).gameObject.activeSelf))
                             {
                                 if (render.transform.GetChild(i).name.Length > "ObjGraficoSlot".Length)
                                 {
@@ -1590,7 +1581,6 @@ public class Controller : MonoBehaviour {
                         }
                     }
                 }
-                
             }
         }        
 
@@ -1700,6 +1690,7 @@ public class Controller : MonoBehaviour {
                         continue;
 
                     // Pega a posição do objeto após o objeto a ser excluído
+                    print(listaNomeObjGrafico[i + 1]);
                     posGO = GameObject.Find((string)listaNomeObjGrafico[i+1]).transform.position;                   
 
                     // Instancia um GameObject vazio tendo Render como pai
@@ -1792,8 +1783,8 @@ public class Controller : MonoBehaviour {
 
 
                 string nomeExluido = Global.listaEncaixes[gameObject.name];
-                string numstr = nomeExluido[nomeExluido.Length - 1].ToString();
-                if (numstr == "t") numstr = "0";
+                string numstr = Regex.Match(nomeExluido, @"\d+").Value;
+                if (numstr == "") numstr = "0";
                 int numEx = int.Parse(numstr);
                 if (numEx % 2 == 0)
                 {
@@ -1807,8 +1798,14 @@ public class Controller : MonoBehaviour {
 
                     // Atualiza a posição do GameObject com todos objetos para a posição do objeto excluído.  
                     //go.transform.position = posGO;
+                    GameObject slot2 = GameObject.Find("ObjGraficoSlot" + (numEx + 2));
+                    Vector3 pos2 = slot2.transform.position;
+
+                    GameObject.Find("ObjGraficoSlot" + (numEx + 3)).transform.parent = GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform;
                     GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform.position = posGO;
 
+                    if (GameObject.Find("ObjGraficoSlot" + (numEx + 4)) != null)
+                        GameObject.Find("ObjGraficoSlot" + (numEx + 4)).transform.position = pos2;
                     break;
                 }
                 else
@@ -1828,8 +1825,17 @@ public class Controller : MonoBehaviour {
                     Global.listaEncaixes.Remove(gameObject.name);
                     Global.propriedadePecas.Remove(gameObject.name);
 
+                    GameObject slot2 = GameObject.Find("ObjGraficoSlot" + (numEx + 1));
+                    Vector3 pos2 = slot2.transform.position;
+
                     Vector3 newPos = new Vector3(posGO.x - 1.5f, posGO.y - 4f, posGO.z);
                     GameObject.Find("ObjGraficoSlot" + (numEx + 1)).transform.position = newPos;
+                    
+                    GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform.parent = GameObject.Find("ObjGraficoSlot" + (numEx + 1)).transform;
+                    //GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform.position = posGO;
+
+                    if (GameObject.Find("ObjGraficoSlot" + (numEx + 4)) != null)
+                        GameObject.Find("ObjGraficoSlot" + (numEx + 4)).transform.position = pos2;
                     break;
                 }
 

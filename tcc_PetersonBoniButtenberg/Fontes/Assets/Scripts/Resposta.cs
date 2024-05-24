@@ -8,13 +8,6 @@ public class Resposta : MonoBehaviour
     private static Dictionary<string, PropriedadePeca> respostaProps;
     private static PropriedadeCamera[] camProp = new PropriedadeCamera[4];
 
-    //eu vou ter q ter, pra cada exerc, uma lista com todos os objetos q a cena deve ter
-    //em cada objt, vou ter q checar se a peça está com as propriedades corretas
-    //se a ordem estiver errada ou alguma prop n estiver de acordo, errou; senão, acertou
-
-    //mas fazer novas listas de objetos pode ser complicado... seria mlr se eu tivesse uma lista com os nomes dos objetos
-    //e dps uma lista com as props por escrito
-
     public static void setRespostaOrdem(string[] r)
     {
         respostaOrdem = r;

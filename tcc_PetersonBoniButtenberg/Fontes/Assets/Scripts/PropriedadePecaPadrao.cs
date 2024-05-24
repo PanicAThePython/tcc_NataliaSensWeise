@@ -119,16 +119,6 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
         //qnd clica em apagar, o valor some da visualização, mas continua na peça
         //dá pra por qqr valor q o cubo vai responder, mas n terá retorno visual
 
-        string slot = Global.listaEncaixes[prPeca.Nome];
-        string num = slot[slot.Length - 1].ToString();
-        string espaco = slot[slot.Length - 2].ToString();
-        if (espaco == "_") num = slot[slot.Length - 3].ToString();
-        if (num == "t") num = "0";
-        int number = int.Parse(num) + 1;
-
-        GameObject otherCubeAmb = GameObject.Find("CuboAmbiente" + number);
-        GameObject otherCubeVis = GameObject.Find("CuboVis" + number);
-
         if (Global.propriedadePecas.ContainsKey(prPeca.Nome))
         {
             if (tipoTransformacao == typeTransformacao.Escalar)
@@ -268,10 +258,23 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
                     goTransformacaoVis.transform.localPosition = new Vector3(x, y, z);
 
                     //pra refletir no filho
-                    if (otherCubeAmb != null)
+                    if (prPeca != null)
                     {
-                        otherCubeAmb.transform.localPosition = new Vector3(x * -1, y, z);
-                        otherCubeVis.transform.localPosition = new Vector3(x, y, z);
+                        string slot = Global.listaEncaixes[prPeca.Nome];
+                        string num = slot[slot.Length - 1].ToString();
+                        string espaco = slot[slot.Length - 2].ToString();
+                        if (espaco == "_") num = slot[slot.Length - 3].ToString();
+                        if (num == "t") num = "0";
+                        int number = int.Parse(num) + 1;
+
+                        GameObject otherCubeAmb = GameObject.Find("CuboAmbiente" + number);
+                        GameObject otherCubeVis = GameObject.Find("CuboVis" + number);
+
+                        if(otherCubeAmb != null)
+                        {
+                            otherCubeAmb.transform.localPosition = new Vector3(x * -1, y, z);
+                            otherCubeVis.transform.localPosition = new Vector3(x, y, z);
+                        }
                     }
                 }
                 else if (tipoTransformacao == typeTransformacao.Rotacionar)
@@ -280,10 +283,23 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
                     goTransformacaoVis.transform.localRotation = Quaternion.Euler(x, y, z);
 
                     //pra refletir no filho
-                    if (otherCubeAmb != null)
+                    if (prPeca != null)
                     {
-                        otherCubeAmb.transform.localRotation = Quaternion.Euler(x, y * -1, z * -1);
-                        otherCubeVis.transform.localRotation = Quaternion.Euler(x, y, z);
+                        string slot = Global.listaEncaixes[prPeca.Nome];
+                        string num = slot[slot.Length - 1].ToString();
+                        string espaco = slot[slot.Length - 2].ToString();
+                        if (espaco == "_") num = slot[slot.Length - 3].ToString();
+                        if (num == "t") num = "0";
+                        int number = int.Parse(num) + 1;
+
+                        GameObject otherCubeAmb = GameObject.Find("CuboAmbiente" + number);
+                        GameObject otherCubeVis = GameObject.Find("CuboVis" + number);
+
+                        if (otherCubeAmb != null)
+                        {
+                            otherCubeAmb.transform.localRotation = Quaternion.Euler(x, y * -1, z * -1);
+                            otherCubeVis.transform.localRotation = Quaternion.Euler(x, y, z);
+                        }
                     }
                 }
                 else
@@ -292,10 +308,24 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
                     goTransformacaoVis.transform.localScale = new Vector3(x, y, z);
 
                     //pra refletir no filho
-                    if (otherCubeAmb != null)
+                    if (prPeca != null)
                     {
-                        otherCubeAmb.transform.localScale = new Vector3(x, y, z);
-                        otherCubeVis.transform.localScale = new Vector3(x, y, z);
+                        string slot = Global.listaEncaixes[prPeca.Nome];
+                        string num = slot[slot.Length - 1].ToString();
+                        string espaco = slot[slot.Length - 2].ToString();
+                        if (espaco == "_") num = slot[slot.Length - 3].ToString();
+                        if (num == "t") num = "0";
+                        int number = int.Parse(num) + 1;
+
+                        GameObject otherCubeAmb = GameObject.Find("CuboAmbiente" + number);
+                        GameObject otherCubeVis = GameObject.Find("CuboVis" + number);
+
+                        if (otherCubeAmb != null)
+                        {
+                            otherCubeAmb.transform.localScale = new Vector3(x, y, z);
+                            otherCubeVis.transform.localScale = new Vector3(x, y, z);
+                        }
+                        
                     }
                 }
             }

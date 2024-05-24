@@ -48,8 +48,8 @@ public class Exercicio : MonoBehaviour
     {
         enunciados[0] = "";
         enunciados[1] = "Enunciado 1: Crie uma cena com um cubo com textura de QR Code. Apenas a face frontal do cubo deve estar visível. A visão da câmera deve estar o mais próxima possível sem cortar a visualização do cubo.";
-        enunciados[2] = "Enunciado 2: Cria uma cena um cubo pai e um filho. O cubo pai deve ter textura da FURB e o filho, de madeira, e estar a uma distândia de 2 unidades do x do pai. O pai tem que ter uma rotação de 60º no eixo Y.";
-        enunciados[3] = "Enunciado 3: Crie uma cena com um cubo estampado de FURB. Mude a escala dele para 2 no eixo x. Faça uso da luz spot de forma que um círculo de luz se forme e cubra o máximo possível do topo sem tocar a borda.";
+        enunciados[2] = "Enunciado 2: Cria uma cena com um cubo pai e um filho. O cubo pai deve ter textura da FURB e o filho, de madeira, e estar a uma distândia de 2 unidades do x do pai. O pai tem que ter uma rotação de 60º no eixo Y.";
+        enunciados[3] = "Enunciado 3: Crie uma cena com um cubo estampado de FURB. Mude a escala dele para 2 no eixo x. Faça uso da luz spot de forma que um círculo de luz se forme e cubra o máximo possível do topo do cubo sem tocar a borda.";
         
         respostas[0] = "";
         respostas[1] = "Camera, ObjetoGrafico, Cubo, Iluminacao";
@@ -85,6 +85,7 @@ public class Exercicio : MonoBehaviour
         cubo1.Pos.Y = 0;
         cubo1.Pos.Z = 0;
         cubo1.Textura = texturas[0].gameObject.GetComponent<MeshRenderer>().material.mainTexture;
+        cubo1.Cor = Color.white;
         dict.Add("Cubo", cubo1);
 
         PropriedadePeca luz1 = new PropriedadePeca();
@@ -94,7 +95,6 @@ public class Exercicio : MonoBehaviour
         luz1.Pos.X = 100;
         luz1.Pos.Y = 300;
         luz1.Pos.Z = 0;
-        //luz1.Cor = Color.white;
         dict.Add("Iluminacao", luz1);
 
         //enunciado 2 "Camera, ObjetoGrafico, Cubo, Rotacionar, Iluminacao, ObjetoGrafico, Cubo, Transladar"
@@ -103,7 +103,7 @@ public class Exercicio : MonoBehaviour
         PropriedadeCamera cam2 = new PropriedadeCamera();
 
         cam2.PosX = -100;
-        cam2.PosY = 100;
+        cam2.PosY = 300;
         cam2.PosZ = 300;
         cam2.FOV = new Vector2(45f, 45f);
         cam2.Near = 100;
@@ -125,6 +125,7 @@ public class Exercicio : MonoBehaviour
         cubo2.Pos.Y = 0;
         cubo2.Pos.Z = 0;
         cubo2.Textura = texturas[1].gameObject.GetComponent<MeshRenderer>().material.mainTexture; //furb
+        cubo2.Cor = Color.white;
         dict2.Add("Cubo", cubo2);
         
         PropriedadePeca rotacionar2 = new PropriedadePeca();
@@ -142,12 +143,11 @@ public class Exercicio : MonoBehaviour
         luz2.Pos.X = 100;
         luz2.Pos.Y = 300;
         luz2.Pos.Z = 0;
-        //luz1.Cor = Color.white;
         dict2.Add("Iluminacao", luz2);
 
         PropriedadePeca objt2_1 = new PropriedadePeca();
         objt2_1.Ativo = true;
-        dict2.Add("ObjetoGrafico_1", objt2_1);
+        dict2.Add("ObjetoGraficoo", objt2_1);
 
         PropriedadePeca cubo2_1 = new PropriedadePeca();
         cubo2_1.Ativo = true;
@@ -160,7 +160,8 @@ public class Exercicio : MonoBehaviour
         cubo2_1.Pos.Y = 0;
         cubo2_1.Pos.Z = 0;
         cubo2_1.Textura = texturas[2].gameObject.GetComponent<MeshRenderer>().material.mainTexture; //madeira
-        dict2.Add("Cubo_1", cubo2_1);
+        cubo2_1.Cor = Color.white;
+        dict2.Add("Cuboo", cubo2_1);
 
         PropriedadePeca transladar2_1 = new PropriedadePeca();
         transladar2_1.Ativo = true;
@@ -168,7 +169,7 @@ public class Exercicio : MonoBehaviour
         transladar2_1.Pos.X = 2;
         transladar2_1.Pos.Y = 0;
         transladar2_1.Pos.Z = 0;
-        dict2.Add("Transladar_1", transladar2_1);
+        dict2.Add("Transladar", transladar2_1);
 
         // enunciado 3
         Dictionary<string, PropriedadePeca> dict3 = new Dictionary<string, PropriedadePeca>();
@@ -176,7 +177,7 @@ public class Exercicio : MonoBehaviour
         PropriedadeCamera cam3 = new PropriedadeCamera();
 
         cam3.PosX = -100;
-        cam3.PosY = 100;
+        cam3.PosY = 300;
         cam3.PosZ = 300;
         cam3.FOV = new Vector2(45f, 45f);
         cam3.Near = 100;
@@ -198,6 +199,7 @@ public class Exercicio : MonoBehaviour
         cubo3.Pos.Y = 0;
         cubo3.Pos.Z = 0;
         cubo3.Textura = texturas[1].gameObject.GetComponent<MeshRenderer>().material.mainTexture;
+        cubo3.Cor = Color.white;
         dict3.Add("Cubo", cubo3);
 
         PropriedadePeca escalar3 = new PropriedadePeca();
@@ -224,7 +226,6 @@ public class Exercicio : MonoBehaviour
         luz3.ValorIluminacao.Y = 0;
         luz3.ValorIluminacao.Z = 0;
 
-        //luz1.Cor = Color.white;
         dict3.Add("Iluminacao", luz3);
 
         props.Add(new Dictionary<string, PropriedadePeca>());
@@ -265,214 +266,222 @@ public class Exercicio : MonoBehaviour
 
     public void compararRespostas()
     {
-        List<GameObject> ordenada = arq.ordenarCena(Global.listaObjetos);
-        string[] gabarito = Resposta.getRespostaOrdem();
-        Dictionary<string, PropriedadePeca> propriedades = Resposta.getRespostaProps();
-        PropriedadeCamera camProps = Resposta.getCamProps(numeroExerc);
-
-        //tem q comparar a camera separadamente
-        if (Global.propCameraGlobal.FOV == camProps.FOV) contabilizarAcertosProps();
-        else contabilizarErrosProps();
-
-        if (Global.propCameraGlobal.Near == camProps.Near) contabilizarAcertosProps();
-        else contabilizarErrosProps();
-
-        if (Global.propCameraGlobal.Far == camProps.Far) contabilizarAcertosProps();
-        else contabilizarErrosProps();
-
-        if (Global.propCameraGlobal.PosX == camProps.PosX) contabilizarAcertosProps();
-        else contabilizarErrosProps();
-
-        if (Global.propCameraGlobal.PosY == camProps.PosY) contabilizarAcertosProps();
-        else contabilizarErrosProps();
-
-        if (Global.propCameraGlobal.PosZ == camProps.PosZ) contabilizarAcertosProps();
-        else contabilizarErrosProps();
-
-        for (int i = 0; i < ordenada.Count; i++)
+        if (Global.listaObjetos == null || Global.listaObjetos.Count == 0 || numeroExerc == 0)
         {
-            if (ordenada[i].name.Contains(gabarito[i]))
+            enunText.text = "Verifique se a lista de objetos está vazia ou se um exercício foi selecionado.";
+            StartCoroutine(zerarToggle());
+        }
+        else
+        {
+            List<GameObject> ordenada = arq.ordenarCena(Global.listaObjetos);
+            string[] gabarito = Resposta.getRespostaOrdem();
+            Dictionary<string, PropriedadePeca> propriedades = Resposta.getRespostaProps();
+            PropriedadeCamera camProps = Resposta.getCamProps(numeroExerc);
+
+            //tem q comparar a camera separadamente
+            if (Global.propCameraGlobal.FOV == camProps.FOV) contabilizarAcertosProps();
+            else contabilizarErrosProps();
+
+            if (Global.propCameraGlobal.Near == camProps.Near) contabilizarAcertosProps();
+            else contabilizarErrosProps();
+
+            if (Global.propCameraGlobal.Far == camProps.Far) contabilizarAcertosProps();
+            else contabilizarErrosProps();
+
+            if (Global.propCameraGlobal.PosX == camProps.PosX) contabilizarAcertosProps();
+            else contabilizarErrosProps();
+
+            if (Global.propCameraGlobal.PosY == camProps.PosY) contabilizarAcertosProps();
+            else contabilizarErrosProps();
+
+            if (Global.propCameraGlobal.PosZ == camProps.PosZ) contabilizarAcertosProps();
+            else contabilizarErrosProps();
+
+            string chave = "";
+            for (int i = 0; i < ordenada.Count; i++)
             {
-                contabilizarAcertosOrdem();
-                foreach (KeyValuePair<string, PropriedadePeca> pp in Global.propriedadePecas)
+                if (ordenada[i].name.Contains(gabarito[i]))
                 {
-                    foreach (KeyValuePair<string, PropriedadePeca> prop in propriedades)
+                    contabilizarAcertosOrdem();
+                    foreach (KeyValuePair<string, PropriedadePeca> pp in Global.propriedadePecas)
                     {
-                        if (pp.Key.Contains(prop.Key) && pp.Key.Contains(ordenada[i].name))
+                        foreach (KeyValuePair<string, PropriedadePeca> prop in propriedades)
                         {
-                            if (pp.Key.Contains("Obj"))
+                            if (pp.Key.Contains(prop.Key) && pp.Key.Contains(ordenada[i].name))
                             {
-                                //compara props objt
-                                if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
-                            }
-                            else if (pp.Key.Contains("Cubo"))
-                            {
-                                //compara cubo
-                                if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
-
-                                if (pp.Value.Pos.X == prop.Value.Pos.X) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
-
-                                if (pp.Value.Pos.Y == prop.Value.Pos.Y) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
-
-                                if (pp.Value.Pos.Z == prop.Value.Pos.Z) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
-
-                                if (pp.Value.Tam.X == prop.Value.Tam.X) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
-
-                                if (pp.Value.Tam.Y == prop.Value.Tam.Y) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
-
-                                if (pp.Value.Tam.Z == prop.Value.Tam.Z) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
-
-                                if (pp.Value.Cor != null && prop.Value.Cor != null)
+                                if (pp.Key.Contains("Obj"))
                                 {
-                                    if (pp.Value.Cor == prop.Value.Cor) contabilizarAcertosProps();
+                                    //compara props objt
+                                    if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
                                     else contabilizarErrosProps();
                                 }
-                                    
-                                if (pp.Value.Textura != null && prop.Value.Textura != null)
+                                else if (pp.Key.Contains("Cubo"))
                                 {
-                                    if (pp.Value.Textura.name == prop.Value.Textura.name) contabilizarAcertosProps();
+                                    //compara cubo
+                                    if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
                                     else contabilizarErrosProps();
-                                }
-                            }
-                            else if (pp.Key.Contains("Ilumi"))
-                            {
-                                //compara luz
-                                if (pp.Value.TipoLuz == prop.Value.TipoLuz) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
 
-                                if (prop.Value.TipoLuz > 0)
-                                {
-                                    if (prop.Value.TipoLuz == 1)
-                                    {
-                                        if (pp.Value.Intensidade == prop.Value.Intensidade) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-
-                                        if (pp.Value.ValorIluminacao.X == prop.Value.ValorIluminacao.X) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-
-                                        if (pp.Value.ValorIluminacao.Y == prop.Value.ValorIluminacao.Y) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-
-                                        if (pp.Value.ValorIluminacao.Z == prop.Value.ValorIluminacao.Z) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-                                    }
-                                    else if (prop.Value.TipoLuz == 2)
-                                    {
-                                        if (pp.Value.Intensidade == prop.Value.Intensidade) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-
-                                        if (pp.Value.Distancia == prop.Value.Distancia) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-                                    }
-                                    else
-                                    {
-                                        if (pp.Value.Angulo == prop.Value.Angulo) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-
-                                        if (pp.Value.Expoente == prop.Value.Expoente) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-
-                                        if (pp.Value.Intensidade == prop.Value.Intensidade) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-
-                                        if (pp.Value.Distancia == prop.Value.Distancia) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-
-                                        if (pp.Value.Intensidade == prop.Value.Intensidade) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-
-                                        //dá erro no valoriluminacao
-                                        print(pp.Value.ValorIluminacao);
-                                        print(prop.Value.ValorIluminacao);
-                                        if (pp.Value.ValorIluminacao != null)
-                                        {
-                                            if (pp.Value.ValorIluminacao.X == prop.Value.ValorIluminacao.X) contabilizarAcertosProps();
-                                            else contabilizarErrosProps();
-
-                                            if (pp.Value.ValorIluminacao.Y == prop.Value.ValorIluminacao.Y) contabilizarAcertosProps();
-                                            else contabilizarErrosProps();
-
-                                            if (pp.Value.ValorIluminacao.Z == prop.Value.ValorIluminacao.Z) contabilizarAcertosProps();
-                                            else contabilizarErrosProps();
-                                        }
-                                        else contabilizarAcertosProps();
-                                    }
-                                }
-                                //if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
-                                //else contabilizarErrosProps();
-                                print(pp.Value.Ativo); //tá vindo false?!
-                                print(prop.Value.Ativo);
-                                //print(pp.Value.Pos.X); //ta sem pos??
-                                //print(prop.Value.Pos.X);
-
-                                //eu tenho q mudar a cor pra branco (msm estando branco) pra validar isso aqui
-                                if (pp.Value.Cor != null && prop.Value.Cor != null)
-                                {
-                                    if (pp.Value.Cor == prop.Value.Cor) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-                                }
-
-                                if (pp.Value.Pos != null && prop.Value.Pos != null)
-                                {
                                     if (pp.Value.Pos.X == prop.Value.Pos.X) contabilizarAcertosProps();
                                     else contabilizarErrosProps();
-                                    print(acertosProps);
 
                                     if (pp.Value.Pos.Y == prop.Value.Pos.Y) contabilizarAcertosProps();
                                     else contabilizarErrosProps();
-                                    print(acertosProps);
 
                                     if (pp.Value.Pos.Z == prop.Value.Pos.Z) contabilizarAcertosProps();
                                     else contabilizarErrosProps();
-                                    print(acertosProps);
+
+                                    if (pp.Value.Tam.X == prop.Value.Tam.X) contabilizarAcertosProps();
+                                    else contabilizarErrosProps();
+
+                                    if (pp.Value.Tam.Y == prop.Value.Tam.Y) contabilizarAcertosProps();
+                                    else contabilizarErrosProps();
+
+                                    if (pp.Value.Tam.Z == prop.Value.Tam.Z) contabilizarAcertosProps();
+                                    else contabilizarErrosProps();
+
+                                    if (pp.Value.Cor != null && prop.Value.Cor != null)
+                                    {
+                                        if (pp.Value.Cor == prop.Value.Cor) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+                                    }
+
+                                    if (pp.Value.Textura != null && prop.Value.Textura != null)
+                                    {
+                                        if (pp.Value.Textura.name == prop.Value.Textura.name) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+                                    }
+
                                 }
-                                else contabilizarAcertosProps();
-                            }
-                            else if (pp.Key.Contains("Esc"))
-                            {
-                                //compara escala
-                                if (pp.Value.Tam.X == prop.Value.Tam.X) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
+                                else if (pp.Key.Contains("Ilumi"))
+                                {
+                                    //compara luz
+                                    if (pp.Value.TipoLuz == prop.Value.TipoLuz) contabilizarAcertosProps();
+                                    else contabilizarErrosProps();
 
-                                if (pp.Value.Tam.Y == prop.Value.Tam.Y) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
+                                    PropriedadePeca luzinha = pp.Value;
+                                    if (Global.propriedadeIluminacao.ContainsKey(pp.Key))
+                                    {
+                                        PropriedadePeca[] luzes = Global.propriedadeIluminacao[pp.Key];
+                                        luzinha = luzes[pp.Value.TipoLuz];
+                                    }
 
-                                if (pp.Value.Tam.Z == prop.Value.Tam.Z) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
+                                    if (prop.Value.TipoLuz > 0)
+                                    {
+                                        if (prop.Value.TipoLuz == 1)
+                                        {
+                                            if (luzinha.Intensidade == prop.Value.Intensidade) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
 
-                                if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
-                            }
-                            else if (pp.Key.Contains("ar"))
-                            {
-                                //compara outras ações
-                                if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
+                                            if (luzinha.ValorIluminacao.X == prop.Value.ValorIluminacao.X) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
 
-                                if (pp.Value.Pos.X == prop.Value.Pos.X) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
+                                            if (luzinha.ValorIluminacao.Y == prop.Value.ValorIluminacao.Y) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
 
-                                if (pp.Value.Pos.Y == prop.Value.Pos.Y) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
+                                            if (luzinha.ValorIluminacao.Z == prop.Value.ValorIluminacao.Z) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
+                                        }
+                                        else if (prop.Value.TipoLuz == 2)
+                                        {
+                                            if (luzinha.Intensidade == prop.Value.Intensidade) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
 
-                                if (pp.Value.Pos.Z == prop.Value.Pos.Z) contabilizarAcertosProps();
-                                else contabilizarErrosProps();
+                                            if (luzinha.Distancia == prop.Value.Distancia) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
+                                        }
+                                        else
+                                        {
+                                            if (luzinha.Angulo == prop.Value.Angulo) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
+
+                                            if (luzinha.Expoente == prop.Value.Expoente) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
+
+                                            if (luzinha.Intensidade == prop.Value.Intensidade) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
+
+                                            if (luzinha.Distancia == prop.Value.Distancia) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
+
+                                            if (luzinha.ValorIluminacao != null)
+                                            {
+                                                if (luzinha.ValorIluminacao.X == prop.Value.ValorIluminacao.X) contabilizarAcertosProps();
+                                                else contabilizarErrosProps();
+
+                                                if (luzinha.ValorIluminacao.Y == prop.Value.ValorIluminacao.Y) contabilizarAcertosProps();
+                                                else contabilizarErrosProps();
+
+                                                if (luzinha.ValorIluminacao.Z == prop.Value.ValorIluminacao.Z) contabilizarAcertosProps();
+                                                else contabilizarErrosProps();
+                                            }
+                                        }
+                                    }
+                                    if (Global.propriedadeIluminacao.ContainsKey(pp.Key))
+                                    {
+                                        if (luzinha.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+                                    }
+
+                                    if (pp.Value.Cor != null && prop.Value.Cor != null)
+                                    {
+                                        if (pp.Value.Cor == prop.Value.Cor) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+                                    }
+
+                                    if (luzinha.Pos != null && prop.Value.Pos != null)
+                                    {
+                                        if (luzinha.Pos.X == prop.Value.Pos.X) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+
+                                        if (luzinha.Pos.Y == prop.Value.Pos.Y) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+
+                                        if (luzinha.Pos.Z == prop.Value.Pos.Z) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+                                    }
+                                }
+                                else if (pp.Key.Contains("Esc"))
+                                {
+                                    //compara escala
+                                    if (pp.Value.Tam.X == prop.Value.Tam.X) contabilizarAcertosProps();
+                                    else contabilizarErrosProps();
+
+                                    if (pp.Value.Tam.Y == prop.Value.Tam.Y) contabilizarAcertosProps();
+                                    else contabilizarErrosProps();
+
+                                    if (pp.Value.Tam.Z == prop.Value.Tam.Z) contabilizarAcertosProps();
+                                    else contabilizarErrosProps();
+
+                                    if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
+                                    else contabilizarErrosProps();
+                                }
+                                else if (pp.Key.Contains("ar"))
+                                {
+                                    //compara outras ações
+                                    if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
+                                    else contabilizarErrosProps();
+
+                                    if (pp.Value.Pos.X == prop.Value.Pos.X) contabilizarAcertosProps();
+                                    else contabilizarErrosProps();
+
+                                    if (pp.Value.Pos.Y == prop.Value.Pos.Y) contabilizarAcertosProps();
+                                    else contabilizarErrosProps();
+
+                                    if (pp.Value.Pos.Z == prop.Value.Pos.Z) contabilizarAcertosProps();
+                                    else contabilizarErrosProps();
+                                }
+
+                                chave = prop.Key;
                             }
                         }
+                        propriedades.Remove(chave);
+
                     }
                 }
+                else contabilizarErrosOrdem();
             }
-            else contabilizarErrosOrdem();
+            mostrarResultado();
         }
-        mostrarResultado();
     }
     private IEnumerator zerarToggle()
     {
@@ -480,7 +489,7 @@ public class Exercicio : MonoBehaviour
         tg.GetFirstActiveToggle().isOn = false;
         nenhum.isOn = true;
     }
-    private void mostrarResultado() //tem q arrumar alguma prop
+    private void mostrarResultado()
     {
         float total = acertosOrdem + acertosProps + errosOrdem + errosProps;
         float acertos = (acertosProps + acertosOrdem);

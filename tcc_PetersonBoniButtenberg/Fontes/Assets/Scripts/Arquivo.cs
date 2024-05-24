@@ -7,6 +7,7 @@ using TMPro;
 using System;
 using System.Globalization;
 using UnityEngine.UI;
+using System.Text.RegularExpressions;
 
 public class Arquivo : MonoBehaviour
 {
@@ -72,6 +73,12 @@ public class Arquivo : MonoBehaviour
 
     void adicionarObjetoGraficoNoJSON(int l, List<GameObject> listaOrdenada)
     {
+        //posso acessar a lista de encaixes, pegar o nome do slot e fazer o regex NO NOME DO SLOT
+        string nomeSlot = Global.listaEncaixes[listaOrdenada[l].name];
+        string regex = Regex.Match(nomeSlot, @"\d+").Value;
+        if (regex == "") regex = "0";
+        numObjetoAtual = int.Parse(regex);
+
         if (numObjetoAtual % 2 == 0 && objetoPai != null)
         {
             JSONObject filho = new JSONObject();
@@ -80,15 +87,18 @@ public class Arquivo : MonoBehaviour
             cena.Add(nomeObjetoPai, objetoPai.getProps());
             objetoPai.setChildren(limpandoListaChildren());
         }
-
-        listaOrdenada[l].GetComponent<MeuObjetoGrafico>().addProps(listaOrdenada[l].name);
-        objetoAtual = listaOrdenada[l].GetComponent<MeuObjetoGrafico>();
-        nomeObjetoAtual = listaOrdenada[l].name;
-        if (numObjetoAtual % 2 == 0)
+        else if (numObjetoAtual % 2 == 0 && objetoPai == null && nomeObjetoAtual.Length > 0)
+        {
+            cena.Add(nomeObjetoAtual, objetoAtual.getProps());
+        }
+        else if (numObjetoAtual % 2 != 0) //qnd estiver no filho, vai setar o anterior como pai, e daí vai pro filho
         {
             nomeObjetoPai = nomeObjetoAtual;
             objetoPai = objetoAtual;
         }
+        listaOrdenada[l].GetComponent<MeuObjetoGrafico>().addProps(listaOrdenada[l].name);
+        objetoAtual = listaOrdenada[l].GetComponent<MeuObjetoGrafico>();
+        nomeObjetoAtual = listaOrdenada[l].name;
     }
 
     void adicionarIluminacaoNoJSON(int l, List<GameObject> listaOrdenada)
@@ -130,6 +140,9 @@ public class Arquivo : MonoBehaviour
 
     public void Exportar()
     {
+        cena.Clear();
+        cenaJSON.text = "";
+        numObjetoAtual = 0;
         if (Global.listaObjetos != null && Global.listaObjetos.Count > 0)
         {
             List<GameObject> ordenada = ordenarCena(Global.listaObjetos);
@@ -143,7 +156,6 @@ public class Arquivo : MonoBehaviour
                 else if (ordenada[l].name.Contains("Objeto"))
                 {
                     adicionarObjetoGraficoNoJSON(l, ordenada);
-                    numObjetoAtual++;
                 }
                 else if (ordenada[l].name.Contains("Iluminacao"))
                 {
@@ -158,13 +170,18 @@ public class Arquivo : MonoBehaviour
                     adicionarAcoesNoJSON(l, ordenada);
                 }
             }
-
-            if (numObjetoAtual % 2 == 0 && objetoPai != null)
+            if (numObjetoAtual % 2 != 0 && objetoPai != null)
             {
                 JSONObject filho = new JSONObject();
                 filho.Add(nomeObjetoAtual, objetoAtual.getProps());
                 objetoPai.addChildren(filho);
             }
+
+            else if (numObjetoAtual % 2 == 0 && objetoPai == null)
+            {
+                cena.Add(nomeObjetoAtual, objetoAtual.getProps());
+            }
+            
             //remover chaves repetidas!!!!!!!!!!!!
             objetoAtual.setChildren(limpandoListaChildren());
 
