@@ -1682,6 +1682,8 @@ public class Controller : MonoBehaviour {
                 Vector3 posPecas = Vector3.zero;
                 GameObject go = null;
                 GameObject goPecas = null;
+                bool temAcao = false;
+                float qtdAcao = 0;
 
                 for (int i = 0; i < listaNomeObjGrafico.Count; i++)
                 {
@@ -1717,6 +1719,11 @@ public class Controller : MonoBehaviour {
                             if (Equals(GameObject.Find((string)listaNomeObjGrafico[i]).transform.GetChild(j).name, pair.Value) &&
                                !GameObject.Find((string)listaNomeObjGrafico[i]).transform.GetChild(j).name.Contains("ObjGraficoSlot"))
                             {
+                                if (pair.Key.Contains("ar"))
+                                {
+                                    temAcao = true;
+                                    qtdAcao++;
+                                }
                                 Destroy(GameObject.Find(Global.listaEncaixes[pair.Key]));
                                 Destroy(GameObject.Find(pair.Key));                             
                                 Global.listaSequenciaSlots.Remove(Global.listaEncaixes[pair.Key]);
@@ -1746,8 +1753,12 @@ public class Controller : MonoBehaviour {
                     }
                     break;
                 }
-               
-                
+                string nomeExluido = Global.listaEncaixes[gameObject.name];
+                string numstr = Regex.Match(nomeExluido, @"\d+").Value;
+                if (numstr == "") numstr = "0";
+                int numEx = int.Parse(numstr);
+
+                //acho q é aqui 
                 foreach (string peca in listaPecas) 
                 {
                     GameObject goEmpty = GameObject.Find(peca);
@@ -1755,7 +1766,16 @@ public class Controller : MonoBehaviour {
                 }
 
                 // Atualiza a posição do GameObject com todos objetos para a posição do objeto excluído.
-                goPecas.transform.position = posGO;
+                if (numEx % 2 == 0)
+                {
+                    if (temAcao)
+                    {
+                        goPecas.transform.position = new Vector3(posGO.x + 1.6f, posGO.y + (4f*(qtdAcao-1)), posGO.z);
+                    }
+                    else goPecas.transform.position = new Vector3(posGO.x + 1.6f, posGO.y + 3.1f, posGO.z); //se o excluido n tem ação, funciona}
+                }
+                else goPecas.transform.position = new Vector3(posGO.x - 1.5f, posGO.y - 4f, posGO.z);
+
 
                 //retira objetos dos GameObjects vazios
                 GameObject GO_ObjGraf = GameObject.Find("GO_ObjetosGraficos");
@@ -1780,12 +1800,7 @@ public class Controller : MonoBehaviour {
                 for (int i = 0; i < listaGO_Pecas.Count; i++)
                    listaGO_Pecas[i].transform.parent = fabricaPecas.transform;
                 Destroy(GO_Pecas);
-
-
-                string nomeExluido = Global.listaEncaixes[gameObject.name];
-                string numstr = Regex.Match(nomeExluido, @"\d+").Value;
-                if (numstr == "") numstr = "0";
-                int numEx = int.Parse(numstr);
+                
                 if (numEx % 2 == 0)
                 {
                     Destroy(GameObject.Find(Global.listaEncaixes[gameObject.name]));
@@ -1799,13 +1814,23 @@ public class Controller : MonoBehaviour {
                     // Atualiza a posição do GameObject com todos objetos para a posição do objeto excluído.  
                     //go.transform.position = posGO;
                     GameObject slot2 = GameObject.Find("ObjGraficoSlot" + (numEx + 2));
-                    Vector3 pos2 = slot2.transform.position;
+                    Vector3 pos2 = new Vector3(slot2.transform.position.x, slot2.transform.position.y - 4f, slot2.transform.position.z);
+                    Vector3 pos3 = new Vector3(slot2.transform.position.x, slot2.transform.position.y + (4f * (qtdAcao - 1.5f )), slot2.transform.position.z);
 
-                    GameObject.Find("ObjGraficoSlot" + (numEx + 3)).transform.parent = GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform;
+                    if (GameObject.Find("ObjGraficoSlot" + (numEx + 3)) != null) 
+                        GameObject.Find("ObjGraficoSlot" + (numEx + 3)).transform.parent = GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform;
                     GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform.position = posGO;
 
-                    if (GameObject.Find("ObjGraficoSlot" + (numEx + 4)) != null)
-                        GameObject.Find("ObjGraficoSlot" + (numEx + 4)).transform.position = pos2;
+                    if (temAcao)
+                    {
+                        if (GameObject.Find("ObjGraficoSlot" + (numEx + 4)) != null)
+                            GameObject.Find("ObjGraficoSlot" + (numEx + 4)).transform.position = pos3;
+                    }
+                    else
+                    {
+                        if (GameObject.Find("ObjGraficoSlot" + (numEx + 4)) != null)
+                            GameObject.Find("ObjGraficoSlot" + (numEx + 4)).transform.position = pos2;
+                    }
                     break;
                 }
                 else
@@ -1825,17 +1850,63 @@ public class Controller : MonoBehaviour {
                     Global.listaEncaixes.Remove(gameObject.name);
                     Global.propriedadePecas.Remove(gameObject.name);
 
+                   /*
+                    GameObject render2 = GameObject.Find("Render");
+                    for (int k = 0; k < render2.transform.childCount; k++)
+                    {
+                        string nomeFilho = render2.transform.GetChild(k).name;
+                        string numFilhoStr = Regex.Match(nomeFilho, @"\d+").Value;
+                        if (numFilhoStr == "") numFilhoStr = "0";
+                        int numFilho = int.Parse(numFilhoStr);
+                        print(numFilho);
+
+                        if (numFilho > numEx)
+                        {
+                            if (numFilho % 2 == 0)
+                            {
+                                render2.transform.GetChild(k).transform.position = new Vector3(posGO.x - 1.5f, posGO.y + ((4f * (numEx - k)) / 3f), posGO.z);
+                            }
+                            else
+                            {
+                                render2.transform.GetChild(k).transform.position = new Vector3(posGO.x + 0.2f, posGO.y + ((18f * (numEx - k))/ 5f), posGO.z);
+                               // render2.transform.GetChild(k).transform.parent = render2.transform.GetChild(k - 1).transform;
+                            }
+                        }
+                    }
+                    for (int k = 0; k < render2.transform.childCount; k++)
+                    {
+                        string nomeFilho = render2.transform.GetChild(k).name;
+                        string numFilhoStr = Regex.Match(nomeFilho, @"\d+").Value;
+                        if (numFilhoStr == "") numFilhoStr = "0";
+                        int numFilho = int.Parse(numFilhoStr);
+                        print(numFilho);
+
+                        if (numFilho % 2 != 0)
+                        {
+                            render2.transform.GetChild(k).transform.parent = render2.transform.GetChild(k - 1).transform;
+                        }
+                        else continue;
+                    }
+                    */
+
                     GameObject slot2 = GameObject.Find("ObjGraficoSlot" + (numEx + 1));
-                    Vector3 pos2 = slot2.transform.position;
+                    Vector3 pos2;
+                    if (slot2 != null) pos2 = slot2.transform.position; //o problema aqui é q nem sempre vou ter uma cena com número em sequencia, aí dá ruim
+                    //como arrumar? se eu pegar e fizer uma lista com os filhos do render e ir pegando os nomes, dá certo
+                    //fazer com loop fica até mlr, pq daí sempre vai fazer né
 
                     Vector3 newPos = new Vector3(posGO.x - 1.5f, posGO.y - 4f, posGO.z);
+                    Vector3 newPos2 = new Vector3(posGO.x + 0.2f, posGO.y - 18f, posGO.z);
+                    Vector3 newPos3 = new Vector3(posGO.x - 1.5f, posGO.y - 22f, posGO.z);
                     GameObject.Find("ObjGraficoSlot" + (numEx + 1)).transform.position = newPos;
-                    
+
                     GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform.parent = GameObject.Find("ObjGraficoSlot" + (numEx + 1)).transform;
+                    GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform.position = newPos2;
                     //GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform.position = posGO;
 
-                    if (GameObject.Find("ObjGraficoSlot" + (numEx + 4)) != null)
-                        GameObject.Find("ObjGraficoSlot" + (numEx + 4)).transform.position = pos2;
+                    if (GameObject.Find("ObjGraficoSlot" + (numEx + 3)) != null)
+                        GameObject.Find("ObjGraficoSlot" + (numEx + 3)).transform.position = newPos3;
+                    
                     break;
                 }
 
@@ -1847,6 +1918,7 @@ public class Controller : MonoBehaviour {
                 Global.removeObject(gameObject);
                 Global.listaEncaixes.Remove(gameObject.name);
                 Global.propriedadePecas.Remove(gameObject.name);
+                print("oieee333");
                 break;
         }        
     }
