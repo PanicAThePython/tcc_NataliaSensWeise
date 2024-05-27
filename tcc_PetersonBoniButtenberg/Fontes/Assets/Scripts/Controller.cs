@@ -553,8 +553,13 @@ public class Controller : MonoBehaviour {
                 }
                 else if ((Tutorial.estaExecutandoTutorial && Tutorial.passoTutorial == Tutorial.Passo.PrimeiroPasso) || (!Tutorial.estaExecutandoTutorial && gameObject.name.Contains("ObjetoGrafico")))
                 {
+                    /*
                     string numObjt = nomeSlotObjtAtual[nomeSlotObjtAtual.Length - 1].ToString();
                     if (numObjt == "t") numObjt = "0";
+                    int numero = int.Parse(numObjt);
+                    */
+                    string numObjt = Regex.Match(nomeSlotObjtAtual, @"\d+").Value;
+                    if (numObjt == "") numObjt = "0";
                     int numero = int.Parse(numObjt);
 
                     if (numero == 0)
@@ -604,7 +609,7 @@ public class Controller : MonoBehaviour {
 
                     renderController.ResizeBases(t, Consts.ObjetoGrafico, true);
                     adicionaObjetoRender();
-                    if (numero % 2 != 0) reorganizaObjetos((numero + 1).ToString());
+                    if (numero % 2 != 0) reorganizaObjetos((numero + 1).ToString(), true);
                 }
                 else if ((Tutorial.estaExecutandoTutorial && Tutorial.passoTutorial == Tutorial.Passo.SegundoPasso) || (!Tutorial.estaExecutandoTutorial && gameObject.name.Contains("Cubo")))
                 {
@@ -1366,11 +1371,10 @@ public class Controller : MonoBehaviour {
         {
             GameObject render = GameObject.Find("Render");
             GameObject objGrafico = GameObject.Find(Global.listaEncaixes[nomeObjeto]).transform.parent.gameObject;
-            print(objGrafico);
+
             string regex = Regex.Match(objGrafico.name, @"\d+").Value;
             if (regex == "") regex = "0";
             int num = int.Parse(regex);
-            print(num);
 
             for (int i = 0; i < render.transform.childCount; i++)
             {
@@ -1416,7 +1420,6 @@ public class Controller : MonoBehaviour {
                                 {
                                     if (render.transform.GetChild(i).GetChild(w).GetChild(x).transform.name.Contains("Transf"))
                                     {
-                                        print("vixi");
                                         GameObject transf = render.transform.GetChild(i).GetChild(w).GetChild(x).gameObject;
                                         transf.transform.position = new Vector3(transf.transform.position.x, transf.transform.position.y + 3f, transf.transform.position.z);
                                     }
@@ -1443,10 +1446,8 @@ public class Controller : MonoBehaviour {
                         string regex3 = Regex.Match(slotOrigem, @"\d+").Value;
                         if (regex2 == "") regex2 = "0";
                         if (regex3 == "") regex3 = "0";
-                        int num2 = int.Parse(regex2);
+                        
                         int num3 = int.Parse(regex3);
-                        print(num3);
-                        print(objGrafico.transform.GetChild(j).name);
 
                         if (num3 < 2) objGrafico.transform.GetChild(j).gameObject.transform.position = new Vector3(objGrafico.transform.GetChild(j).gameObject.transform.position.x, objGrafico.transform.GetChild(j).gameObject.transform.position.y + (3f * (num3 + 1)), objGrafico.transform.GetChild(j).gameObject.transform.position.z);
                         else objGrafico.transform.GetChild(j).gameObject.transform.position = new Vector3(objGrafico.transform.GetChild(j).gameObject.transform.position.x, objGrafico.transform.GetChild(j).gameObject.transform.position.y + 6f, objGrafico.transform.GetChild(j).gameObject.transform.position.z);
@@ -1526,7 +1527,6 @@ public class Controller : MonoBehaviour {
                             else
                             {
                             */
-                            print("scr");
                             GO_Slot.transform.position = new Vector3(GO_Slot.transform.position.x, GO_Slot.transform.position.y + 3f, GO_Slot.transform.position.z);
 
                         }
@@ -1690,7 +1690,7 @@ public class Controller : MonoBehaviour {
         return numSlotObjGrafico;
     }
 
-    public void reorganizaObjetos(string numObjeto)
+    public void reorganizaObjetos(string numObjeto, bool ehFilho = false)
     {
         const string ObjGrafico = "ObjGraficoSlot";
         bool podeOrganizarProximoObjeto = false;
@@ -1700,12 +1700,16 @@ public class Controller : MonoBehaviour {
         {
             if(goRender.transform.GetChild(i).name.Contains(ObjGrafico))
             {
+                if (goRender.transform.GetChild(i).name == ObjGrafico + numObjeto)
+                {
+                    podeOrganizarProximoObjeto = true;
+                }
                 if (podeOrganizarProximoObjeto)
                 {
                     Vector3 pos = goRender.transform.GetChild(i).position;
                     pos.y -= 3;
+                    if (ehFilho) pos.y -= 5;
                     goRender.transform.GetChild(i).position = pos;
-
                     foreach (KeyValuePair<string, string> encaixe in Global.listaEncaixes)
                     {
                         string numObjetoEncaixe = getNumObjeto(encaixe.Value);
@@ -1718,15 +1722,11 @@ public class Controller : MonoBehaviour {
                             GameObject goPeca = GameObject.Find(encaixe.Key);
                             pos = goPeca.transform.position;
                             pos.y -= 3;
+                            if (ehFilho) pos.y -= 5;
                             goPeca.transform.position = pos;
                         }
                     }
-                }
-
-                if (goRender.transform.GetChild(i).name == ObjGrafico + numObjeto)
-                {
-                    podeOrganizarProximoObjeto = true;                    
-                }         
+                }       
             }
         }
     }
