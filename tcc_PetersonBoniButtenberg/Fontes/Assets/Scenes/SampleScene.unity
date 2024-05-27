@@ -59427,8 +59427,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 214.92, y: -65}
-  m_SizeDelta: {x: 470.13, y: 365.36}
+  m_AnchoredPosition: {x: 216.44, y: -65}
+  m_SizeDelta: {x: 512.78, y: 365.36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &950480689
 MonoBehaviour:
@@ -77228,8 +77228,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.1727, y: -1}
-  m_SizeDelta: {x: 594.34, y: 289.2}
+  m_AnchoredPosition: {x: -1.68, y: -1}
+  m_SizeDelta: {x: 626.23, y: 289.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1265594805
 MonoBehaviour:
@@ -77253,7 +77253,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "- render: componente obrigat\xF3rio fixo respons\xE1vel pela renderiza\xE7\xE3o
     e por detalhes da visualiza\xE7\xE3o do ambiente gr\xE1fico;\n- c\xE2mera: componente
-    obrigat\xF3rio respons\xE1vel pela visualiza\xE7\xE3o da cena\r\n- ilumina\xE7\xE3o:
+    obrigat\xF3rio respons\xE1vel pela visualiza\xE7\xE3o da cena;\r\n- ilumina\xE7\xE3o:
     componente obrigat\xF3rio para que a c\xE2mera veja os componentes em cena;\r\n-
     objeto gr\xE1fico: componente obrigat\xF3rio base para inserir objetos em cena;\r\n-
     cubo: componente em formato de cubo;\r\n- transladar: componente respons\xE1vel
@@ -77262,7 +77262,7 @@ MonoBehaviour:
     do objeto;\r\n- voc\xEA pode movimentar o ambiente gr\xE1fico com o bot\xE3o
     esquerdo do mouse;\n- o visualizador mostra a vis\xE3o do componente \"C\xE2mera\"
     que voc\xEA colocou em cena;\n- clique em cada uma das pe\xE7as para ativar as
-    propriedades importadas."
+    propriedades importadas e herdadas."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -77289,7 +77289,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 18.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -77325,7 +77325,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -1.0891418, w: 0}
+  m_margin: {x: 0, y: 0, z: -1.0891418, w: -34.939224}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -99550,8 +99550,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.92, y: 157}
-  m_SizeDelta: {x: 584.16, y: 50}
+  m_AnchoredPosition: {x: 2.1689, y: 157.76}
+  m_SizeDelta: {x: 633.94, y: 48.48}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1620314442
 MonoBehaviour:
@@ -112936,7 +112936,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 278.29, y: 166.86}
+  m_AnchoredPosition: {x: 309, y: 166.86}
   m_SizeDelta: {x: 42.1, y: 35.73}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1842295780

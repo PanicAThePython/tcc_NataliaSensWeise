@@ -519,32 +519,37 @@ public class Controller : MonoBehaviour {
                         countTransformacoes = "1";
                     //-------------
 
-                    GameObject t = GameObject.Find(slot);  
-                    GameObject cloneTrans = Instantiate(t, t.transform.position, t.transform.rotation, t.transform.parent);
-                    cloneTrans.name = "TransformacoesSlot" + numObjetoGrafico + "_" + countTransformacoes;
-                    cloneTrans.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 3f, t.transform.position.z); 
+                    GameObject t = GameObject.Find(slot);
 
-                    addTransformacoeSequenciaSlots(cloneTrans.name);
-
-                    posicaoColliderDestino = t;
-
-                    if (renderController == null)
-                        renderController = new RenderController();
-
-                    renderController.ResizeBases(t, Consts.Transladar, true); // o Segundo parâmetro pode ser qualquer tranformação 
-                   
-                    concatNumber = numObjetoGrafico;
-
-                    if (!Tutorial.estaExecutandoTutorial)
+                    if (t != null)
                     {
-                        addGameObjectTree("GameObjectAmb" + getNumeroSlotObjetoGrafico(), AMB, "CuboAmbiente" + getNumeroSlotObjetoGrafico());
-                        addGameObjectTree("CuboVisObject" + getNumeroSlotObjetoGrafico(), VIS, "CuboVis" + getNumeroSlotObjetoGrafico());
-                    }                    
+                        GameObject cloneTrans = new GameObject();
+                        cloneTrans = Instantiate(t, t.transform.position, t.transform.rotation, t.transform.parent);
+                        cloneTrans.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 3f, t.transform.position.z);
 
-                    configuraIluminacao("-");
+                        cloneTrans.name = "TransformacoesSlot" + numObjetoGrafico + "_" + countTransformacoes;
 
-                    reorganizaObjetos(numObjetoGrafico);
+                        addTransformacoeSequenciaSlots(cloneTrans.name);
 
+                        posicaoColliderDestino = t;
+
+                        if (renderController == null)
+                            renderController = new RenderController();
+
+                        renderController.ResizeBases(t, Consts.Transladar, true); // o Segundo parâmetro pode ser qualquer tranformação 
+
+                        concatNumber = numObjetoGrafico;
+
+                        if (!Tutorial.estaExecutandoTutorial)
+                        {
+                            addGameObjectTree("GameObjectAmb" + getNumeroSlotObjetoGrafico(), AMB, "CuboAmbiente" + getNumeroSlotObjetoGrafico());
+                            addGameObjectTree("CuboVisObject" + getNumeroSlotObjetoGrafico(), VIS, "CuboVis" + getNumeroSlotObjetoGrafico());
+                        }
+
+                        configuraIluminacao("-");
+
+                        reorganizaObjetos(numObjetoGrafico);
+                    }
                 }
                 else if ((Tutorial.estaExecutandoTutorial && Tutorial.passoTutorial == Tutorial.Passo.PrimeiroPasso) || (!Tutorial.estaExecutandoTutorial && gameObject.name.Contains("ObjetoGrafico")))
                 {
@@ -753,7 +758,7 @@ public class Controller : MonoBehaviour {
             }
             // A posição x é incrementada para que a peça fique no local correto.
 
-            if (!Tutorial.estaExecutandoTutorial)
+            if (!Tutorial.estaExecutandoTutorial && posicaoColliderDestino != null)
             {
                 posColliderDestinoX = posicaoColliderDestino.transform.position.x + incX;
                 posColliderDestinoY = posicaoColliderDestino.transform.position.y - incY;
@@ -1361,10 +1366,11 @@ public class Controller : MonoBehaviour {
         {
             GameObject render = GameObject.Find("Render");
             GameObject objGrafico = GameObject.Find(Global.listaEncaixes[nomeObjeto]).transform.parent.gameObject;
-
-            string regex = Regex.Match(slotOrigem, @"\d+").Value;
+            print(objGrafico);
+            string regex = Regex.Match(objGrafico.name, @"\d+").Value;
             if (regex == "") regex = "0";
             int num = int.Parse(regex);
+            print(num);
 
             for (int i = 0; i < render.transform.childCount; i++)
             {
@@ -1410,6 +1416,7 @@ public class Controller : MonoBehaviour {
                                 {
                                     if (render.transform.GetChild(i).GetChild(w).GetChild(x).transform.name.Contains("Transf"))
                                     {
+                                        print("vixi");
                                         GameObject transf = render.transform.GetChild(i).GetChild(w).GetChild(x).gameObject;
                                         transf.transform.position = new Vector3(transf.transform.position.x, transf.transform.position.y + 3f, transf.transform.position.z);
                                     }
@@ -1423,11 +1430,60 @@ public class Controller : MonoBehaviour {
                     }
                 }
 
+                
                 if (!Equals(render.transform.GetChild(i).name, objGrafico.transform.name))
                     continue;
 
                 for (int j = 0; j < objGrafico.transform.childCount; j++)
                 {
+                    if (objGrafico.transform.GetChild(j).name.Contains("ObjGraficoSlot"))
+                    {
+                        string nomeSlot = objGrafico.transform.GetChild(j).name;
+                        string regex2 = Regex.Match(nomeSlot, @"\d+").Value;
+                        string regex3 = Regex.Match(slotOrigem, @"\d+").Value;
+                        if (regex2 == "") regex2 = "0";
+                        if (regex3 == "") regex3 = "0";
+                        int num2 = int.Parse(regex2);
+                        int num3 = int.Parse(regex3);
+                        print(num3);
+                        print(objGrafico.transform.GetChild(j).name);
+
+                        if (num3 < 2) objGrafico.transform.GetChild(j).gameObject.transform.position = new Vector3(objGrafico.transform.GetChild(j).gameObject.transform.position.x, objGrafico.transform.GetChild(j).gameObject.transform.position.y + (3f * (num3 + 1)), objGrafico.transform.GetChild(j).gameObject.transform.position.z);
+                        else objGrafico.transform.GetChild(j).gameObject.transform.position = new Vector3(objGrafico.transform.GetChild(j).gameObject.transform.position.x, objGrafico.transform.GetChild(j).gameObject.transform.position.y + 6f, objGrafico.transform.GetChild(j).gameObject.transform.position.z);
+                        GameObject GO_Peca = new GameObject();
+                        GameObject GO_Slot = new GameObject();
+                        
+                        foreach (KeyValuePair<string, string> pair in Global.listaEncaixes)
+                        {
+                            if (pair.Value.Contains(regex2))
+                            {
+                                GO_Peca = GameObject.Find(pair.Key);
+                                GO_Peca.transform.position = new Vector3(GO_Peca.transform.position.x, GO_Peca.transform.position.y + 3f, GO_Peca.transform.position.z);
+
+                            }
+                            /*
+                            else if (pair.Value.Contains(regex2) && num2 % 2 != 0 && pair.Key.Contains("Obj") && !pair.Value.Contains("Transf"))
+                            {
+                                GO_Peca = GameObject.Find(pair.Key);
+                                GO_Peca.transform.position = new Vector3(GO_Peca.transform.position.x, GO_Peca.transform.position.y + 3f, GO_Peca.transform.position.z);
+
+                            }
+                            
+                            else if (pair.Value.Contains(regex2) && pair.Value.Contains("Transf"))
+                            {
+                                GO_Slot = GameObject.Find(pair.Value).gameObject;
+                                GO_Slot.transform.position = new Vector3(GO_Slot.transform.position.x, GO_Slot.transform.position.y - 3f, GO_Slot.transform.position.z);
+
+                                print("aaaaaaaaaaaaah");
+
+                                GO_Peca = GameObject.Find(pair.Key);
+                                GO_Peca.transform.position = new Vector3(GO_Peca.transform.position.x, GO_Peca.transform.position.y - 3f, GO_Peca.transform.position.z);
+                            }
+                            */
+                        }
+                        
+                    }
+
                     if (Equals(objGrafico.transform.GetChild(j).name, slotOrigem))
                     {
                         podeReposicionar = true;
@@ -1443,12 +1499,13 @@ public class Controller : MonoBehaviour {
                             if (pair.Value == objGrafico.transform.GetChild(j).name)
                             {
                                 GO_Peca = GameObject.Find(pair.Key);
-                                GO_Peca.transform.position = new Vector3(GO_Peca.transform.position.x, GO_Peca.transform.position.y + 3f, GO_Peca.transform.position.z);
-                                break;
+                                //GO_Peca.transform.position = new Vector3(GO_Peca.transform.position.x, GO_Peca.transform.position.y + 3f, GO_Peca.transform.position.z);
+                                //break;
                             }
                         }
                         if (!GO_Slot.name.Contains("Base") && !GO_Slot.name.Contains("IluminacaoSlot"))
                         {
+                            /*
                             if (GO_Slot.name.Contains("Obj"))
                             {
                                 string nomeSlot = GO_Slot.name;
@@ -1468,8 +1525,10 @@ public class Controller : MonoBehaviour {
                             }
                             else
                             {
-                                GO_Slot.transform.position = new Vector3(GO_Slot.transform.position.x, GO_Slot.transform.position.y + 3f, GO_Slot.transform.position.z);
-                            }
+                            */
+                            print("scr");
+                            GO_Slot.transform.position = new Vector3(GO_Slot.transform.position.x, GO_Slot.transform.position.y + 3f, GO_Slot.transform.position.z);
+
                         }
                     }
                 }                 
@@ -1729,6 +1788,39 @@ public class Controller : MonoBehaviour {
                 bool temAcao = false;
                 float qtdAcao = 0;
 
+                string nomeExluido = Global.listaEncaixes[gameObject.name];
+                string numstr = Regex.Match(nomeExluido, @"\d+").Value;
+                if (numstr == "") numstr = "0";
+                int numEx = int.Parse(numstr);
+
+                if (numEx % 2 != 0)
+                {
+                    GameObject filho = GameObject.Find(nomeExluido);
+                    int contaAcao = 0;
+                    for(int r = 0; r < filho.transform.childCount; r++)
+                    {
+                        if (filho.transform.GetChild(r).name.Contains("Transf")) contaAcao++;
+                    }
+
+                    if (contaAcao >= 2)
+                    {
+                        GameObject cinza = GameObject.Find("BaseRenderLateralGO");
+                        if (numEx-1 == 0) cinza = GameObject.Find("BaseRenderLateralGO");
+                        else cinza = GameObject.Find("BaseRenderLateralGO" + (numEx - 1));
+                        cinza.transform.localScale = new Vector3(cinza.transform.localScale.x, cinza.transform.localScale.y - (1.4f * contaAcao), cinza.transform.localScale.z);
+                        GameObject verde = GameObject.Find("BaseObjetoGraficoGO" + numEx);
+                        verde.transform.localScale = new Vector3(verde.transform.localScale.x, verde.transform.localScale.y - (0.53f * (contaAcao - 1)), verde.transform.localScale.z);
+
+                        for (int r = 0; r < filho.transform.childCount; r++)
+                        {
+                            if (filho.transform.GetChild(r).name.Contains("Transf") || filho.transform.GetChild(r).name.Contains("Ilumi"))
+                            {
+                                filho.transform.GetChild(r).transform.position = new Vector3(filho.transform.GetChild(r).transform.position.x, filho.transform.GetChild(r).transform.position.y + (3f*(contaAcao-1)), filho.transform.GetChild(r).transform.position.z);
+                            }
+                        }
+                    }
+                }
+
                 for (int i = 0; i < listaNomeObjGrafico.Count; i++)
                 {
                     // Verifica os objetos graficos da lista até chegar o objeto selecionado
@@ -1767,7 +1859,7 @@ public class Controller : MonoBehaviour {
                                     temAcao = true;
                                     qtdAcao++;
                                 }
-                                Destroy(GameObject.Find(Global.listaEncaixes[pair.Key]));
+                                if (!pair.Value.Contains("Forma")) Destroy(GameObject.Find(Global.listaEncaixes[pair.Key]));
                                 Destroy(GameObject.Find(pair.Key));                             
                                 Global.listaSequenciaSlots.Remove(Global.listaEncaixes[pair.Key]);
                                 Global.removeObject(GameObject.Find(pair.Key));
@@ -1796,12 +1888,7 @@ public class Controller : MonoBehaviour {
                     }
                     break;
                 }
-                string nomeExluido = Global.listaEncaixes[gameObject.name];
-                string numstr = Regex.Match(nomeExluido, @"\d+").Value;
-                if (numstr == "") numstr = "0";
-                int numEx = int.Parse(numstr);
 
-                //acho q é aqui 
                 foreach (string peca in listaPecas) 
                 {
                     GameObject goEmpty = GameObject.Find(peca);
@@ -2045,7 +2132,7 @@ public class Controller : MonoBehaviour {
                 break;
             case 2: //TransformacoesSlot
                 GameObject goExcluido = GameObject.Find(gameObject.name + AMB);
-                goExcluido.transform.GetChild(0).parent = goExcluido.transform.parent;
+                goExcluido.transform.GetChild(0).parent = goExcluido.transform.parent; //deu erro aqui
                 Destroy(goExcluido);
 
                 goExcluido = GameObject.Find(gameObject.name + VIS);
@@ -2145,7 +2232,6 @@ public class Controller : MonoBehaviour {
 
         Transform GoAmb = GameObject.Find(nomeAmb).transform;
 
-        //PAREI AQUI
         while (cont < breakLoop)
         {
             if (GoAmb.childCount > 0) 
@@ -2191,9 +2277,6 @@ public class Controller : MonoBehaviour {
                     GoAmb = GoAmb.parent.GetChild(1);
             }
 
-            GameObject otherCubeAmb = GameObject.Find("CuboAmbiente" + getNumeroSlotObjetoGrafico() + 1);
-            GameObject otherCubeVis = GameObject.Find("CuboVis" + getNumeroSlotObjetoGrafico() + 1);
-
             if (GoAmb.name.Contains(Consts.Transladar))
             {
                 if (!Global.propriedadePecas.ContainsKey(GOname))
@@ -2201,12 +2284,6 @@ public class Controller : MonoBehaviour {
 
                 GoAmb.localRotation = Quaternion.Euler(0, 0, 0);
                 GoAmb.localScale = new Vector3(1, 1, 1);
-
-                if (otherCubeAmb != null)
-                {
-                    otherCubeAmb.transform.localPosition = Vector3.zero;
-                    otherCubeVis.transform.localPosition = Vector3.zero;
-                }
             }
             else if (GoAmb.name.Contains(Consts.Rotacionar))
             {
@@ -2215,12 +2292,6 @@ public class Controller : MonoBehaviour {
 
                 GoAmb.localPosition = Vector3.zero;
                 GoAmb.localScale = new Vector3(1, 1, 1);
-
-                if (otherCubeAmb != null)
-                {
-                    otherCubeAmb.transform.localRotation = Quaternion.Euler(0, 0, 0);
-                    otherCubeVis.transform.localRotation = Quaternion.Euler(0, 0, 0);
-                }
             }
             else if (GoAmb.name.Contains(Consts.Escalar))
             {
@@ -2229,12 +2300,6 @@ public class Controller : MonoBehaviour {
 
                 GoAmb.localPosition = Vector3.zero;
                 GoAmb.localRotation = Quaternion.Euler(0, 0, 0);
-
-                if (otherCubeAmb != null)
-                {
-                    otherCubeAmb.transform.localScale = new Vector3(1, 1, 1);
-                    otherCubeVis.transform.localScale = new Vector3(1, 1, 1);
-                }
             }  
 
             cont++;
