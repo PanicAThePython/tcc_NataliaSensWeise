@@ -28,6 +28,9 @@ public class Exercicio : MonoBehaviour
     private int acertosOrdem = 0;
     private int acertosProps = 0;
     private int errosProps = 0;
+    private int[] checarProps = new int[3];
+
+    private int checar = 0;
 
     void getNovoExercicio()
     {
@@ -49,13 +52,16 @@ public class Exercicio : MonoBehaviour
         enunciados[0] = "";
         enunciados[1] = "Enunciado 1: Crie uma cena com um cubo com textura de QR Code. Apenas a face frontal do cubo deve estar visível. A visão da câmera deve estar o mais próxima possível sem cortar a visualização do cubo.";
         enunciados[2] = "Enunciado 2: Cria uma cena com um cubo pai e um filho. O cubo pai deve ter textura da FURB e o filho, de madeira, e estar a uma distândia de 2 unidades do x do pai. O pai tem que ter uma rotação de 60º no eixo Y.";
-        enunciados[3] = "Enunciado 3: Crie uma cena com um cubo estampado de FURB. Mude a escala dele para 2 no eixo x. Faça uso da luz spot de forma que um círculo de luz se forme e cubra o máximo possível do topo do cubo sem tocar a borda.";
+        enunciados[3] = "Enunciado 3: Crie uma cena com um cubo estampado de FURB. Mude a escala dele para 2 no eixo x. Faça uso da luz spot de forma que um círculo de luz se forme centralizado e cubra o máximo possível do topo do cubo sem tocar a borda.";
         
         respostas[0] = "";
         respostas[1] = "Camera, ObjetoGrafico, Cubo, Iluminacao";
         respostas[2] = "Camera, ObjetoGrafico, Cubo, Rotacionar, Iluminacao, ObjetoGrafico, Cubo, Transladar";
         respostas[3] = "Camera, ObjetoGrafico, Cubo, Escalar, Iluminacao";
 
+        checarProps[0] = 3;
+        checarProps[1] = 5;
+        checarProps[2] = 4;
         //enunciado 1
 
         Dictionary<string, PropriedadePeca> dict = new Dictionary<string, PropriedadePeca>();
@@ -264,6 +270,16 @@ public class Exercicio : MonoBehaviour
         errosProps++;
     }
 
+    void contarChecagem()
+    {
+        checar++;
+    }
+
+    void setChecar(int c)
+    {
+        checar = c;
+    }
+
     public void compararRespostas()
     {
         if (Global.listaObjetos == null || Global.listaObjetos.Count == 0 || numeroExerc == 0)
@@ -277,7 +293,6 @@ public class Exercicio : MonoBehaviour
             string[] gabarito = Resposta.getRespostaOrdem();
             Dictionary<string, PropriedadePeca> propriedades = Resposta.getRespostaProps();
             PropriedadeCamera camProps = Resposta.getCamProps(numeroExerc);
-
             //tem q comparar a camera separadamente
             if (Global.propCameraGlobal.FOV == camProps.FOV) contabilizarAcertosProps();
             else contabilizarErrosProps();
@@ -296,7 +311,7 @@ public class Exercicio : MonoBehaviour
 
             if (Global.propCameraGlobal.PosZ == camProps.PosZ) contabilizarAcertosProps();
             else contabilizarErrosProps();
-
+            contarChecagem();
             string chave = "";
             for (int i = 0; i < ordenada.Count; i++)
             {
@@ -309,6 +324,7 @@ public class Exercicio : MonoBehaviour
                         {
                             if (pp.Key.Contains(prop.Key) && pp.Key.Contains(ordenada[i].name))
                             {
+                                contarChecagem();
                                 if (pp.Key.Contains("Obj"))
                                 {
                                     //compara props objt
@@ -455,7 +471,7 @@ public class Exercicio : MonoBehaviour
                                     if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
                                     else contabilizarErrosProps();
                                 }
-                                else if (pp.Key.Contains("ar"))
+                                else if (pp.Key.Contains("Rot") || pp.Key.Contains("Trans"))
                                 {
                                     //compara outras ações
                                     if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
@@ -482,6 +498,7 @@ public class Exercicio : MonoBehaviour
             }
             mostrarResultado();
         }
+        setChecar(checar);
     }
     private IEnumerator zerarToggle()
     {
@@ -491,6 +508,7 @@ public class Exercicio : MonoBehaviour
     }
     private void mostrarResultado()
     {
+        int checagem = checarProps[numeroExerc - 1];
         float total = acertosOrdem + acertosProps + errosOrdem + errosProps;
         float acertos = (acertosProps + acertosOrdem);
         float porc = (acertos / total) * 100f;
@@ -500,6 +518,7 @@ public class Exercicio : MonoBehaviour
         {
             if (acertosOrdem < acertosOrdem + errosOrdem) mensagem += "\nVerifique a ordem dos objetos em cena.";
             else if (acertosProps < acertosProps + errosProps) mensagem += "\nVerifique as propriedades alteradas.";
+            else if (checar != checagem) mensagem += "\nVerifique se não esqueceu de alterar as propriedade de alguma peça.";
         }
 
         enunText.text = mensagem;

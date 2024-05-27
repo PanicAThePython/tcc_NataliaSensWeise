@@ -55,7 +55,13 @@ public class MinhaIluminacao : MeuModelo
             //var luz = Global.propriedadePecas[nomePeca];
             props.Add("nome", "Iluminacao");
             string tipo = tipoLuz.options[tipoLuz.value].text;
+            PropriedadePeca[] luz = new PropriedadePeca[4];
+            foreach(KeyValuePair<string, PropriedadePeca[]> ilu in Global.propriedadeIluminacao)
+            {
+                luz = ilu.Value;
+            }
             props.Add("tipoLuz", tipo);
+            PropriedadePeca luzinha = luz[0];
             switch (tipo)
             {
                 case "Ambiente":
@@ -64,16 +70,17 @@ public class MinhaIluminacao : MeuModelo
                     posicao.Add("y", posicaoLuz[1].text);
                     posicao.Add("z", posicaoLuz[2].text);
                     props.Add("posicao", posicao);
-                    if (Global.propriedadePecas.ContainsKey(nome.text)) props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
+                    if (luzinha != null) props.Add("cor", luzinha.Cor.ToString());
                     props.Add("ativo", ativo.enabled);
                     break;
                 case "Directional":
+                    luzinha = luz[1];
                     JSONArray posicao2 = new JSONArray();
                     posicao2.Add("x", posicaoLuzDirect[0].text);
                     posicao2.Add("y", posicaoLuzDirect[1].text);
                     posicao2.Add("z", posicaoLuzDirect[2].text);
                     props.Add("posicao", posicao2);
-                    if (Global.propriedadePecas.ContainsKey(nome.text)) props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
+                    if (luzinha != null) props.Add("cor", luzinha.Cor.ToString());
                     props.Add("ativo", ativoDirect.enabled);
                     props.Add("intensidade", intensidade.text);
                     JSONArray vals = new JSONArray();
@@ -83,23 +90,25 @@ public class MinhaIluminacao : MeuModelo
                     props.Add("valores", vals);
                     break;
                 case "Point":
+                    luzinha = luz[2];
                     JSONArray posicao3 = new JSONArray();
                     posicao3.Add("x", posicaoLuzPoint[0].text);
                     posicao3.Add("y", posicaoLuzPoint[1].text);
                     posicao3.Add("z", posicaoLuzPoint[2].text);
                     props.Add("posicao", posicao3);
-                    if (Global.propriedadePecas.ContainsKey(nome.text)) props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
+                    if (luzinha != null) props.Add("cor", luzinha.Cor.ToString());
                     props.Add("ativo", ativoDirect.enabled);
                     props.Add("intensidade", intPoint.text);
                     props.Add("distancia", distancia.text);
                     break;
                 case "Spot":
+                    luzinha = luz[3];
                     JSONArray posicao4 = new JSONArray();
                     posicao4.Add("x", posicaoLuzSpot[0].text);
                     posicao4.Add("y", posicaoLuzSpot[1].text);
                     posicao4.Add("z", posicaoLuzSpot[2].text);
                     props.Add("posicao", posicao4);
-                    if (Global.propriedadePecas.ContainsKey(nome.text)) props.Add("cor", Global.propriedadePecas[nome.text].Cor.ToString());
+                    if (luzinha != null) props.Add("cor", luzinha.Cor.ToString());
                     props.Add("ativo", ativoDirect.enabled);
                     props.Add("intensidade", intSpot.text);
                     props.Add("distancia", distSpot.text);

@@ -44,26 +44,27 @@ public class MeuCubo : MeuModelo
         if (Global.propriedadePecas.ContainsKey(nomePeca))
         {
             var cubo = Global.propriedadePecas[nomePeca];
-            nomePeca = ConverterNomes(nomePeca);
+            //nomePeca = ConverterNomes(nomePeca);
             props.Add("nome", nomePeca);
 
             JSONArray tamanho = new JSONArray();
-            tamanho.Add("x", cubo.Tam.X);
-            tamanho.Add("y", cubo.Tam.Y);
-            tamanho.Add("z", cubo.Tam.Z);
+            tamanho.Add("x", cubo.Tam.X.ToString());
+            tamanho.Add("y", cubo.Tam.Y.ToString());
+            tamanho.Add("z", cubo.Tam.Z.ToString());
             props.Add("tamanho", tamanho);
 
             JSONArray posicao = new JSONArray();
-            posicao.Add("x", cubo.Pos.X);
-            posicao.Add("y", cubo.Pos.Y);
-            posicao.Add("z", cubo.Pos.Z);
+            posicao.Add("x", cubo.Pos.X.ToString());
+            posicao.Add("y", cubo.Pos.Y.ToString());
+            posicao.Add("z", cubo.Pos.Z.ToString());
             props.Add("posicao", posicao);
 
             props.Add("cor", cubo.Cor.ToString());
             if (cubo.Textura != null)
             {
                 var textura = cubo.Textura.ToString().Replace(" (UnityEngine.Texture2D)", "");
-                props.Add("textura", textura);
+                string nomeTextura = char.ToUpper(textura[0]) + textura.Substring(1);
+                props.Add("textura", nomeTextura);
             }
 
             props.Add("ativo", cubo.Ativo);
@@ -76,7 +77,7 @@ public class MeuCubo : MeuModelo
         }
         else
         {
-            nomePeca = ConverterNomes(nomePeca);
+            //nomePeca = ConverterNomes(nomePeca);
             props.Add("nome", nomePeca);
 
             JSONArray tamanho = new JSONArray();

@@ -359,9 +359,6 @@ public class Arquivo : MonoBehaviour
             for (int i = 0; i < texturas.Length; i++)
             {
                 string textura = texturas[i].gameObject.GetComponent<MeshRenderer>().material.name;
-                //aparentemente, nem sempre o material e a textura vão ter o mesmo nome... preciso renomear algumas coisas pra funcionar
-                //grass vs grama
-
                 if (textura.Contains(values["textura"]))
                 {
                     prPeca.Textura = texturas[i].gameObject.GetComponent<MeshRenderer>().material.mainTexture;

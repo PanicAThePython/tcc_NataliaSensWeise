@@ -23,7 +23,6 @@ public class MinhaAcao : MeuModelo
         if (nomePeca.Length > nomeOriginal.Length)
         {
             int num = int.Parse(nomePeca.Replace(nomeOriginal, ""));
-            print(num);
             if (num == 1)
             {
                 //n rola com o escalar...
@@ -48,7 +47,7 @@ public class MinhaAcao : MeuModelo
         if (Global.propriedadePecas.ContainsKey(nomePeca))
         {
             var acao = Global.propriedadePecas[nomePeca];
-            nomePeca = ConverterNomes(nomePeca);
+            //nomePeca = ConverterNomes(nomePeca);
             props.Add("nome", acao.Nome);
             props.Add("ativo", acao.Ativo);
 
@@ -78,7 +77,7 @@ public class MinhaAcao : MeuModelo
         }
         else
         {
-            nomePeca = ConverterNomes(nomePeca);
+            //nomePeca = ConverterNomes(nomePeca);
             props.Add("nome", nomePeca);
             props.Add("ativo", true);
 

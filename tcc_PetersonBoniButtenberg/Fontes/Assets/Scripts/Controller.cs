@@ -1357,11 +1357,14 @@ public class Controller : MonoBehaviour {
         string slotOrigem = Global.listaEncaixes[nomeObjeto];
 
         bool podeReposicionar = false;
-
         if (Global.GetSlot(nomeObjeto).Contains("TransformacoesSlot"))
         {
             GameObject render = GameObject.Find("Render");
-            GameObject objGrafico = GameObject.Find(Global.listaEncaixes[nomeObjeto]).transform.parent.gameObject;            
+            GameObject objGrafico = GameObject.Find(Global.listaEncaixes[nomeObjeto]).transform.parent.gameObject;
+
+            string regex = Regex.Match(slotOrigem, @"\d+").Value;
+            if (regex == "") regex = "0";
+            int num = int.Parse(regex);
 
             for (int i = 0; i < render.transform.childCount; i++)
             {
@@ -1389,11 +1392,36 @@ public class Controller : MonoBehaviour {
                                     }
                                 }
                             }
+                            
 
                             break;
                         }
                     }                    
                 }                    
+                else
+                {
+                    if (render.transform.GetChild(i).name.Contains("ObjGraficoSlot") && num % 2 != 0)
+                    {
+                        for (int w = 0; w < render.transform.GetChild(i).transform.childCount; w++)
+                        {
+                            if (render.transform.GetChild(i).GetChild(w).name.Contains("ObjGraficoSlot"))
+                            {
+                                for (int x = 0; x < render.transform.GetChild(i).GetChild(w).transform.childCount; x++)
+                                {
+                                    if (render.transform.GetChild(i).GetChild(w).GetChild(x).transform.name.Contains("Transf"))
+                                    {
+                                        GameObject transf = render.transform.GetChild(i).GetChild(w).GetChild(x).gameObject;
+                                        transf.transform.position = new Vector3(transf.transform.position.x, transf.transform.position.y + 3f, transf.transform.position.z);
+                                    }
+                                }
+                            }
+                        }
+                        if (i + 1 == render.transform.childCount)
+                        {
+                            render.transform.GetChild(i).transform.position = new Vector3(render.transform.GetChild(i).transform.position.x, render.transform.GetChild(i).transform.position.y + 6f, render.transform.GetChild(i).transform.position.z);
+                        }
+                    }
+                }
 
                 if (!Equals(render.transform.GetChild(i).name, objGrafico.transform.name))
                     continue;
@@ -1409,7 +1437,7 @@ public class Controller : MonoBehaviour {
                     if (podeReposicionar)
                     {
                         GameObject GO_Slot = GameObject.Find(objGrafico.transform.GetChild(j).name);
-                        GameObject GO_Peca;
+                        GameObject GO_Peca = new GameObject();
                         foreach (KeyValuePair<string, string> pair in Global.listaEncaixes)
                         {
                             if (pair.Value == objGrafico.transform.GetChild(j).name)
@@ -1423,9 +1451,25 @@ public class Controller : MonoBehaviour {
                         {
                             if (GO_Slot.name.Contains("Obj"))
                             {
+                                string nomeSlot = GO_Slot.name;
+                                string regex2 = Regex.Match(nomeSlot, @"\d+").Value;
+                                if (regex2 == "") regex2 = "0";
+                                int num2 = int.Parse(regex2);
                                 GO_Slot.gameObject.transform.position = new Vector3(GO_Slot.gameObject.transform.position.x, GO_Slot.gameObject.transform.position.y + 6f, GO_Slot.gameObject.transform.position.z);
+                                foreach (KeyValuePair<string, string> pair in Global.listaEncaixes)
+                                {
+                                    if (pair.Value.Contains(regex2) && num2 % 2 != 0 && !pair.Key.Contains("Obj"))
+                                    {
+                                        GO_Peca = GameObject.Find(pair.Key);
+                                        GO_Peca.transform.position = new Vector3(GO_Peca.transform.position.x, GO_Peca.transform.position.y + 3f, GO_Peca.transform.position.z);
+
+                                    }
+                                }
                             }
-                            else GO_Slot.transform.position = new Vector3(GO_Slot.transform.position.x, GO_Slot.transform.position.y + 3f, GO_Slot.transform.position.z);
+                            else
+                            {
+                                GO_Slot.transform.position = new Vector3(GO_Slot.transform.position.x, GO_Slot.transform.position.y + 3f, GO_Slot.transform.position.z);
+                            }
                         }
                     }
                 }                 
@@ -1692,7 +1736,6 @@ public class Controller : MonoBehaviour {
                         continue;
 
                     // Pega a posição do objeto após o objeto a ser excluído
-                    print(listaNomeObjGrafico[i + 1]);
                     posGO = GameObject.Find((string)listaNomeObjGrafico[i+1]).transform.position;                   
 
                     // Instancia um GameObject vazio tendo Render como pai
@@ -1899,9 +1942,12 @@ public class Controller : MonoBehaviour {
                     Vector3 newPos2 = new Vector3(posGO.x + 0.2f, posGO.y - 18f, posGO.z);
                     Vector3 newPos3 = new Vector3(posGO.x - 1.5f, posGO.y - 22f, posGO.z);
                     GameObject.Find("ObjGraficoSlot" + (numEx + 1)).transform.position = newPos;
-
-                    GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform.parent = GameObject.Find("ObjGraficoSlot" + (numEx + 1)).transform;
-                    GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform.position = newPos2;
+                    if (GameObject.Find("ObjGraficoSlot" + (numEx + 2)) != null)
+                    {
+                        GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform.parent = GameObject.Find("ObjGraficoSlot" + (numEx + 1)).transform;
+                        GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform.position = newPos2;
+                    }
+                        
                     //GameObject.Find("ObjGraficoSlot" + (numEx + 2)).transform.position = posGO;
 
                     if (GameObject.Find("ObjGraficoSlot" + (numEx + 3)) != null)
@@ -1918,7 +1964,6 @@ public class Controller : MonoBehaviour {
                 Global.removeObject(gameObject);
                 Global.listaEncaixes.Remove(gameObject.name);
                 Global.propriedadePecas.Remove(gameObject.name);
-                print("oieee333");
                 break;
         }        
     }
@@ -2100,6 +2145,7 @@ public class Controller : MonoBehaviour {
 
         Transform GoAmb = GameObject.Find(nomeAmb).transform;
 
+        //PAREI AQUI
         while (cont < breakLoop)
         {
             if (GoAmb.childCount > 0) 
@@ -2129,6 +2175,7 @@ public class Controller : MonoBehaviour {
                             }                            
                         }
                     }
+                    
                 }                
 
                 GoAmb.localPosition = pos;
@@ -2144,6 +2191,9 @@ public class Controller : MonoBehaviour {
                     GoAmb = GoAmb.parent.GetChild(1);
             }
 
+            GameObject otherCubeAmb = GameObject.Find("CuboAmbiente" + getNumeroSlotObjetoGrafico() + 1);
+            GameObject otherCubeVis = GameObject.Find("CuboVis" + getNumeroSlotObjetoGrafico() + 1);
+
             if (GoAmb.name.Contains(Consts.Transladar))
             {
                 if (!Global.propriedadePecas.ContainsKey(GOname))
@@ -2151,6 +2201,12 @@ public class Controller : MonoBehaviour {
 
                 GoAmb.localRotation = Quaternion.Euler(0, 0, 0);
                 GoAmb.localScale = new Vector3(1, 1, 1);
+
+                if (otherCubeAmb != null)
+                {
+                    otherCubeAmb.transform.localPosition = Vector3.zero;
+                    otherCubeVis.transform.localPosition = Vector3.zero;
+                }
             }
             else if (GoAmb.name.Contains(Consts.Rotacionar))
             {
@@ -2159,6 +2215,12 @@ public class Controller : MonoBehaviour {
 
                 GoAmb.localPosition = Vector3.zero;
                 GoAmb.localScale = new Vector3(1, 1, 1);
+
+                if (otherCubeAmb != null)
+                {
+                    otherCubeAmb.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                    otherCubeVis.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                }
             }
             else if (GoAmb.name.Contains(Consts.Escalar))
             {
@@ -2166,7 +2228,13 @@ public class Controller : MonoBehaviour {
                     GoAmb.localScale = new Vector3(1, 1, 1);
 
                 GoAmb.localPosition = Vector3.zero;
-                GoAmb.localRotation = Quaternion.Euler(0, 0, 0);                
+                GoAmb.localRotation = Quaternion.Euler(0, 0, 0);
+
+                if (otherCubeAmb != null)
+                {
+                    otherCubeAmb.transform.localScale = new Vector3(1, 1, 1);
+                    otherCubeVis.transform.localScale = new Vector3(1, 1, 1);
+                }
             }  
 
             cont++;

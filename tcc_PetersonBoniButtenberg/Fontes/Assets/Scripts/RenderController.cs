@@ -102,25 +102,25 @@ public class RenderController : MonoBehaviour {
             int num = int.Parse(numObj);
 
             //arruma posicionamento da lateral verde conforme tipo de objeto (pai ou filho)
-            if (num % 2 == 0) otherBase.transform.position = new Vector3(otherBase.transform.position.x, otherBase.transform.position.y - 0.75f, otherBase.transform.position.z);
+            if (num % 2 == 0) otherBase.transform.position = new Vector3(otherBase.transform.position.x, otherBase.transform.position.y - (0.75f * mudaSinal), otherBase.transform.position.z);
             else otherBase.transform.position = new Vector3(otherBase.transform.position.x, otherBase.transform.position.y, otherBase.transform.position.z);
 
             //arruma posição do slot de objt q tá sobrando
             if (num % 2 == 0)
             {   
                 GameObject objt = GameObject.Find("ObjGraficoSlot" + (num + 2));
-                objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - (INC_BASE_VERDE*1.75f), objt.transform.position.z);
+                objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - (INC_BASE_VERDE * 1.75f * mudaSinal), objt.transform.position.z);
                 
                 if (num > 0) otherBase = GameObject.Find("BaseRenderLateralGO" + num);
                 else otherBase = GameObject.Find("BaseRenderLateralGO");
 
                 ScaleY = otherBase.transform.localScale.y;
-                otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + INC_BASE_CINZA, otherBase.transform.localScale.z);
+                otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + INC_BASE_CINZA * mudaSinal, otherBase.transform.localScale.z);
             }
             else
             {
                 GameObject objt = GameObject.Find("ObjGraficoSlot" + (num + 1));
-                if (objt != null) objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - INC_BASE_VERDE, objt.transform.position.z);
+                if (objt != null) objt.transform.position = new Vector3(objt.transform.position.x, objt.transform.position.y - INC_BASE_VERDE * mudaSinal, objt.transform.position.z);
 
                 /*
                 //arrumando o slot q sobra
@@ -133,7 +133,7 @@ public class RenderController : MonoBehaviour {
                 if (num - 1 == 0) otherBase = GameObject.Find("BaseRenderLateralGO");
                 else otherBase = GameObject.Find("BaseRenderLateralGO" + (num - 1));
                 ScaleY = otherBase.transform.localScale.y;
-                otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + INC_BASE_CINZA, otherBase.transform.localScale.z);
+                otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + INC_BASE_CINZA * mudaSinal, otherBase.transform.localScale.z);
             }
 
             //ObjGraficoSlot1(Clone)
