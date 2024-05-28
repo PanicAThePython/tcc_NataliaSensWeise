@@ -609,7 +609,7 @@ public class Arquivo : MonoBehaviour
             lightObject.GetComponent<Light>().color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
             lightObject.GetComponent<Light>().intensity = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Intensidade;
             GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().AtivaIluminacao("Spot" + nome, Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Ativo);
-            GameObject.Find("MatrizCorSpot").transform.GetChild(0).gameObject.SetActive(true);
+            //GameObject.Find("MatrizCorSpot").transform.GetChild(0).gameObject.SetActive(true);
         }
     }
 

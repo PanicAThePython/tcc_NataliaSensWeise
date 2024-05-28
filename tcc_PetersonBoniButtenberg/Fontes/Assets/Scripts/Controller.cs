@@ -1877,10 +1877,40 @@ public class Controller : MonoBehaviour {
 
                     // Remove peças dos slos
                     string value = "";
+                    string chave = "";
                     for (int j = 0; j < GameObject.Find((string)listaNomeObjGrafico[i]).transform.childCount; j++)
                     {
                         foreach (KeyValuePair<string, string> pair in Global.listaEncaixes)
                         {
+                            string str = Regex.Match(GameObject.Find((string)listaNomeObjGrafico[i]).transform.GetChild(j).name, @"\d+").Value;
+                            if (str == "") str = "0";
+                            int numm = int.Parse(str);
+
+                            if (Equals(GameObject.Find((string)listaNomeObjGrafico[i]).transform.GetChild(j).name, pair.Value) &&
+                               GameObject.Find((string)listaNomeObjGrafico[i]).transform.GetChild(j).name.Contains("ObjGraficoSlot") && numm % 2 != 0)
+                            {
+                                //caso eu arraste o pai pra lixeira, o filho e td nele vai junto
+                                GameObject objt = GameObject.Find((string)listaNomeObjGrafico[i]).transform.GetChild(j).gameObject;
+                                Destroy(GameObject.Find(Global.listaEncaixes[pair.Key]));
+                                Destroy(GameObject.Find(pair.Key));
+                                Global.listaSequenciaSlots.Remove(Global.listaEncaixes[pair.Key]);
+                                Global.removeObject(GameObject.Find(pair.Key));
+
+                                for (int r = 0; r < objt.transform.childCount; r++)
+                                {
+                                    foreach (KeyValuePair<string, string> enc in Global.listaEncaixes)
+                                    {
+                                        if (objt.transform.GetChild(r).name.Contains("Slot") && enc.Value.Contains(objt.transform.GetChild(r).name))
+                                        {
+                                            Destroy(GameObject.Find(Global.listaEncaixes[enc.Key]));
+                                            Destroy(GameObject.Find(enc.Key));
+                                            Global.listaSequenciaSlots.Remove(Global.listaEncaixes[enc.Key]);
+                                            Global.removeObject(GameObject.Find(enc.Key));
+                                            chave = enc.Key;
+                                        }
+                                    }
+                                }
+                            }
                             if (Equals(GameObject.Find((string)listaNomeObjGrafico[i]).transform.GetChild(j).name, pair.Value) &&
                                !GameObject.Find((string)listaNomeObjGrafico[i]).transform.GetChild(j).name.Contains("ObjGraficoSlot"))
                             {
@@ -1899,6 +1929,8 @@ public class Controller : MonoBehaviour {
                                 break;
                             }                                
                         }
+                        
+                        Global.listaEncaixes.Remove(chave);
                     }
 
                     // Incrementa 'i' para pegar a partir do próximo objeto da lista
@@ -2130,7 +2162,7 @@ public class Controller : MonoBehaviour {
         MeshRenderer mr;
         string numObj = string.Empty;
         string valueOut = string.Empty;
-        int val;
+        int val = 0;
 
         switch (tipoSlotInt)
         {          
@@ -2145,7 +2177,11 @@ public class Controller : MonoBehaviour {
                             numObj = Convert.ToString(val);
                     }                    
                 }                
-
+                if (val % 2 == 0)
+                {
+                    if (GameObject.Find("PosicaoAmb" + (val + 1)) != null) Destroy(GameObject.Find("PosicaoAmb" + (val+1)));
+                    if (GameObject.Find("CuboVisObjectMain" + (val + 1)) != null) Destroy(GameObject.Find("CuboVisObjectMain" + (val+1)));
+                }
                 Destroy(GameObject.Find("PosicaoAmb" + numObj));
                 Destroy(GameObject.Find("CuboVisObjectMain" + numObj));                
                 break;

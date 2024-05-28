@@ -51,13 +51,13 @@ public class Exercicio : MonoBehaviour
     {
         enunciados[0] = "";
         enunciados[1] = "Enunciado 1: Crie uma cena com um cubo com textura de QR Code. Apenas a face frontal do cubo deve estar visível. A visão da câmera deve estar o mais próxima possível sem cortar a visualização do cubo.";
-        enunciados[2] = "Enunciado 2: Cria uma cena com um cubo pai e um filho. O cubo pai deve ter textura da FURB e o filho, de madeira, e estar a uma distândia de 2 unidades do x do pai. O pai tem que ter uma rotação de 60º no eixo Y.";
-        enunciados[3] = "Enunciado 3: Crie uma cena com um cubo estampado de FURB. Mude a escala dele para 2 no eixo x. Faça uso da luz spot de forma que um círculo de luz se forme centralizado e cubra o máximo possível do topo do cubo sem tocar a borda.";
+        enunciados[2] = "Enunciado 2: Cria uma cena com um cubo pai e um filho. O cubo pai deve ter textura da FURB e o filho, de madeira, e estar a uma distândia de 2 unidades do x do pai. O pai tem que ter uma escala de 2 no eixo Y.";
+        enunciados[3] = "Enunciado 3: Crie uma cena com um cubo estampado de FURB. Mude a rotação para 60º no eixo Y. Faça uso da luz spot de forma que um círculo de luz se forme centralizado e cubra o máximo possível do topo do cubo sem tocar a borda.";
         
         respostas[0] = "";
         respostas[1] = "Camera, ObjetoGrafico, Cubo, Iluminacao";
-        respostas[2] = "Camera, ObjetoGrafico, Cubo, Rotacionar, Iluminacao, ObjetoGrafico, Cubo, Transladar";
-        respostas[3] = "Camera, ObjetoGrafico, Cubo, Escalar, Iluminacao";
+        respostas[2] = "Camera, ObjetoGrafico, Cubo, Escalar, Iluminacao, ObjetoGrafico, Cubo, Transladar";
+        respostas[3] = "Camera, ObjetoGrafico, Cubo, Rotacionar, Iluminacao";
 
         checarProps[0] = 3;
         checarProps[1] = 5;
@@ -133,14 +133,14 @@ public class Exercicio : MonoBehaviour
         cubo2.Textura = texturas[1].gameObject.GetComponent<MeshRenderer>().material.mainTexture; //furb
         cubo2.Cor = Color.white;
         dict2.Add("Cubo", cubo2);
-        
-        PropriedadePeca rotacionar2 = new PropriedadePeca();
-        rotacionar2.Ativo = true;
-        rotacionar2.Pos = new Posicao();
-        rotacionar2.Pos.X = 0;
-        rotacionar2.Pos.Y = 60;
-        rotacionar2.Pos.Z = 0;
-        dict2.Add("Rotacionar", rotacionar2);
+
+        PropriedadePeca escalar2 = new PropriedadePeca();
+        escalar2.Ativo = true;
+        escalar2.Tam = new Tamanho();
+        escalar2.Tam.X = 1;
+        escalar2.Tam.Y = 2;
+        escalar2.Tam.Z = 1;
+        dict2.Add("Escalar", escalar2);
 
         PropriedadePeca luz2 = new PropriedadePeca();
         luz2.TipoLuz = 0;
@@ -208,13 +208,13 @@ public class Exercicio : MonoBehaviour
         cubo3.Cor = Color.white;
         dict3.Add("Cubo", cubo3);
 
-        PropriedadePeca escalar3 = new PropriedadePeca();
-        escalar3.Ativo = true;
-        escalar3.Tam = new Tamanho();
-        escalar3.Tam.X = 2;
-        escalar3.Tam.Y = 1;
-        escalar3.Tam.Z = 1;
-        dict3.Add("Escalar", escalar3);
+        PropriedadePeca rotacionar3 = new PropriedadePeca();
+        rotacionar3.Ativo = true;
+        rotacionar3.Pos = new Posicao();
+        rotacionar3.Pos.X = 0;
+        rotacionar3.Pos.Y = 60;
+        rotacionar3.Pos.Z = 0;
+        dict3.Add("Rotacionar", rotacionar3);
 
         PropriedadePeca luz3 = new PropriedadePeca();
         luz3.TipoLuz = 3;
@@ -224,7 +224,7 @@ public class Exercicio : MonoBehaviour
         luz3.Pos.Y = 300;
         luz3.Pos.Z = 0;
         luz3.Intensidade = 1.5f;
-        luz3.Angulo = 16;
+        luz3.Angulo = 15;
         luz3.Distancia = 1000;
         luz3.Expoente = 10;
         luz3.ValorIluminacao = new ValorIluminacao();

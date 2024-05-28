@@ -48,17 +48,17 @@
           }
         },
         {
-          "Escalar": {
-            "nome": "Escalar",
+          "Rotacionar": {
+            "nome": "Rotacionar",
             "ativo": true,
             "valores": [
-              "2",
-              "1",
-              "1"
+              "0",
+              "60",
+              "0"
             ],
             "posPeca": [
-              698.104431152344,
-              616.340454101563,
+              698.954406738281,
+              619.840454101563,
               -870.588928222656
             ]
           }
@@ -76,7 +76,7 @@
             "ativo": true,
             "intensidade": "1,5",
             "distancia": "1000",
-            "angulo": "16",
+            "angulo": "15",
             "expoente": "10",
             "valores": [
               "0",
