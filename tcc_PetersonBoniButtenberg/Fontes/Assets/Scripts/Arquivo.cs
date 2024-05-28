@@ -508,7 +508,6 @@ public class Arquivo : MonoBehaviour
             prPeca.Intensidade = float.Parse(values["intensidade"]);
             prPeca.Distancia = float.Parse(values["distancia"]);
             prPeca.TipoLuz = 2;
-
         }
         else if (tipoLuz.Contains("Spot")) //2300x0
         {
@@ -531,10 +530,87 @@ public class Arquivo : MonoBehaviour
         prPeca.JaInstanciou = true;
         Global.propriedadePecas.Add(nome, prPeca);
         if (Global.gameObjectName == null) Global.gameObjectName = prPeca.Nome;
+
         GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().preencheCamposIluminacao(prPeca.TipoLuz);
         PropTipoLuz ptl = new PropTipoLuz();
         ptl.AdicionaValorPropriedade(prPeca.TipoLuz, Ambiente, Directional, Point, Spot);
 
+        if (prPeca.TipoLuz == 0)
+        {
+            GameObject lightObject = GameObject.Find("Ambiente" + nome);
+            for (int i = 0; i < lightObject.transform.childCount; i++)
+            {
+                lightObject.transform.GetChild(i).GetComponent<Light>().color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+                lightObject.transform.GetChild(i).GetComponent<Light>().enabled = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Ativo;
+            }
+        }
+        else if (prPeca.TipoLuz == 1)
+        {
+            GameObject lightObject = GameObject.Find("Directional" + nome);
+            lightObject.transform.localRotation = Quaternion.Euler(Global.propriedadeIluminacao[nome][prPeca.TipoLuz].ValorIluminacao.X + 71.819f, 90f, 0);
+
+            GameObject.Find("ObjDirectional" + nome).transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+            GameObject.Find("ObjDirectional" + nome).transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+            
+            lightObject.transform.localPosition = new Vector3(-Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Pos.X, Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Pos.Y, Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Pos.Z);
+            lightObject.GetComponent<Light>().color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+            lightObject.GetComponent<Light>().intensity = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Intensidade;
+            GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().AtivaIluminacao("Directional" + nome, Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Ativo);
+            GameObject.Find("MatrizCorDirectional").transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else if (prPeca.TipoLuz == 2)
+        {
+            GameObject lightObject = GameObject.Find("Point" + nome);
+            lightObject.GetComponent<Light>().range = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Distancia;
+            GameObject.Find("ObjPoint" + nome).transform.GetChild(0).GetComponent<MeshRenderer>().material.color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+            GameObject.Find("ObjPoint" + nome).transform.GetChild(1).GetComponent<MeshRenderer>().material.color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+            GameObject.Find("ObjPoint" + nome).transform.GetChild(2).GetComponent<MeshRenderer>().material.color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+            GameObject.Find("ObjPoint" + nome).transform.GetChild(3).GetComponent<MeshRenderer>().material.color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+
+            lightObject.transform.localPosition = new Vector3(-Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Pos.X, Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Pos.Y, Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Pos.Z);
+            lightObject.GetComponent<Light>().color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+            lightObject.GetComponent<Light>().intensity = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Intensidade;
+            GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().AtivaIluminacao("Point" + nome, Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Ativo);
+            GameObject.Find("MatrizCorPoint").transform.GetChild(0).gameObject.SetActive(true);
+        }
+        else if (prPeca.TipoLuz == 3)
+        {
+            GameObject lightObject = GameObject.Find("Spot" + nome);
+            lightObject.GetComponent<Light>().range = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Distancia;
+
+            // Altera escala de acordo com o range.
+            GameObject ObjSpot = GameObject.Find("ObjSpot" + nome);
+
+            float scaleObjSpot = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Distancia / 1000;
+
+            ObjSpot.transform.localScale = new Vector3(scaleObjSpot, scaleObjSpot, scaleObjSpot);
+            ObjSpot.transform.localPosition = Vector3.zero;
+
+            ObjSpot.transform.GetChild(0).GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+            ObjSpot.transform.GetChild(0).GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material.color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+            ObjSpot.transform.GetChild(0).GetChild(0).GetChild(2).GetComponent<MeshRenderer>().material.color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+            ObjSpot.transform.GetChild(0).GetChild(0).GetChild(3).GetComponent<MeshRenderer>().material.color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+            ObjSpot.transform.GetChild(0).GetChild(0).GetChild(4).GetComponent<MeshRenderer>().material.color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+            ObjSpot.transform.GetChild(0).GetChild(0).GetChild(5).GetComponent<MeshRenderer>().material.color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+            ObjSpot.transform.GetChild(0).GetChild(0).GetChild(6).GetComponent<MeshRenderer>().material.color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+
+            lightObject.GetComponent<Light>().spotAngle = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Angulo;
+
+            // Altera o ângulo de acordo com o SpotAngle.
+            GameObject SpotIlum = GameObject.Find("Spot" + nome);
+
+            float scaleMeshSpot = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Angulo * 0.033f;
+
+            SpotIlum.transform.localScale = new Vector3(scaleMeshSpot, scaleMeshSpot, SpotIlum.transform.localScale.z);
+
+            lightObject.transform.localRotation = Quaternion.Euler(Global.propriedadeIluminacao[nome][prPeca.TipoLuz].ValorIluminacao.X + 71.819f, 90f, 0);
+
+            lightObject.transform.localPosition = new Vector3(-Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Pos.X, Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Pos.Y, Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Pos.Z);
+            lightObject.GetComponent<Light>().color = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Cor;
+            lightObject.GetComponent<Light>().intensity = Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Intensidade;
+            GameObject.Find("PropIluminacao").GetComponent<PropIluminacaoPadrao>().AtivaIluminacao("Spot" + nome, Global.propriedadeIluminacao[nome][prPeca.TipoLuz].Ativo);
+            GameObject.Find("MatrizCorSpot").transform.GetChild(0).gameObject.SetActive(true);
+        }
     }
 
     void adicionarEncaixe(GameObject peca, int countAcoes = 0)

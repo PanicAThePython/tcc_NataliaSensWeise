@@ -49,7 +49,7 @@ public class RenderController : MonoBehaviour {
                 else otherBase = GameObject.Find("BaseRenderLateralGO" + num);
 
                 float ScaleY = otherBase.transform.localScale.y;
-                otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + (INC_BASE_CINZA * 2), otherBase.transform.localScale.z);
+                otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + (INC_BASE_CINZA * 2 * mudaSinal), otherBase.transform.localScale.z);
 
 
                 //arruma posição próximo slot
@@ -58,7 +58,7 @@ public class RenderController : MonoBehaviour {
                 //arrumando o slot q sobra
                 int filhos = GameObject.Find("Render").transform.childCount;
                 GameObject ultimo = GameObject.Find("Render").transform.GetChild(filhos-1).gameObject;
-                ultimo.transform.position = new Vector3(ultimo.transform.position.x, ultimo.transform.position.y - (INC_BASE_CINZA * 5.5f), ultimo.transform.position.z);
+                ultimo.transform.position = new Vector3(ultimo.transform.position.x, ultimo.transform.position.y - (INC_BASE_CINZA * 5 * mudaSinal), ultimo.transform.position.z);
 
             }
             else if (num == 0) otherBase = GameObject.Find("BaseRenderLateralGO");

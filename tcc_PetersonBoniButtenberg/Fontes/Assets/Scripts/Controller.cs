@@ -1443,7 +1443,11 @@ public class Controller : MonoBehaviour {
                     {
                         string nomeSlot = objGrafico.transform.GetChild(j).name;
                         string regex2 = Regex.Match(nomeSlot, @"\d+").Value;
-                        string regex3 = Regex.Match(slotOrigem, @"\d+").Value;
+                        string[] splitagem = slotOrigem.Split("_");
+                        string regex3;
+                        if (splitagem.Length <= 1) regex3 = "0";
+                        else regex3 = Regex.Match(splitagem[1], @"\d+").Value;
+
                         if (regex2 == "") regex2 = "0";
                         if (regex3 == "") regex3 = "0";
                         
@@ -1716,7 +1720,7 @@ public class Controller : MonoBehaviour {
                         {
                             GameObject goPeca = GameObject.Find(encaixe.Key);
                             pos = goPeca.transform.position;
-                            pos.y -= 4;
+                            pos.y -= 3;
                             goPeca.transform.position = pos;
                         }
                     }
@@ -1724,7 +1728,7 @@ public class Controller : MonoBehaviour {
                 if (goRender.transform.GetChild(i).name == ObjGrafico + numObjeto)
                 {
                     podeOrganizarProximoObjeto = true;
-                    if (ehFilho)
+                    if (ehFilho && Global.listaEncaixes.ContainsValue(goRender.transform.GetChild(i).name))
                     {
                         Vector3 pos = goRender.transform.GetChild(i).position;
                         pos.y -= 8;
@@ -1748,7 +1752,7 @@ public class Controller : MonoBehaviour {
                 }
             }
             
-            if (i+1 == goRender.transform.childCount)
+            if (i+1 == goRender.transform.childCount && ehFilho)
             {
                 Vector3 pos = goRender.transform.GetChild(i).position;
                 pos.y -= 1.5f;
@@ -2303,6 +2307,16 @@ public class Controller : MonoBehaviour {
                     GoAmb = GoAmb.parent.GetChild(1);
             }
 
+            /*
+            string num = getNumeroSlotObjetoGrafico();
+            if (num == "") num = "0";
+            int number = int.Parse(num);
+
+            GameObject otherCubeAmb = GameObject.Find("CuboAmbiente" + number);
+            GameObject otherCubeVis = GameObject.Find("CuboVis" + number);
+
+            print("CuboAmbiente" + number);
+            */
             if (GoAmb.name.Contains(Consts.Transladar))
             {
                 if (!Global.propriedadePecas.ContainsKey(GOname))
@@ -2310,6 +2324,14 @@ public class Controller : MonoBehaviour {
 
                 GoAmb.localRotation = Quaternion.Euler(0, 0, 0);
                 GoAmb.localScale = new Vector3(1, 1, 1);
+
+                /*
+                if (otherCubeAmb != null)
+                {
+                    otherCubeAmb.transform.localPosition = Vector3.zero;
+                    otherCubeVis.transform.localPosition = Vector3.zero;
+                }
+                */
             }
             else if (GoAmb.name.Contains(Consts.Rotacionar))
             {
@@ -2318,6 +2340,13 @@ public class Controller : MonoBehaviour {
 
                 GoAmb.localPosition = Vector3.zero;
                 GoAmb.localScale = new Vector3(1, 1, 1);
+                /*
+                if (otherCubeAmb != null)
+                {
+                    otherCubeAmb.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                    otherCubeVis.transform.localRotation = Quaternion.Euler(0, 0, 0);
+                }
+                */
             }
             else if (GoAmb.name.Contains(Consts.Escalar))
             {
@@ -2326,6 +2355,13 @@ public class Controller : MonoBehaviour {
 
                 GoAmb.localPosition = Vector3.zero;
                 GoAmb.localRotation = Quaternion.Euler(0, 0, 0);
+                /*
+                if (otherCubeAmb != null)
+                {
+                    otherCubeAmb.transform.localScale = new Vector3(1, 1, 1);
+                    otherCubeVis.transform.localScale = new Vector3(1, 1, 1);
+                }
+                */
             }  
 
             cont++;

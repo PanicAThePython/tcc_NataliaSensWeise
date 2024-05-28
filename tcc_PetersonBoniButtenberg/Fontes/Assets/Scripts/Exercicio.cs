@@ -280,6 +280,15 @@ public class Exercicio : MonoBehaviour
         checar = c;
     }
 
+    void zerarContadores()
+    {
+        checar = 0;
+        acertosProps = 0;
+        acertosOrdem = 0;
+        errosOrdem = 0;
+        errosProps = 0;
+    }
+
     public void compararRespostas()
     {
         if (Global.listaObjetos == null || Global.listaObjetos.Count == 0 || numeroExerc == 0)
@@ -313,114 +322,88 @@ public class Exercicio : MonoBehaviour
             else contabilizarErrosProps();
             contarChecagem();
             string chave = "";
-            for (int i = 0; i < ordenada.Count; i++)
+            if (ordenada.Count > gabarito.Length)
             {
-                if (ordenada[i].name.Contains(gabarito[i]))
+                enunText.text = "Há objetos demais na cena, favor deixar apenas os necessários.";
+                StartCoroutine(zerarToggle());
+            }
+            else
+            {
+                for (int i = 0; i < ordenada.Count; i++)
                 {
-                    contabilizarAcertosOrdem();
-                    foreach (KeyValuePair<string, PropriedadePeca> pp in Global.propriedadePecas)
+                    if (ordenada[i].name.Contains(gabarito[i]))
                     {
-                        foreach (KeyValuePair<string, PropriedadePeca> prop in propriedades)
+                        contabilizarAcertosOrdem();
+                        foreach (KeyValuePair<string, PropriedadePeca> pp in Global.propriedadePecas)
                         {
-                            if (pp.Key.Contains(prop.Key) && pp.Key.Contains(ordenada[i].name))
+                            foreach (KeyValuePair<string, PropriedadePeca> prop in propriedades)
                             {
-                                contarChecagem();
-                                if (pp.Key.Contains("Obj"))
+                                if (pp.Key.Contains(prop.Key) && pp.Key.Contains(ordenada[i].name))
                                 {
-                                    //compara props objt
-                                    if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-                                }
-                                else if (pp.Key.Contains("Cubo"))
-                                {
-                                    //compara cubo
-                                    if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-
-                                    if (pp.Value.Pos.X == prop.Value.Pos.X) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-
-                                    if (pp.Value.Pos.Y == prop.Value.Pos.Y) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-
-                                    if (pp.Value.Pos.Z == prop.Value.Pos.Z) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-
-                                    if (pp.Value.Tam.X == prop.Value.Tam.X) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-
-                                    if (pp.Value.Tam.Y == prop.Value.Tam.Y) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-
-                                    if (pp.Value.Tam.Z == prop.Value.Tam.Z) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-
-                                    if (pp.Value.Cor != null && prop.Value.Cor != null)
+                                    contarChecagem();
+                                    if (pp.Key.Contains("Obj"))
                                     {
-                                        if (pp.Value.Cor == prop.Value.Cor) contabilizarAcertosProps();
+                                        //compara props objt
+                                        if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
                                         else contabilizarErrosProps();
                                     }
-
-                                    if (pp.Value.Textura != null && prop.Value.Textura != null)
+                                    else if (pp.Key.Contains("Cubo"))
                                     {
-                                        if (pp.Value.Textura.name == prop.Value.Textura.name) contabilizarAcertosProps();
+                                        //compara cubo
+                                        if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
                                         else contabilizarErrosProps();
-                                    }
 
-                                }
-                                else if (pp.Key.Contains("Ilumi"))
-                                {
-                                    //compara luz
-                                    if (pp.Value.TipoLuz == prop.Value.TipoLuz) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
+                                        if (pp.Value.Pos.X == prop.Value.Pos.X) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
 
-                                    PropriedadePeca luzinha = pp.Value;
-                                    if (Global.propriedadeIluminacao.ContainsKey(pp.Key))
-                                    {
-                                        PropriedadePeca[] luzes = Global.propriedadeIluminacao[pp.Key];
-                                        luzinha = luzes[pp.Value.TipoLuz];
-                                    }
+                                        if (pp.Value.Pos.Y == prop.Value.Pos.Y) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
 
-                                    if (prop.Value.TipoLuz > 0)
-                                    {
-                                        if (prop.Value.TipoLuz == 1)
+                                        if (pp.Value.Pos.Z == prop.Value.Pos.Z) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+
+                                        if (pp.Value.Tam.X == prop.Value.Tam.X) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+
+                                        if (pp.Value.Tam.Y == prop.Value.Tam.Y) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+
+                                        if (pp.Value.Tam.Z == prop.Value.Tam.Z) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+
+                                        if (pp.Value.Cor != null && prop.Value.Cor != null)
                                         {
-                                            if (luzinha.Intensidade == prop.Value.Intensidade) contabilizarAcertosProps();
-                                            else contabilizarErrosProps();
-
-                                            if (luzinha.ValorIluminacao.X == prop.Value.ValorIluminacao.X) contabilizarAcertosProps();
-                                            else contabilizarErrosProps();
-
-                                            if (luzinha.ValorIluminacao.Y == prop.Value.ValorIluminacao.Y) contabilizarAcertosProps();
-                                            else contabilizarErrosProps();
-
-                                            if (luzinha.ValorIluminacao.Z == prop.Value.ValorIluminacao.Z) contabilizarAcertosProps();
+                                            if (pp.Value.Cor == prop.Value.Cor) contabilizarAcertosProps();
                                             else contabilizarErrosProps();
                                         }
-                                        else if (prop.Value.TipoLuz == 2)
-                                        {
-                                            if (luzinha.Intensidade == prop.Value.Intensidade) contabilizarAcertosProps();
-                                            else contabilizarErrosProps();
 
-                                            if (luzinha.Distancia == prop.Value.Distancia) contabilizarAcertosProps();
+                                        if (pp.Value.Textura != null && prop.Value.Textura != null)
+                                        {
+                                            if (pp.Value.Textura.name == prop.Value.Textura.name) contabilizarAcertosProps();
                                             else contabilizarErrosProps();
                                         }
-                                        else
+
+                                    }
+                                    else if (pp.Key.Contains("Ilumi"))
+                                    {
+                                        //compara luz
+                                        if (pp.Value.TipoLuz == prop.Value.TipoLuz) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+
+                                        PropriedadePeca luzinha = pp.Value;
+                                        if (Global.propriedadeIluminacao.ContainsKey(pp.Key))
                                         {
-                                            if (luzinha.Angulo == prop.Value.Angulo) contabilizarAcertosProps();
-                                            else contabilizarErrosProps();
+                                            PropriedadePeca[] luzes = Global.propriedadeIluminacao[pp.Key];
+                                            luzinha = luzes[pp.Value.TipoLuz];
+                                        }
 
-                                            if (luzinha.Expoente == prop.Value.Expoente) contabilizarAcertosProps();
-                                            else contabilizarErrosProps();
-
-                                            if (luzinha.Intensidade == prop.Value.Intensidade) contabilizarAcertosProps();
-                                            else contabilizarErrosProps();
-
-                                            if (luzinha.Distancia == prop.Value.Distancia) contabilizarAcertosProps();
-                                            else contabilizarErrosProps();
-
-                                            if (luzinha.ValorIluminacao != null)
+                                        if (prop.Value.TipoLuz > 0)
+                                        {
+                                            if (prop.Value.TipoLuz == 1)
                                             {
+                                                if (luzinha.Intensidade == prop.Value.Intensidade) contabilizarAcertosProps();
+                                                else contabilizarErrosProps();
+
                                                 if (luzinha.ValorIluminacao.X == prop.Value.ValorIluminacao.X) contabilizarAcertosProps();
                                                 else contabilizarErrosProps();
 
@@ -430,73 +413,107 @@ public class Exercicio : MonoBehaviour
                                                 if (luzinha.ValorIluminacao.Z == prop.Value.ValorIluminacao.Z) contabilizarAcertosProps();
                                                 else contabilizarErrosProps();
                                             }
+                                            else if (prop.Value.TipoLuz == 2)
+                                            {
+                                                if (luzinha.Intensidade == prop.Value.Intensidade) contabilizarAcertosProps();
+                                                else contabilizarErrosProps();
+
+                                                if (luzinha.Distancia == prop.Value.Distancia) contabilizarAcertosProps();
+                                                else contabilizarErrosProps();
+                                            }
+                                            else
+                                            {
+                                                if (luzinha.Angulo == prop.Value.Angulo) contabilizarAcertosProps();
+                                                else contabilizarErrosProps();
+
+                                                if (luzinha.Expoente == prop.Value.Expoente) contabilizarAcertosProps();
+                                                else contabilizarErrosProps();
+
+                                                if (luzinha.Intensidade == prop.Value.Intensidade) contabilizarAcertosProps();
+                                                else contabilizarErrosProps();
+
+                                                if (luzinha.Distancia == prop.Value.Distancia) contabilizarAcertosProps();
+                                                else contabilizarErrosProps();
+
+                                                if (luzinha.ValorIluminacao != null)
+                                                {
+                                                    if (luzinha.ValorIluminacao.X == prop.Value.ValorIluminacao.X) contabilizarAcertosProps();
+                                                    else contabilizarErrosProps();
+
+                                                    if (luzinha.ValorIluminacao.Y == prop.Value.ValorIluminacao.Y) contabilizarAcertosProps();
+                                                    else contabilizarErrosProps();
+
+                                                    if (luzinha.ValorIluminacao.Z == prop.Value.ValorIluminacao.Z) contabilizarAcertosProps();
+                                                    else contabilizarErrosProps();
+                                                }
+                                            }
+                                        }
+                                        if (Global.propriedadeIluminacao.ContainsKey(pp.Key))
+                                        {
+                                            if (luzinha.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
+                                        }
+
+                                        if (pp.Value.Cor != null && prop.Value.Cor != null)
+                                        {
+                                            if (pp.Value.Cor == prop.Value.Cor) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
+                                        }
+
+                                        if (luzinha.Pos != null && prop.Value.Pos != null)
+                                        {
+                                            if (luzinha.Pos.X == prop.Value.Pos.X) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
+
+                                            if (luzinha.Pos.Y == prop.Value.Pos.Y) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
+
+                                            if (luzinha.Pos.Z == prop.Value.Pos.Z) contabilizarAcertosProps();
+                                            else contabilizarErrosProps();
                                         }
                                     }
-                                    if (Global.propriedadeIluminacao.ContainsKey(pp.Key))
+                                    else if (pp.Key.Contains("Esc"))
                                     {
-                                        if (luzinha.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
+                                        //compara escala
+                                        if (pp.Value.Tam.X == prop.Value.Tam.X) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+
+                                        if (pp.Value.Tam.Y == prop.Value.Tam.Y) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+
+                                        if (pp.Value.Tam.Z == prop.Value.Tam.Z) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+
+                                        if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+                                    }
+                                    else if (pp.Key.Contains("Rot") || pp.Key.Contains("Trans"))
+                                    {
+                                        //compara outras ações
+                                        if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+
+                                        if (pp.Value.Pos.X == prop.Value.Pos.X) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+
+                                        if (pp.Value.Pos.Y == prop.Value.Pos.Y) contabilizarAcertosProps();
+                                        else contabilizarErrosProps();
+
+                                        if (pp.Value.Pos.Z == prop.Value.Pos.Z) contabilizarAcertosProps();
                                         else contabilizarErrosProps();
                                     }
 
-                                    if (pp.Value.Cor != null && prop.Value.Cor != null)
-                                    {
-                                        if (pp.Value.Cor == prop.Value.Cor) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-                                    }
-
-                                    if (luzinha.Pos != null && prop.Value.Pos != null)
-                                    {
-                                        if (luzinha.Pos.X == prop.Value.Pos.X) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-
-                                        if (luzinha.Pos.Y == prop.Value.Pos.Y) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-
-                                        if (luzinha.Pos.Z == prop.Value.Pos.Z) contabilizarAcertosProps();
-                                        else contabilizarErrosProps();
-                                    }
+                                    chave = prop.Key;
                                 }
-                                else if (pp.Key.Contains("Esc"))
-                                {
-                                    //compara escala
-                                    if (pp.Value.Tam.X == prop.Value.Tam.X) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-
-                                    if (pp.Value.Tam.Y == prop.Value.Tam.Y) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-
-                                    if (pp.Value.Tam.Z == prop.Value.Tam.Z) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-
-                                    if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-                                }
-                                else if (pp.Key.Contains("Rot") || pp.Key.Contains("Trans"))
-                                {
-                                    //compara outras ações
-                                    if (pp.Value.Ativo == prop.Value.Ativo) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-
-                                    if (pp.Value.Pos.X == prop.Value.Pos.X) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-
-                                    if (pp.Value.Pos.Y == prop.Value.Pos.Y) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-
-                                    if (pp.Value.Pos.Z == prop.Value.Pos.Z) contabilizarAcertosProps();
-                                    else contabilizarErrosProps();
-                                }
-
-                                chave = prop.Key;
                             }
-                        }
-                        propriedades.Remove(chave);
+                            propriedades.Remove(chave);
 
+                        }
                     }
+                    else contabilizarErrosOrdem();
                 }
-                else contabilizarErrosOrdem();
+                mostrarResultado();
             }
-            mostrarResultado();
         }
         setChecar(checar);
     }
@@ -523,5 +540,6 @@ public class Exercicio : MonoBehaviour
 
         enunText.text = mensagem;
         StartCoroutine(zerarToggle());
+        zerarContadores();
     }
 }

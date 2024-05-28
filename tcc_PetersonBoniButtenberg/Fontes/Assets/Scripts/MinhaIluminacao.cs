@@ -58,7 +58,7 @@ public class MinhaIluminacao : MeuModelo
             PropriedadePeca[] luz = new PropriedadePeca[4];
             foreach(KeyValuePair<string, PropriedadePeca[]> ilu in Global.propriedadeIluminacao)
             {
-                luz = ilu.Value;
+                if (nomePeca == ilu.Key) luz = ilu.Value;
             }
             props.Add("tipoLuz", tipo);
             PropriedadePeca luzinha = luz[0];
@@ -66,22 +66,49 @@ public class MinhaIluminacao : MeuModelo
             {
                 case "Ambiente":
                     JSONArray posicao = new JSONArray();
-                    posicao.Add("x", posicaoLuz[0].text);
-                    posicao.Add("y", posicaoLuz[1].text);
-                    posicao.Add("z", posicaoLuz[2].text);
-                    props.Add("posicao", posicao);
-                    if (luzinha != null) props.Add("cor", luzinha.Cor.ToString());
-                    props.Add("ativo", ativo.enabled);
+                    if (luzinha != null)
+                    {
+                        posicao.Add("x", luzinha.Pos.X.ToString());
+                        posicao.Add("y", luzinha.Pos.Y.ToString());
+                        posicao.Add("z", luzinha.Pos.Z.ToString());
+                        props.Add("posicao", posicao);
+
+                        props.Add("cor", luzinha.Cor.ToString());
+                        props.Add("ativo", luzinha.Ativo);
+                    }
+                    else
+                    {
+                        posicao.Add("x", posicaoLuz[0].text);
+                        posicao.Add("y", posicaoLuz[1].text);
+                        posicao.Add("z", posicaoLuz[2].text);
+                        props.Add("posicao", posicao);
+
+                        props.Add("ativo", ativo.enabled);
+                    }
                     break;
                 case "Directional":
                     luzinha = luz[1];
                     JSONArray posicao2 = new JSONArray();
-                    posicao2.Add("x", posicaoLuzDirect[0].text);
-                    posicao2.Add("y", posicaoLuzDirect[1].text);
-                    posicao2.Add("z", posicaoLuzDirect[2].text);
-                    props.Add("posicao", posicao2);
-                    if (luzinha != null) props.Add("cor", luzinha.Cor.ToString());
-                    props.Add("ativo", ativoDirect.enabled);
+                    if (luzinha != null)
+                    {
+                        posicao2.Add("x", luzinha.Pos.X.ToString());
+                        posicao2.Add("y", luzinha.Pos.Y.ToString());
+                        posicao2.Add("z", luzinha.Pos.Z.ToString());
+                        props.Add("posicao", posicao2);
+
+                        props.Add("cor", luzinha.Cor.ToString());
+                        props.Add("ativo", luzinha.Ativo);
+                    }
+                    else
+                    {
+                        posicao2.Add("x", posicaoLuzDirect[0].text);
+                        posicao2.Add("y", posicaoLuzDirect[1].text);
+                        posicao2.Add("z", posicaoLuzDirect[2].text);
+                        props.Add("posicao", posicao2);
+
+                        props.Add("ativo", ativoDirect.enabled);
+                    }
+                    
                     props.Add("intensidade", intensidade.text);
                     JSONArray vals = new JSONArray();
                     vals.Add("x", valores[0].text);
@@ -92,24 +119,50 @@ public class MinhaIluminacao : MeuModelo
                 case "Point":
                     luzinha = luz[2];
                     JSONArray posicao3 = new JSONArray();
-                    posicao3.Add("x", posicaoLuzPoint[0].text);
-                    posicao3.Add("y", posicaoLuzPoint[1].text);
-                    posicao3.Add("z", posicaoLuzPoint[2].text);
-                    props.Add("posicao", posicao3);
-                    if (luzinha != null) props.Add("cor", luzinha.Cor.ToString());
-                    props.Add("ativo", ativoDirect.enabled);
+                    if (luzinha != null)
+                    {
+                        posicao3.Add("x", luzinha.Pos.X.ToString());
+                        posicao3.Add("y", luzinha.Pos.Y.ToString());
+                        posicao3.Add("z", luzinha.Pos.Z.ToString());
+                        props.Add("posicao", posicao3);
+
+                        props.Add("cor", luzinha.Cor.ToString());
+                        props.Add("ativo", luzinha.Ativo);
+                    }
+                    else
+                    {
+                        posicao3.Add("x", posicaoLuzPoint[0].text);
+                        posicao3.Add("y", posicaoLuzPoint[1].text);
+                        posicao3.Add("z", posicaoLuzPoint[2].text);
+                        props.Add("posicao", posicao3);
+
+                        props.Add("ativo", ativoDirect.enabled);
+                    }
                     props.Add("intensidade", intPoint.text);
                     props.Add("distancia", distancia.text);
                     break;
                 case "Spot":
                     luzinha = luz[3];
                     JSONArray posicao4 = new JSONArray();
-                    posicao4.Add("x", posicaoLuzSpot[0].text);
-                    posicao4.Add("y", posicaoLuzSpot[1].text);
-                    posicao4.Add("z", posicaoLuzSpot[2].text);
-                    props.Add("posicao", posicao4);
-                    if (luzinha != null) props.Add("cor", luzinha.Cor.ToString());
-                    props.Add("ativo", ativoDirect.enabled);
+                    if (luzinha != null)
+                    {
+                        posicao4.Add("x", luzinha.Pos.X.ToString());
+                        posicao4.Add("y", luzinha.Pos.Y.ToString());
+                        posicao4.Add("z", luzinha.Pos.Z.ToString());
+                        props.Add("posicao", posicao4);
+
+                        props.Add("cor", luzinha.Cor.ToString());
+                        props.Add("ativo", luzinha.Ativo);
+                    }
+                    else
+                    {
+                        posicao4.Add("x", posicaoLuzSpot[0].text);
+                        posicao4.Add("y", posicaoLuzSpot[1].text);
+                        posicao4.Add("z", posicaoLuzSpot[2].text);
+                        props.Add("posicao", posicao4);
+
+                        props.Add("ativo", ativoDirect.enabled);
+                    }
                     props.Add("intensidade", intSpot.text);
                     props.Add("distancia", distSpot.text);
                     props.Add("angulo", angulo.text);
@@ -147,6 +200,7 @@ public class MinhaIluminacao : MeuModelo
             posPeca.Add("z", this.transform.position.z);
             props.Add("posPeca", posPeca);
         }
+        /*
         if (props["posicao"][0].Count == 0)
         {
             JSONArray posicao = new JSONArray();
@@ -155,7 +209,7 @@ public class MinhaIluminacao : MeuModelo
             posicao.Add("z", "0");
             props.Add("posicao", posicao);
         }
-
+        */
         if (props["cor"] == null) props.Add("cor", "RGBA(1.000, 1.000, 1.000, 1.000)");
     }
 }

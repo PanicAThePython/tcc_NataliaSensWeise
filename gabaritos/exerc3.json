@@ -68,7 +68,7 @@
             "nome": "Iluminacao",
             "tipoLuz": "Spot",
             "posicao": [
-              "100",
+              "0",
               "300",
               "0"
             ],
