@@ -115,7 +115,7 @@ public class RenderController : MonoBehaviour {
                 else otherBase = GameObject.Find("BaseRenderLateralGO");
 
                 ScaleY = otherBase.transform.localScale.y;
-                otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + INC_BASE_CINZA * mudaSinal, otherBase.transform.localScale.z);
+                otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + (INC_BASE_CINZA * mudaSinal * 1.75f), otherBase.transform.localScale.z);
             }
             else
             {
@@ -133,7 +133,7 @@ public class RenderController : MonoBehaviour {
                 if (num - 1 == 0) otherBase = GameObject.Find("BaseRenderLateralGO");
                 else otherBase = GameObject.Find("BaseRenderLateralGO" + (num - 1));
                 ScaleY = otherBase.transform.localScale.y;
-                otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + INC_BASE_CINZA * mudaSinal, otherBase.transform.localScale.z);
+                otherBase.transform.localScale = new Vector3(otherBase.transform.localScale.x, ScaleY + (INC_BASE_CINZA * mudaSinal), otherBase.transform.localScale.z);
             }
 
             //ObjGraficoSlot1(Clone)

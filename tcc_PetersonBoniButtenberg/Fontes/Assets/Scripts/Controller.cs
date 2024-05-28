@@ -1700,15 +1700,10 @@ public class Controller : MonoBehaviour {
         {
             if(goRender.transform.GetChild(i).name.Contains(ObjGrafico))
             {
-                if (goRender.transform.GetChild(i).name == ObjGrafico + numObjeto)
-                {
-                    podeOrganizarProximoObjeto = true;
-                }
                 if (podeOrganizarProximoObjeto)
                 {
                     Vector3 pos = goRender.transform.GetChild(i).position;
                     pos.y -= 3;
-                    if (ehFilho) pos.y -= 5;
                     goRender.transform.GetChild(i).position = pos;
                     foreach (KeyValuePair<string, string> encaixe in Global.listaEncaixes)
                     {
@@ -1721,12 +1716,43 @@ public class Controller : MonoBehaviour {
                         {
                             GameObject goPeca = GameObject.Find(encaixe.Key);
                             pos = goPeca.transform.position;
-                            pos.y -= 3;
-                            if (ehFilho) pos.y -= 5;
+                            pos.y -= 4;
                             goPeca.transform.position = pos;
                         }
                     }
-                }       
+                }
+                if (goRender.transform.GetChild(i).name == ObjGrafico + numObjeto)
+                {
+                    podeOrganizarProximoObjeto = true;
+                    if (ehFilho)
+                    {
+                        Vector3 pos = goRender.transform.GetChild(i).position;
+                        pos.y -= 8;
+                        goRender.transform.GetChild(i).position = pos;
+                        foreach (KeyValuePair<string, string> encaixe in Global.listaEncaixes)
+                        {
+                            string numObjetoEncaixe = getNumObjeto(encaixe.Value);
+                            if (numObjetoEncaixe == "") numObjetoEncaixe = "0";
+                            int convertendo = int.Parse(numObjetoEncaixe) + 1;
+                            string proxNum = convertendo.ToString();
+
+                            if (Equals(getNumObjeto(encaixe.Value), getNumObjeto(goRender.transform.GetChild(i).name)) || (Equals(proxNum, getNumObjeto(goRender.transform.GetChild(i).name))))
+                            {
+                                GameObject goPeca = GameObject.Find(encaixe.Key);
+                                pos = goPeca.transform.position;
+                                pos.y -= 8;
+                                goPeca.transform.position = pos;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            if (i+1 == goRender.transform.childCount)
+            {
+                Vector3 pos = goRender.transform.GetChild(i).position;
+                pos.y -= 1.5f;
+                goRender.transform.GetChild(i).position = pos;
             }
         }
     }
