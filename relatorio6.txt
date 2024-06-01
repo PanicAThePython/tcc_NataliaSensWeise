@@ -1,0 +1,3 @@
+No resto da semana do dia 14/05, terminei os ajustes de hierarquia. Após isso, implementei a funcionalidade de exercícios, usando como base uma lista pronta que o prof já tinha. No dia 21/05, ficou combinado que eu terminaria de arrumar os bugs e de escrever o texto para entregar o quanto antes pro prof checar o que eu tinha feito. No dia 28/05, começamos a montar as perguntas pros questionários que os alunos terão que responder na fase de testes. Nesse mesmo dia depois da reunião, encontrei mais um bug, arrumei e entreguei o código pro prof e o texto pra ele corrigir. Na quarta, terminei o questionário e enviei pra ele. Atualmente, estou aguardando os feedbacks do prof para prosseguir.
+
+Horas da quinzena: 100h
