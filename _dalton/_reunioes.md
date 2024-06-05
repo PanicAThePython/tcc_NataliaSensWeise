@@ -193,3 +193,12 @@ Vai pesquisar aplicativos etc. sobre tutoriais.
 
 Fez um tutorial apresentando as principais peças.  
 Começou a fazer o JSON.  
+
+## 2024-06-04 - 20:21
+
+- Questionário \[Dalton]: testar, Letícia, turma de CG (quinta)
+- Aplicação  
+  - GIT: OK  
+    - Git WebPages: publicar  
+  - Testar Web  
+- [Texto (artigo): ler](2024-06-04_artigo_Dalton.docx)
