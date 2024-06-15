@@ -11,7 +11,7 @@ public class Exercicio : MonoBehaviour
 {
     public ToggleGroup tg;
     public Toggle nenhum;
-    public Text enunText;
+    public TMP_Text enunText;
 
     public GameObject[] texturas;
 
