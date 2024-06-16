@@ -1,0 +1,3 @@
+Desde o último relatório, não tive mais reuniões com o prof. Até marcamos, só que ele não pode comparecer à reunião. Nesse meio tempo, fiquei aguardando o feedback dele do que desenvolvi e escrevi, além de arrumar umas coisinhas que ele já tinha mencionado. Nesta semana, notamos que houve complicações com o build: a acentuação não funcionada no texto dos exercícios e a caixa de texto do arquivo não permitia copiar e colar. Revisando o código, notei que estava usando o componente de texto antigo, por isso os acentos eram cortados. Sobre a caixa de texto, parece ser um bug próprio da Unity, mas achei uma lib que resolveu o problema. Continuo no aguardo do feedback do prof sobre meu texto e sobre o questionário com a turma de CG.
+
+Horas da quinzena: 20h
