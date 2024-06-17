@@ -51,7 +51,7 @@ public class Exercicio : MonoBehaviour
     {
         enunciados[0] = "";
         enunciados[1] = "Enunciado 1: Crie uma cena com um cubo com textura de QR Code. Apenas a face frontal do cubo deve estar visível. A visão da câmera deve estar o mais próxima possível sem cortar a visualização do cubo.";
-        enunciados[2] = "Enunciado 2: Cria uma cena com um cubo pai e um filho. O cubo pai deve ter textura da FURB e o filho, de madeira, e estar a uma distândia de 2 unidades do x do pai. O pai tem que ter uma escala de 2 no eixo Y.";
+        enunciados[2] = "Enunciado 2: Cria uma cena com um cubo pai e um filho. O cubo pai deve ter textura da FURB e o filho, de madeira, e estar a uma distância de 2 unidades do x do pai. O pai tem que ter uma escala de 2 no eixo Y.";
         enunciados[3] = "Enunciado 3: Crie uma cena com um cubo estampado de FURB. Mude a rotação para 60º no eixo Y. Faça uso da luz spot de forma que um círculo de luz se forme centralizado e cubra o máximo possível do topo do cubo sem tocar a borda.";
         
         respostas[0] = "";
