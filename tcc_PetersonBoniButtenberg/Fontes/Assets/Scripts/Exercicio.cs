@@ -324,7 +324,7 @@ public class Exercicio : MonoBehaviour
             string chave = "";
             if (ordenada.Count > gabarito.Length)
             {
-                enunText.text = "Há objetos demais na cena, favor deixar apenas os necessários.";
+                enunText.text = "Há peças demais na cena, favor deixar apenas os necessários.";
                 StartCoroutine(zerarToggle());
             }
             else
@@ -533,8 +533,8 @@ public class Exercicio : MonoBehaviour
 
         if (porc != 100f)
         {
-            if (acertosOrdem < acertosOrdem + errosOrdem) mensagem += "\nVerifique a ordem dos objetos em cena.";
-            else if (acertosProps < acertosProps + errosProps) mensagem += "\nVerifique as propriedades alteradas.";
+            if (acertosOrdem < acertosOrdem + errosOrdem) mensagem += "\nVerifique a ordem das peças em cena ou se alguma está faltando.";
+            else if (acertosProps < acertosProps + errosProps) mensagem += "\nVerifique se as propriedades mencionadas no enunciado foram alteradas corretamente.";
             else if (checar != checagem) mensagem += "\nVerifique se não esqueceu de alterar as propriedade de alguma peça.";
         }
 
