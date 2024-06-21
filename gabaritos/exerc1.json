@@ -1,5 +1,5 @@
 {
-    "CameraP1": {
+    "CameraP": {
       "nome": "Câmera",
       "posicao": [
         "0",
@@ -20,8 +20,8 @@
         -870.424987792969
       ]
     },
-    "ObjetoGraficoP1": {
-      "nome": "ObjetoGraficoP1",
+    "ObjetoGraficoP": {
+      "nome": "ObjetoGraficoP",
       "ativo": true,
       "children": [
         {
@@ -48,7 +48,7 @@
           }
         },
         {
-          "Iluminacao1": {
+          "Iluminacao": {
             "nome": "Iluminacao",
             "tipoLuz": "Ambiente",
             "posicao": [
