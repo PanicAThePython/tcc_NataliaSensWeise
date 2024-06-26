@@ -53,18 +53,27 @@ public class PropCameraScript : PropCameraPadrao {
     {
         GameObject FOV = GameObject.Find("LabelFOVCamera");
         GameObject labelPosicao = GameObject.Find("LabelPosicaoCamera");
-        
+        GameObject lookat = GameObject.Find("LabelLookAtCamera");
+        GameObject near = GameObject.Find("LabelNearCamera");
+        GameObject far = GameObject.Find("LabelFarCamera");
+
         float FovY = FOV.transform.localPosition.y;
 
         if (Global.Grafico2D)
         {
             labelPosicao.transform.localPosition = new Vector3(labelPosicao.transform.localPosition.x, labelPosicao.transform.localPosition.y, 50);
+            lookat.transform.localPosition = new Vector3(lookat.transform.localPosition.x, lookat.transform.localPosition.y, 50);
+            near.transform.localPosition = new Vector3(near.transform.localPosition.x, near.transform.localPosition.y, 50);
+            far.transform.localPosition = new Vector3(far.transform.localPosition.x, far.transform.localPosition.y, 50);
             FOV.transform.localPosition = new Vector3(FOV.transform.localPosition.x, 0.110f, 50);
         }
         else
         {
             labelPosicao.transform.localPosition = new Vector3(labelPosicao.transform.localPosition.x, labelPosicao.transform.localPosition.y, -2.999623f);
             FOV.transform.localPosition = new Vector3(FOV.transform.localPosition.x, 0, -2.999623f);
+            lookat.transform.localPosition = new Vector3(lookat.transform.localPosition.x, lookat.transform.localPosition.y, -2.999622f);
+            near.transform.localPosition = new Vector3(near.transform.localPosition.x, near.transform.localPosition.y, -2.999623f);
+            far.transform.localPosition = new Vector3(far.transform.localPosition.x, far.transform.localPosition.y, -2.999623f);
         }
     }
 }
