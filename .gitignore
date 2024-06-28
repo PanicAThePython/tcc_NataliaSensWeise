@@ -58,7 +58,8 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
-.DS_Store
+*.DS_Store
 tcc_PetersonBoniButtenberg/Fontes/Library/
 tcc_PetersonBoniButtenberg/Fontes/UserSettings/
 tcc_PetersonBoniButtenberg/Fontes/Logs/
+tcc_PetersonBoniButtenberg/Fontes/Builds/
