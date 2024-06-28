@@ -88,15 +88,14 @@ public class TutorialNovo : MonoBehaviour
             case 3 when colisao.encaixada && colisao.peca == "Objeto":
             case 4 when colisao.encaixada && colisao.peca == "Translacao" && transladar.activeSelf && transladarTextoFilho.text == "2":
             case 5 when colisao.encaixada && colisao.peca == "Cubo":
-            case 7 when colisao.encaixada && colisao.peca == "Cubo":
             case 6 when colisao.encaixada && colisao.peca == "Translacao" && transladar.activeSelf && transladarTextoPai.text == "2":
+            case 7 when colisao.encaixada && colisao.peca == "Cubo":
                 tutorialManager(passosTutorialExtra);
                 break;
             case 8:
                 StartCoroutine(apagarTela(passosTutorialExtra[passo]));
                 StartCoroutine(apagarTela(painelTutorial));
                 passo = 0;
-                grade.isOn = true;
                 break;
         }
     }
