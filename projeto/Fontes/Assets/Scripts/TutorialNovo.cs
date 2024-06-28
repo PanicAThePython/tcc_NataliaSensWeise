@@ -35,12 +35,14 @@ public class TutorialNovo : MonoBehaviour
     public void ativarTela()
     {
         extra = false;
+        passo = 0;
         painelTutorial.SetActive(true);
         passosTutorial[passo].SetActive(true);
     }
     public void ativarTelaExtra()
     {
         extra = true;
+        passo = 0;
         painelTutorial.SetActive(true);
         passosTutorial[passo].SetActive(false);
         passosTutorialExtra[passo].SetActive(true);
@@ -94,8 +96,6 @@ public class TutorialNovo : MonoBehaviour
                 StartCoroutine(apagarTela(painelTutorial));
                 passo = 0;
                 grade.isOn = true;
-                break;
-            default:
                 break;
         }
     }
