@@ -77,7 +77,7 @@ public class RenderController : MonoBehaviour {
             }
 
             otherBase = GameObject.Find("BaseObjetoGraficoGO" + numObj);
-            otherBase.transform.GetChild(0).gameObject.SetActive(true); //Base objeto gráfico verde
+            if (otherBase != null) otherBase.transform.GetChild(0).gameObject.SetActive(true); //Base objeto gráfico verde
 
             destroyExtraObject(num);
         }

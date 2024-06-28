@@ -69,7 +69,17 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
         {     
             gameObject.transform.GetChild(3).GetComponent<Toggle>().isOn = prPeca.Ativo;
 
-            if (!Arquivo.importando)
+            if (prPeca.JaInstanciou)
+            {
+                if (prPeca.Tam != null && prPeca.Pos != null)
+                {
+                    if (prPeca.Tam.X != 0 || prPeca.Tam.Y != 0 || prPeca.Tam.Z != 0 || prPeca.Pos.X != 0 || prPeca.Pos.Y != 0 || prPeca.Pos.Z != 0)
+                    {
+                        updatePosition();
+                    }
+                }
+            }
+            else
             {
                 instanciaTransformacao();
 
@@ -95,7 +105,7 @@ public abstract class PropriedadePecaPadrao : MonoBehaviour {
                 }
             }
 
-            if (Arquivo.importando) updatePosition();
+
         }        
     }
 

@@ -85,7 +85,7 @@ public class PropCuboPadrao : MonoBehaviour
 
                 gameObject.transform.GetChild(6).GetComponent<Toggle>().isOn = prPeca.Ativo;
 
-                if (!Arquivo.importando) instanciaTransformacao();
+                if (prPeca.Tam == null || prPeca.Pos == null) instanciaTransformacao();
 
                 TamX.text = prPeca.Tam.X.ToString();
                 TamY.text = prPeca.Tam.Y.ToString();

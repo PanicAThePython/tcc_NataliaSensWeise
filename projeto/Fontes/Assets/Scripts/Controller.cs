@@ -594,7 +594,6 @@ public class Controller : MonoBehaviour {
                     //isso aqui n funciona pq ele pega o último slot criado (q foi um son, ent n tá visível)
                     //mudei pro slot atual pra consegui encaixar
                     GameObject t = GameObject.Find(nomeSlotObjtAtual);
-
                     GameObject cloneObjGrafico = Instantiate(t, t.transform.position, t.transform.rotation, t.transform.parent);
 
                     DropPeca.countObjetosGraficos = numero;
@@ -610,6 +609,7 @@ public class Controller : MonoBehaviour {
 
                         cloneObjGrafico.name = "ObjGraficoSlot" + Convert.ToString(DropPeca.countObjetosGraficos);
                         cloneObjGrafico.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 14f, t.transform.position.z);
+                        //cloneObjGrafico.transform.GetChild(4).name.Replace("O2", "ObjGraficoSlot" + Convert.ToString(DropPeca.countObjetosGraficos + 1));
                     }
 
                     posicaoColliderDestino = t;
@@ -1086,7 +1086,6 @@ public class Controller : MonoBehaviour {
             if (goActive.transform.GetChild(i).name.Contains("Slot") || goActive.transform.GetChild(i).name.Contains("Base"))
             {
                 goActive.transform.GetChild(i).gameObject.SetActive(true);
-
                 if (goActive.transform.GetChild(i).name.Contains("Slot"))
                 {
                     goRename.transform.GetChild(i).name =
@@ -1096,7 +1095,7 @@ public class Controller : MonoBehaviour {
                     {
                         goRename.transform.GetChild(i).name =
                            goRename.transform.GetChild(i).name.Substring(0, goRename.transform.GetChild(i).name.IndexOf("Slot") + 4) + Convert.ToString(DropPeca.countObjetosGraficos + 1);
-                        
+
                         for (int j = 0; j < goRename.transform.GetChild(i).childCount; j++)
                         {
                             if (goRename.transform.GetChild(i).GetChild(j).name.Contains("Slot"))
@@ -1109,14 +1108,12 @@ public class Controller : MonoBehaviour {
                                 goRename.transform.GetChild(i).GetChild(j).name = goRename.transform.GetChild(i).GetChild(j).name.Substring(0, goRename.transform.GetChild(i).GetChild(j).name.IndexOf("GO") + 2) + Convert.ToString(DropPeca.countObjetosGraficos + 1);
                             }
                         }
-                        
                     }
-                       
+
                 }
-                else
+                else if (goActive.transform.GetChild(i).name.Contains("Base") && !goActive.transform.GetChild(i).name.Contains("Slot"))
                 {
                     goRename.transform.GetChild(i).name = goRename.transform.GetChild(i).name.Substring(0, goRename.transform.GetChild(i).name.IndexOf("GO") + 2) + Convert.ToString(DropPeca.countObjetosGraficos);
-
                     for (int j = 0; j < goRename.transform.GetChild(i).childCount; j++)
                     {
                         int value = 0;
@@ -1127,10 +1124,8 @@ public class Controller : MonoBehaviour {
                         else
                             goRename.transform.GetChild(i).GetChild(j).name += Convert.ToString(DropPeca.countObjetosGraficos);
                     }
-                }                    
+                }
             }
-            else
-                continue;
         }    
     }     
     

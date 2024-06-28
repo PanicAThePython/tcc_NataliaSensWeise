@@ -225,6 +225,8 @@ public class Arquivo : MonoBehaviour
         prPeca.NomeCuboAmbiente = "CuboAmbiente";
         prPeca.NomeCuboVis = "CuboVis";
         prPeca.TipoLuz = 0;
+        prPeca.JaInstanciou = true;
+
         Global.propriedadePecas.Add(nome, prPeca);
 
         controller.abrePropriedade.transform.GetChild(0).GetChild(0).GetComponent<TMP_InputField>().text = values["nome"];
@@ -295,8 +297,8 @@ public class Arquivo : MonoBehaviour
         if (countObjt > 0) cuboVis += countObjt;
         prPeca.NomeCuboVis = cuboVis;
         prPeca.TipoLuz = 0;
+        prPeca.JaInstanciou = true;
         Global.propriedadePecas.Add(nome, prPeca);
-
         Global.propriedadePecas[nome].Ativo = bool.Parse(values["ativo"]);
         //ele até desativa a visualização, mas o toggle tá true
 
@@ -365,7 +367,7 @@ public class Arquivo : MonoBehaviour
                 }
             }
         }
-
+        prPeca.JaInstanciou = true;
         Global.propriedadePecas.Add(nome, prPeca);
 
         GameObject.Find(prPeca.NomeCuboAmbiente).GetComponent<MeshRenderer>().materials[0].color = prPeca.Cor;
@@ -427,6 +429,7 @@ public class Arquivo : MonoBehaviour
             controller.abrePropriedade.transform.GetChild(1).GetChild(1).GetChild(0).GetComponent<TMP_InputField>().text = prPeca.Pos.Y.ToString();
             controller.abrePropriedade.transform.GetChild(1).GetChild(2).GetChild(0).GetComponent<TMP_InputField>().text = prPeca.Pos.Z.ToString();
         }
+        prPeca.JaInstanciou = true;
         Global.propriedadePecas.Add(nome, prPeca);
     }
 
@@ -675,7 +678,7 @@ public class Arquivo : MonoBehaviour
                     {
                         float y = GameObject.Find(nomeSlot).gameObject.transform.position.y;
 
-                        cubo.transform.position = new Vector3(x, y, z);
+                        cubo.transform.position = new Vector3(x, y - 0.16f, z);
                         cubo.GetComponent<BoxCollider>().enabled = true;
                         cubo.GetComponent<Controller>().posicaoColliderDestino = GameObject.Find(nomeSlot).gameObject;
                         Global.addObject(cubo);
@@ -937,26 +940,30 @@ public class Arquivo : MonoBehaviour
 
                     Global.iniciaListaSequenciaSlots(DropPeca.countObjetosGraficos);
 
+                    
                     GameObject t;
                     if (limpou) t = GameObject.Find("Render").transform.GetChild(1).gameObject;
                     else t = GameObject.Find("ObjGraficoSlot" + countObjGrafico);
                     //qnd estiver importando dps da limpeza, pegar o filho index 1 do render para slot
 
                     DropPeca.countObjetosGraficos++;
-                    GameObject cloneObjGrafico = GameObject.Find("ObjGraficoSlot" + DropPeca.countObjetosGraficos);
+                    //GameObject cloneObjGrafico = GameObject.Find("ObjGraficoSlot" + DropPeca.countObjetosGraficos);
                    // DropPeca.countObjetosGraficos += 2;
                    // cloneObjGrafico.name = "ObjGraficoSlot" + Convert.ToString(DropPeca.countObjetosGraficos);
                    // cloneObjGrafico.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 14f, t.transform.position.z);
 
-
-                    objeto.GetComponent<Controller>().setActiveAndRenameGameObject(t, cloneObjGrafico);
+                    for (int i = 0; i < t.transform.childCount; i++)
+                    {
+                        if (t.transform.GetChild(i).name.Contains("Slot")) t.transform.GetChild(i).gameObject.SetActive(true);
+                    }
+                    //objeto.GetComponent<Controller>().setActiveAndRenameGameObject(t, cloneObjGrafico);
                     controller.posicaoColliderDestino = t;
 
                     if (controller.renderController == null)
                         controller.renderController = new RenderController();
 
                     controller.renderController.ResizeBases(t, Consts.ObjetoGrafico, true);
-                    cloneObjGrafico.GetComponent<BoxCollider>().enabled = true;
+                    t.GetComponent<BoxCollider>().enabled = true;
                     controller.adicionaObjetoRender();
                     Global.atualizaListaSlot();
 
@@ -1094,13 +1101,6 @@ public class Arquivo : MonoBehaviour
                 }
                 if (key.Contains("Objeto"))
                 {
-                    //ATUALMENTE TÁ QUEBRANDO QND TEM MAIS DE UM OBJT!!!!!!!!!!!!!!!!!!
-                    //qnd eu gero a copia pro primeiro, dá certo pq tá naqla posicao na fabrica
-                    //mas dps ele pega a posição do renderer, aí complica
-                    //talvez se eu armazenar a posicao do prefab ANTES de alterar ele, eu posso setar ela na copia
-                    //acredito tbm q esteja dando problema por conta da rolagem
-
-
                     //PROS FILHOS:
                     //função separada de foreach numa lista children
                     //acessar o children dentro do value, e qnd tiver algo, chamar a func e acessar e criar os objts filho
@@ -1157,10 +1157,8 @@ public class Arquivo : MonoBehaviour
                     DropPeca.countObjetosGraficos += 2;
                     cloneObjGrafico.name = "ObjGraficoSlot" + Convert.ToString(DropPeca.countObjetosGraficos);
                     cloneObjGrafico.transform.position = new Vector3(t.transform.position.x, t.transform.position.y - 14f, t.transform.position.z);
-
-                    print(t.name);
-                    print(cloneObjGrafico.name);
                     controller.setActiveAndRenameGameObject(t, cloneObjGrafico);
+                    cloneObjGrafico.transform.GetChild(4).name = cloneObjGrafico.transform.name.Substring(0, cloneObjGrafico.transform.GetChild(4).name.IndexOf("Slot") + 4) + Convert.ToString(DropPeca.countObjetosGraficos+1);
                     controller.posicaoColliderDestino = t;
 
                     if (controller.renderController == null)
