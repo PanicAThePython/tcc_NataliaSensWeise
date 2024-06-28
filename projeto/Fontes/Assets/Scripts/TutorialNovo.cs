@@ -44,7 +44,7 @@ public class TutorialNovo : MonoBehaviour
         extra = true;
         passo = 0;
         painelTutorial.SetActive(true);
-        passosTutorial[passo].SetActive(false);
+        //passosTutorial[passo].SetActive(false);
         passosTutorialExtra[passo].SetActive(true);
     }
     private void tutorialManager(GameObject[] tutorial)
