@@ -77853,7 +77853,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "- render: componente obrigat\xF3rio fixo respons\xE1vel pela renderiza\xE7\xE3o
+  m_text: "- renderer: componente obrigat\xF3rio fixo respons\xE1vel pela renderiza\xE7\xE3o
     e por detalhes da visualiza\xE7\xE3o do ambiente gr\xE1fico;\n- c\xE2mera: componente
     obrigat\xF3rio respons\xE1vel pela visualiza\xE7\xE3o da cena;\r\n- ilumina\xE7\xE3o:
     componente obrigat\xF3rio para que a c\xE2mera veja os componentes em cena;\r\n-
