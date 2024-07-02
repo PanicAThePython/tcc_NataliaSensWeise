@@ -201,4 +201,8 @@ Começou a fazer o JSON.
   - GIT: OK  
     - Git WebPages: publicar  
   - Testar Web  
-- [Texto (artigo): ler](2024-06-04_artigo_Dalton.docx)
+- [Texto (artigo): ler](2024-06-04_artigo_Dalton.docx)  
+
+## 2024-07-02 - Defesa
+
+[2024-07-02_defesa.md](2024-07-02_defesa.md)  
