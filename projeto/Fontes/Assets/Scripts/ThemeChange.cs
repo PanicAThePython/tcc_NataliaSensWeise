@@ -24,14 +24,14 @@ public class ThemeChange : MonoBehaviour
     {
         if (!control)
         {
-            textoModo.text = "Claro";
+            textoModo.text = "Noturno";
             //changingText();
             changingBackground();
             control = true;
         }
         else
         {
-            textoModo.text = "Noturno";
+            textoModo.text = "Claro";
             //textosTMP[0].text = "TESTE";
             //textosTMP[0].color = Color.red;
             //changingText();
